@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HexaJump - Premium Full-Stack Endless Arcade</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-container">
+        
+        <div id="launcher-screen" class="menu-card">
+            <h1>HEXAJUMP</h1>
+            <p class="subtitle">Select Your Character To Enter The Endless Loop</p>
+            
+            <div class="avatar-grid">
+                <div class="avatar-card male" data-avatar="m1">
+                    <div class="avatar-preview">♂️ M1</div>
+                    <span>Alpha</span>
+                </div>
+                <div class="avatar-card male" data-avatar="m2">
+                    <div class="avatar-preview">♂️ M2</div>
+                    <span>Striker</span>
+                </div>
+                <div class="avatar-card male" data-avatar="m3">
+                    <div class="avatar-preview">♂️ M3</div>
+                    <span>Maverick</span>
+                </div>
+
+                <div class="avatar-card female" data-avatar="f1">
+                    <div class="avatar-preview">♀️ F1</div>
+                    <span>Nova</span>
+                </div>
+                <div class="avatar-card female" data-avatar="f2">
+                    <div class="avatar-preview">♀️ F2</div>
+                    <span>Valkyrie</span>
+                </div>
+                <div class="avatar-card female" data-avatar="f3">
+                    <div class="avatar-preview">♀️ F3</div>
+                    <span>Athena</span>
+                </div>
+            </div>
+
+            <button id="start-btn" disabled>Launch Game</button>
+        </div>
+
+        <canvas id="gameCanvas" width="800" height="500" class="hidden"></canvas>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
