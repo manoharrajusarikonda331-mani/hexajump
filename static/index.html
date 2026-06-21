@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HexaJump - Enterprise Full-Stack Arcade Engine</title>
+    <title>HexaJump - Ultimate Full-Stack Gaming Platform</title>
     <link rel="icon" href="data:;base64,iVBORw0kGgo=">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,126 +11,54 @@
 
     <div id="game-container">
         <div id="launcher-screen" class="menu-card">
-            <div class="brand-header">
-                <h1>HEXAJUMP</h1>
-                <div class="system-status"><span class="pulse-dot"></span> ENGINE CORE: ONLINE</div>
-            </div>
-            <p class="subtitle">Select Operator Profile to Synchronize Neural State Loop</p>
+            <h1>HEXAJUMP</h1>
+            <p class="subtitle">Select Character Profile To Enter The Endless Loop</p>
             
             <div class="avatar-grid">
-                <!-- ================= MALE OPERATORS ================= -->
-                <!-- Alpha: Neon Cyan Visor -->
                 <div class="avatar-card male" data-avatar="m1">
-                    <div class="operator-frame">
-                        <svg class="operator-svg" viewBox="0 0 64 64">
-                            <defs>
-                                <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#00f0ff" />
-                                    <stop offset="100%" stop-color="#0066ff" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M12,48 L52,48 L46,62 L18,62 Z" class="base-armor" fill="#1b2230" stroke="#2a364d"/>
-                            <path d="M16,24 C16,10 48,10 48,24 L44,46 L20,46 Z" class="helmet-shell" fill="#1f2736" stroke="#374561" stroke-width="2"/>
-                            <path d="M20,26 L44,26 L40,36 L24,36 Z" class="tech-visor" fill="url(#cyanGrad)"/>
-                            <line x1="24" y1="31" x2="40" y2="31" stroke="#ffffff" stroke-width="1" stroke-opacity="0.6"/>
-                        </svg>
+                    <div class="character-viewport">
+                        <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&w=200&q=80" alt="Alpha" class="chibi-render">
                     </div>
                     <span>Alpha // M1</span>
                 </div>
 
-                <!-- Striker: Emerald Laser Array -->
                 <div class="avatar-card male" data-avatar="m2">
-                    <div class="operator-frame">
-                        <svg class="operator-svg" viewBox="0 0 64 64">
-                            <defs>
-                                <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#00ff88" />
-                                    <stop offset="100%" stop-color="#009944" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M12,48 L52,48 L46,62 L18,62 Z" class="base-armor" fill="#1b2230" stroke="#2a364d"/>
-                            <polygon points="14,28 32,12 50,28 44,46 20,46" class="helmet-shell" fill="#1a212e" stroke="#2d3b54" stroke-width="2"/>
-                            <polygon points="22,26 42,26 38,34 26,34" class="tech-visor" fill="url(#greenGrad)"/>
-                        </svg>
+                    <div class="character-viewport">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" alt="Striker" class="chibi-render">
                     </div>
                     <span>Striker // M2</span>
                 </div>
 
-                <!-- Maverick: Amber Overdrive Shield -->
                 <div class="avatar-card male" data-avatar="m3">
-                    <div class="operator-frame">
-                        <svg class="operator-svg" viewBox="0 0 64 64">
-                            <defs>
-                                <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#ffb700" />
-                                    <stop offset="100%" stop-color="#ff5500" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M12,48 L52,48 L46,62 L18,62 Z" class="base-armor" fill="#1b2230" stroke="#2a364d"/>
-                            <path d="M16,20 L48,20 L44,46 L20,46 Z" class="helmet-shell" fill="#222b3d" stroke="#3b4b6b" stroke-width="2"/>
-                            <ellipse cx="32" cy="30" rx="11" ry="7" class="tech-visor" fill="url(#amberGrad)"/>
-                        </svg>
+                    <div class="character-viewport">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Maverick" class="chibi-render">
                     </div>
                     <span>Maverick // M3</span>
                 </div>
 
-                <!-- ================= FEMALE OPERATORS ================= -->
-                <!-- Nova: Crimson Plasma Visor -->
                 <div class="avatar-card female" data-avatar="f1">
-                    <div class="operator-frame">
-                        <svg class="operator-svg" viewBox="0 0 64 64">
-                            <defs>
-                                <linearGradient id="magentaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#ff007f" />
-                                    <stop offset="100%" stop-color="#99004c" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M12,48 L52,48 L46,62 L18,62 Z" class="base-armor" fill="#1b2230" stroke="#2a364d"/>
-                            <path d="M18,18 C18,18 32,10 46,18 L44,46 L20,46 Z" class="helmet-shell" fill="#1d2433" stroke="#34425c" stroke-width="2"/>
-                            <path d="M18,28 Q32,20 46,28 L42,34 Q32,28 22,34 Z" class="tech-visor" fill="url(#magentaGrad)"/>
-                        </svg>
+                    <div class="character-viewport">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80" alt="Nova" class="chibi-render">
                     </div>
                     <span>Nova // F1</span>
                 </div>
 
-                <!-- Valkyrie: Violet Kinetic Aegis -->
                 <div class="avatar-card female" data-avatar="f2">
-                    <div class="operator-frame">
-                        <svg class="operator-svg" viewBox="0 0 64 64">
-                            <defs>
-                                <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#b500ff" />
-                                    <stop offset="100%" stop-color="#5e008c" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M12,48 L52,48 L46,62 L18,62 Z" class="base-armor" fill="#1b2230" stroke="#2a364d"/>
-                            <path d="M16,22 L20,12 L32,18 L44,12 L48,22 L44,46 L20,46 Z" class="helmet-shell" fill="#191f2b" stroke="#303c54" stroke-width="2"/>
-                            <polygon points="20,28 44,28 40,36 24,36" class="tech-visor" fill="url(#purpleGrad)"/>
-                        </svg>
+                    <div class="character-viewport">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Valkyrie" class="chibi-render">
                     </div>
                     <span>Valkyrie // F2</span>
                 </div>
 
-                <!-- Athena: Inferno Solar Array -->
                 <div class="avatar-card female" data-avatar="f3">
-                    <div class="operator-frame">
-                        <svg class="operator-svg" viewBox="0 0 64 64">
-                            <defs>
-                                <linearGradient id="solarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#ff4500" />
-                                    <stop offset="100%" stop-color="#ffaa00" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M12,48 L52,48 L46,62 L18,62 Z" class="base-armor" fill="#1b2230" stroke="#2a364d"/>
-                            <polygon points="20,14 44,14 48,28 42,46 22,46 16,28" class="helmet-shell" fill="#202938" stroke="#394963" stroke-width="2"/>
-                            <rect x="22" y="24" width="20" height="10" rx="2" class="tech-visor" fill="url(#solarGrad)"/>
-                        </svg>
+                    <div class="character-viewport">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80" alt="Athena" class="chibi-render">
                     </div>
                     <span>Athena // F3</span>
                 </div>
             </div>
 
-            <button id="start-btn" disabled>Sync Neural Engine</button>
+            <button id="start-btn" disabled>Launch Game Loop</button>
         </div>
 
         <canvas id="gameCanvas" width="800" height="500" class="hidden"></canvas>
