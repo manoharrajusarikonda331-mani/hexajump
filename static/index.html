@@ -10,52 +10,86 @@
 <body>
 
     <div id="game-container">
-        
         <div id="launcher-screen" class="menu-card">
             <h1>HEXAJUMP</h1>
             <p class="subtitle">Select Your Character To Enter The Endless Loop</p>
             
             <div class="avatar-grid">
                 <div class="avatar-card male" data-avatar="m1">
-                    <div class="character-sprite alpha-sprite">
-                        <div class="head"></div>
-                        <div class="body-core"></div>
+                    <div class="chibi-character">
+                        <svg class="sprite-svg" viewBox="0 0 64 80">
+                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
+                            <path d="M18,48 L46,48 L42,70 L22,70 Z" class="suit-primary color-alpha-dark"/>
+                            <circle cx="32" cy="32" r="16" class="head-base color-skin-light"/>
+                            <path d="M16,32 C16,16 48,16 48,32 L44,24 L20,24 Z" class="helmet-top color-alpha-bright"/>
+                            <path d="M20,28 L44,28 L40,36 L24,36 Z" class="visor color-cyber-neon"/>
+                        </svg>
                     </div>
                     <span>Alpha</span>
                 </div>
+
                 <div class="avatar-card male" data-avatar="m2">
-                    <div class="character-sprite striker-sprite">
-                        <div class="head"></div>
-                        <div class="body-core"></div>
+                    <div class="chibi-character">
+                        <svg class="sprite-svg" viewBox="0 0 64 80">
+                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
+                            <path d="M16,46 L48,46 L44,70 L20,70 Z" class="suit-primary color-striker-dark"/>
+                            <circle cx="32" cy="32" r="16" class="head-base color-striker-bright"/>
+                            <path d="M20,30 L44,30 L40,38 L24,38 Z" class="visor color-striker-glow"/>
+                            <rect x="14" y="44" width="36" height="5" rx="2" class="gear-accent color-white"/>
+                        </svg>
                     </div>
                     <span>Striker</span>
                 </div>
+
                 <div class="avatar-card male" data-avatar="m3">
-                    <div class="character-sprite maverick-sprite">
-                        <div class="head"></div>
-                        <div class="body-core"></div>
+                    <div class="chibi-character">
+                        <svg class="sprite-svg" viewBox="0 0 64 80">
+                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
+                            <path d="M18,48 L46,48 L42,70 L22,70 Z" class="suit-primary color-mav-jacket"/>
+                            <circle cx="32" cy="32" r="16" class="head-base color-skin-tan"/>
+                            <path d="M14,24 C20,12 44,12 50,24 Z" class="helmet-top color-mav-helmet"/>
+                            <ellipse cx="32" cy="26" rx="12" ry="6" class="visor color-mav-goggles"/>
+                        </svg>
                     </div>
                     <span>Maverick</span>
                 </div>
 
                 <div class="avatar-card female" data-avatar="f1">
-                    <div class="character-sprite nova-sprite">
-                        <div class="head"></div>
-                        <div class="body-core"></div>
+                    <div class="chibi-character">
+                        <svg class="sprite-svg" viewBox="0 0 64 80">
+                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
+                            <path d="M16,48 L48,48 L42,70 L22,70 Z" class="suit-primary color-nova-suit"/>
+                            <circle cx="32" cy="32" r="16" class="head-base color-skin-pale"/>
+                            <path d="M14,30 C12,10 52,10 50,30 Z" class="hair color-nova-pink"/>
+                            <circle cx="26" cy="32" r="2.5" class="eye"/>
+                            <circle cx="38" cy="32" r="2.5" class="eye"/>
+                        </svg>
                     </div>
                     <span>Nova</span>
                 </div>
+
                 <div class="avatar-card female" data-avatar="f2">
-                    <div class="character-sprite valkyrie-sprite">
-                        <div class="head"></div>
-                        <div class="body-core"></div>
-                    </div>
+                    <div class="chibi-character">
+                        <svg class="sprite-svg" viewBox="0 0 64 80">
+                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
+                            <path d="M14,44 L50,44 L44,72 L20,72 Z" class="suit-primary color-valk-armor"/>
+                            <circle cx="32" cy="32" r="16" class="head-base color-skin-light"/>
+                            <path d="M16,22 L10,12 L20,18 Z" class="helmet-wing"/>
+                            <path d="M48,22 L54,12 L44,18 Z" class="helmet-wing"/>
+                            <path d="M16,26 C16,12 48,12 48,26 Z" class="helmet-top color-valk-gold"/>
+                        </div>
                     <span>Valkyrie</span>
                 </div>
+
                 <div class="avatar-card female" data-avatar="f3">
-                    <div class="character-sprite athena-sprite">
-                        <div class="head"></div>
-                        <div class="body-core"></div>
+                    <div class="chibi-character">
+                        <svg class="sprite-svg" viewBox="0 0 64 80">
+                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
+                            <path d="M18,48 L46,48 L42,70 L22,70 Z" class="suit-primary color-athena-gear"/>
+                            <circle cx="32" cy="32" r="16" class="head-base color-skin-warm"/>
+                            <path d="M14,24 L50,24 L44,32 L20,32 Z" class="hair color-athena-red"/>
+                            <rect x="12" y="20" width="40" height="6" rx="3" class="gear-accent color-athena-beret"/>
+                        </svg>
                     </div>
                     <span>Athena</span>
                 </div>
