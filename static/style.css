@@ -1,16 +1,17 @@
 /* ==========================================================================
-   HEXAJUMP - CYBER-INDUSTRIAL STYLE SYSTEM & ANIMATION SPRITES
+   HEXAJUMP - STUMBLE-STYLE VECTOR ART ENGINE & STYLING SHEET
    ========================================================================== */
 
 :root {
-    --bg-main: #0b0d10;
-    --card-bg: #13171e;
+    --bg-main: #07090e;
+    --card-bg: #0f131a;
     --accent-blue: #00f0ff;
     --text-primary: #ffffff;
-    --text-muted: #6c7a89;
-    --border-color: #222a36;
+    --text-muted: #4e5d6c;
+    --border-color: #1c2330;
     --male-glow: #00a8ff;
     --female-glow: #ff007f;
+    --outline: #000000;
 }
 
 * {
@@ -32,7 +33,6 @@ body {
 }
 
 #game-container {
-    position: relative;
     width: 900px;
     display: flex;
     flex-direction: column;
@@ -41,172 +41,189 @@ body {
 
 .menu-card {
     background-color: var(--card-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 4px;
+    border: 3px solid var(--border-color);
+    border-radius: 8px;
     padding: 40px;
     width: 100%;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
     text-align: center;
 }
 
 h1 {
-    font-size: 2.8rem;
+    font-size: 3rem;
     font-weight: 900;
-    letter-spacing: 6px;
+    letter-spacing: 8px;
     margin-bottom: 5px;
+    text-shadow: 0 4px 0px #000;
 }
 
 .subtitle {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 35px;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
 }
 
 .avatar-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-bottom: 35px;
+    gap: 24px;
+    margin-bottom: 40px;
 }
 
 .avatar-card {
-    background-color: #1a202a;
-    border: 1px solid var(--border-color);
-    border-radius: 3px;
-    padding: 25px 20px;
+    background-color: #151a24;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    padding: 20px;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
 }
 
 .avatar-card span {
-    font-size: 0.85rem;
-    font-weight: 700;
+    font-size: 0.9rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    color: #8a9bb0;
     margin-top: 15px;
+    text-shadow: 0 2px 2px rgba(0,0,0,0.5);
 }
 
 /* ==========================================================================
-   🕹️ REAL-TIME ANIMATED MINI-CHARACTER ENGINE INTERFACE
+   👥 STUMBLE-STYLE MINI FIGURE VECTOR DESIGN LANGUAGE
    ========================================================================== */
 
-.character-sprite {
-    width: 40px;
-    height: 60px;
-    position: relative;
+.chibi-character {
+    width: 90px;
+    height: 110px;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    animation: arcadeIdle 0.6s infinite alternate ease-in-out;
 }
 
-/* Base structural blocks for mini characters */
-.character-sprite .head {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    margin-bottom: 4px;
-    border: 2px solid rgba(255,255,255,0.1);
+.sprite-svg {
+    width: 100%;
+    height: 100%;
+    /* Apply cartoon outline styling to every vector component */
+    stroke: var(--outline);
+    stroke-width: 2.5px;
+    stroke-linejoin: round;
+    animation: cartoonBounce 0.5s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform-origin: bottom center;
 }
 
-.character-sprite .body-core {
-    width: 28px;
-    height: 30px;
-    border-radius: 4px 4px 10px 10px;
-}
+/* Base Drop Shadows */
+.chibi-shadow { fill: rgba(0, 0, 0, 0.4); stroke: none; }
+.eye { fill: #000000; stroke: none; }
+.color-white { fill: #ffffff; }
 
-/* Unique Arcade Character Color Signatures */
-.alpha-sprite .head     { background-color: #00d2ff; }
-.alpha-sprite .body-core { background-color: #006699; }
+/* Skin Palette Arrays */
+.color-skin-light { fill: #ffdbac; }
+.color-skin-tan   { fill: #e0ac69; }
+.color-skin-pale  { fill: #f1c27d; }
+.color-skin-warm  { fill: #d8a158; }
 
-.striker-sprite .head   { background-color: #00ff88; }
-.striker-sprite .body-core { background-color: #009944; }
+/* Character Team Color Vectors */
+.color-alpha-dark    { fill: #1034a6; }
+.color-alpha-bright  { fill: #007fff; }
+.color-cyber-neon    { fill: var(--accent-blue); }
 
-.maverick-sprite .head  { background-color: #ffb700; }
-.maverick-sprite .body-core { background-color: #996600; }
+.color-striker-dark  { fill: #1a1a1a; }
+.color-striker-bright{ fill: #2e2e2e; }
+.color-striker-glow  { fill: #39ff14; }
 
-.nova-sprite .head      { background-color: #ff007f; }
-.nova-sprite .body-core { background-color: #99004c; }
+.color-mav-jacket    { fill: #8b5a2b; }
+.color-mav-helmet    { fill: #d4af37; }
+.color-mav-goggles   { fill: #ff4500; }
 
-.valkyrie-sprite .head  { background-color: #b500ff; }
-.valkyrie-sprite .body-core { background-color: #5e008c; }
+.color-nova-suit     { fill: #4b0082; }
+.color-nova-pink     { fill: #ff1493; }
 
-.athena-sprite .head    { background-color: #ff5500; }
-.athena-sprite .body-core { background-color: #993300; }
+.color-valk-armor    { fill: #708090; }
+.color-valk-gold     { fill: #ffd700; }
+.helmet-wing         { fill: #ffffff; }
 
-/* Micro-animations running at runtime */
-@keyframes arcadeIdle {
+.color-athena-gear   { fill: #004b49; }
+.color-athena-red    { fill: #cc0000; }
+.color-athena-beret  { fill: #800000; }
+
+/* Squash and Stretch Arcade Animation Core */
+@keyframes cartoonBounce {
     0% {
-        transform: translateY(0) scaleY(1);
+        transform: scaleY(1) scaleX(1) translateY(0);
     }
     100% {
-        transform: translateY(-5px) scaleY(0.96);
+        transform: scaleY(0.92) scaleX(1.04) translateY(4px);
     }
 }
 
-/* Interactive Hover States */
+/* Card Interaction States */
 .avatar-card:hover {
-    border-color: #3b4859;
-    background-color: #1e2633;
+    border-color: #38465c;
+    background-color: #1b2230;
+    transform: translateY(-2px);
 }
 
-.avatar-card:hover .character-sprite {
-    animation-duration: 0.3s; /* Speeds up animation when hovering for interactive feedback */
+.avatar-card:hover .sprite-svg {
+    animation-duration: 0.25s; /* Accelerates animation frequency on active card focus */
 }
 
-/* Premium Selection Highlights */
+/* High-End Target Selection Identifiers */
 .avatar-card.male.selected {
     border-color: var(--male-glow);
-    box-shadow: inset 0 0 12px rgba(0, 168, 255, 0.2), 0 0 20px rgba(0, 168, 255, 0.15);
+    box-shadow: 0 0 25px rgba(0, 168, 255, 0.25);
+    background-color: #162436;
 }
 .avatar-card.male.selected span { color: var(--male-glow); }
 
 .avatar-card.female.selected {
     border-color: var(--female-glow);
-    box-shadow: inset 0 0 12px rgba(255, 0, 127, 0.2), 0 0 20px rgba(255, 0, 127, 0.15);
+    box-shadow: 0 0 25px rgba(255, 0, 127, 0.25);
+    background-color: #2b1624;
 }
 .avatar-card.female.selected span { color: var(--female-glow); }
 
-/* Control Action Button */
+/* Main Launcher Launch Action Trigger Button */
 #start-btn {
     background-color: transparent;
-    color: var(--text-muted);
-    border: 2px solid var(--border-color);
-    padding: 14px 40px;
-    font-size: 1rem;
-    font-weight: 800;
+    color: #435263;
+    border: 3px solid var(--border-color);
+    padding: 16px 48px;
+    font-size: 1.1rem;
+    font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    border-radius: 2px;
+    letter-spacing: 4px;
+    border-radius: 4px;
     cursor: not-allowed;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    text-shadow: 0 2px 0px #000;
 }
 
 #start-btn:not(:disabled) {
     background-color: var(--accent-blue);
-    color: var(--bg-main);
+    color: #000000;
     border-color: var(--accent-blue);
     cursor: pointer;
-    box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+    text-shadow: none;
 }
 
 #start-btn:not(:disabled):hover {
-    background-color: #00c8d5;
-    box-shadow: 0 0 35px rgba(0, 240, 255, 0.5);
-    transform: translateY(-1px);
+    background-color: #2ae8ff;
+    transform: scale(1.02);
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.6);
 }
 
 .hidden { display: none !important; }
 
 #gameCanvas {
-    background-color: #0d1117;
-    border: 2px solid var(--border-color);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    background-color: #080a0f;
+    border: 3px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.8);
 }
