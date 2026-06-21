@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HexaJump - Premium Full-Stack Endless Arcade</title>
+    <title>HexaJump - Ultimate Full-Stack Endless Arcade</title>
     <link rel="icon" href="data:;base64,iVBORw0kGgo=">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,83 +12,139 @@
     <div id="game-container">
         <div id="launcher-screen" class="menu-card">
             <h1>HEXAJUMP</h1>
-            <p class="subtitle">Select Your Character To Enter The Endless Loop</p>
+            <p class="subtitle">Select Your Ultimate Character To Enter The Endless Loop</p>
             
             <div class="avatar-grid">
+                <!-- ================= ULTIMATE MALE AVATARS ================= -->
+                <!-- Alpha: High-Top Curly Hair / Open Jacket Style -->
                 <div class="avatar-card male" data-avatar="m1">
-                    <div class="chibi-character">
-                        <svg class="sprite-svg" viewBox="0 0 64 80">
-                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
-                            <path d="M18,48 L46,48 L42,70 L22,70 Z" class="suit-primary color-alpha-dark"/>
-                            <circle cx="32" cy="32" r="16" class="head-base color-skin-light"/>
-                            <path d="M16,32 C16,16 48,16 48,32 L44,24 L20,24 Z" class="helmet-top color-alpha-bright"/>
-                            <path d="M20,28 L44,28 L40,36 L24,36 Z" class="visor color-cyber-neon"/>
+                    <div class="ultimate-chibi">
+                        <svg class="character-svg" viewBox="0 0 64 90">
+                            <!-- Base Drop Shadow Matrix -->
+                            <ellipse cx="32" cy="84" rx="18" ry="4" class="char-shadow"/>
+                            <!-- Clothing Outfit Layer (T-Shirt & Open Vest/Jacket) -->
+                            <path d="M20,62 L44,62 L46,82 L18,82 Z" class="outfit-base fill-white"/>
+                            <path d="M18,62 C22,62 25,66 25,72 L22,82 L16,82 Z" class="jacket-flap fill-carbon"/>
+                            <path d="M46,62 C42,62 39,66 39,72 L42,82 L48,82 Z" class="jacket-flap fill-carbon"/>
+                            <!-- Head & Features -->
+                            <circle cx="32" cy="38" r="16" class="skin-tone tone-alpha"/>
+                            <ellipse cx="32" cy="46" rx="4" ry="1.5" class="expression-mouth"/>
+                            <circle cx="26" cy="38" r="2" class="char-eye"/>
+                            <circle cx="38" cy="38" r="2" class="char-eye"/>
+                            <!-- Textured High-Top Curly Hair Pattern Assemblies -->
+                            <path d="M14,34 C12,20 22,14 32,16 C42,14 52,20 50,34 C54,30 52,24 46,20 C40,16 24,16 18,20 C12,24 10,30 14,34 Z" class="hair-core fill-dark"/>
+                            <circle cx="20" cy="22" r="5" class="hair-puff"/>
+                            <circle cx="28" cy="18" r="6" class="hair-puff"/>
+                            <circle cx="36" cy="18" r="6" class="hair-puff"/>
+                            <circle cx="44" cy="22" r="5" class="hair-puff"/>
                         </svg>
                     </div>
                     <span>Alpha</span>
                 </div>
 
+                <!-- Striker: Sharp Styled Casual Cut / Button Up Shirt Layout -->
                 <div class="avatar-card male" data-avatar="m2">
-                    <div class="chibi-character">
-                        <svg class="sprite-svg" viewBox="0 0 64 80">
-                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
-                            <path d="M16,46 L48,46 L44,70 L20,70 Z" class="suit-primary color-striker-dark"/>
-                            <circle cx="32" cy="32" r="16" class="head-base color-striker-bright"/>
-                            <path d="M20,30 L44,30 L40,38 L24,38 Z" class="visor color-striker-glow"/>
-                            <rect x="14" y="44" width="36" height="5" rx="2" class="gear-accent color-white"/>
+                    <div class="ultimate-chibi">
+                        <svg class="character-svg" viewBox="0 0 64 90">
+                            <ellipse cx="32" cy="84" rx="18" ry="4" class="char-shadow"/>
+                            <!-- Button-Up Shirt Base Layer -->
+                            <path d="M18,60 L46,60 L44,82 L20,82 Z" class="outfit-base fill-sky"/>
+                            <path d="M26,60 L32,68 L38,60 Z" class="shirt-collar fill-sky-dark"/>
+                            <line x1="32" y1="68" x2="32" y2="82" stroke="#000" stroke-width="2"/>
+                            <!-- Head & Features -->
+                            <circle cx="32" cy="38" r="16" class="skin-tone tone-striker"/>
+                            <path d="M28,46 Q32,50 36,46" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="25" cy="36" r="2.5" class="char-eye"/>
+                            <circle cx="39" cy="36" r="2.5" class="char-eye"/>
+                            <!-- Sharp Swept Brown Hair Layer Matrix -->
+                            <path d="M14,32 C14,16 26,12 38,14 C48,16 50,26 48,34 C44,28 36,20 26,24 C18,28 16,30 14,32 Z" class="hair-core fill-brown"/>
                         </svg>
                     </div>
                     <span>Striker</span>
                 </div>
 
+                <!-- Maverick: Clean Modern Professional Suit Layout -->
                 <div class="avatar-card male" data-avatar="m3">
-                    <div class="chibi-character">
-                        <svg class="sprite-svg" viewBox="0 0 64 80">
-                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
-                            <path d="M18,48 L46,48 L42,70 L22,70 Z" class="suit-primary color-mav-jacket"/>
-                            <circle cx="32" cy="32" r="16" class="head-base color-skin-tan"/>
-                            <path d="M14,24 C20,12 44,12 50,24 Z" class="helmet-top color-mav-helmet"/>
-                            <ellipse cx="32" cy="26" rx="12" ry="6" class="visor color-mav-goggles"/>
+                    <div class="ultimate-chibi">
+                        <svg class="character-svg" viewBox="0 0 64 90">
+                            <ellipse cx="32" cy="84" rx="18" ry="4" class="char-shadow"/>
+                            <!-- Corporate Jacket & Tie Framework -->
+                            <path d="M18,60 L46,60 L44,82 L20,82 Z" class="outfit-base fill-navy"/>
+                            <polygon points="32,60 26,72 38,72" class="inner-shirt fill-white"/>
+                            <polygon points="32,66 30,76 32,80 34,76" class="tie-node fill-red"/>
+                            <!-- Head & Features -->
+                            <circle cx="32" cy="38" r="16" class="skin-tone tone-mav"/>
+                            <path d="M27,45 Q32,48 37,45" fill="none" stroke="#000" stroke-width="1.5"/>
+                            <circle cx="26" cy="36" r="2" class="char-eye"/>
+                            <circle cx="38" cy="36" r="2" class="char-eye"/>
+                            <!-- Classic Business Swivel Hair Contour -->
+                            <path d="M16,32 C14,18 26,14 36,16 C46,18 48,26 46,34 C44,30 42,28 36,28 C28,28 20,32 16,32 Z" class="hair-core fill-chestnut"/>
                         </svg>
                     </div>
                     <span>Maverick</span>
                 </div>
 
+                <!-- ================= ULTIMATE FEMALE AVATARS ================= -->
+                <!-- Nova: Long Wavy Flowing Volume Layout -->
                 <div class="avatar-card female" data-avatar="f1">
-                    <div class="chibi-character">
-                        <svg class="sprite-svg" viewBox="0 0 64 80">
-                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
-                            <path d="M16,48 L48,48 L42,70 L22,70 Z" class="suit-primary color-nova-suit"/>
-                            <circle cx="32" cy="32" r="16" class="head-base color-skin-pale"/>
-                            <path d="M14,30 C12,10 52,10 50,30 Z" class="hair color-nova-pink"/>
-                            <circle cx="26" cy="32" r="2.5" class="eye"/>
-                            <circle cx="38" cy="32" r="2.5" class="eye"/>
+                    <div class="ultimate-chibi">
+                        <svg class="character-svg" viewBox="0 0 64 90">
+                            <ellipse cx="32" cy="84" rx="18" ry="4" class="char-shadow"/>
+                            <!-- Flowing Back Hair Layer Behind Shoulders -->
+                            <path d="M12,40 C6,55 12,82 20,82 L44,82 C52,82 58,55 52,40 Z" class="hair-fringe fill-brunette-dark"/>
+                            <!-- Casual Crop Dynamic Outfit Base -->
+                            <path d="M20,62 L44,62 L42,82 L22,82 Z" class="outfit-base fill-olive"/>
+                            <!-- Head & Features -->
+                            <circle cx="32" cy="38" r="15" class="skin-tone tone-nova"/>
+                            <path d="M29,45 Q32,49 35,45" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="26" cy="36" r="2" class="char-eye"/>
+                            <circle cx="38" cy="36" r="2" class="char-eye"/>
+                            <!-- Front Hair Volumetric Swoop Profile -->
+                            <path d="M15,32 C12,12 32,8 48,16 C54,22 50,42 46,42 C44,32 38,24 32,26 C24,28 20,38 15,32 Z" class="hair-core fill-brunette"/>
                         </svg>
                     </div>
                     <span>Nova</span>
                 </div>
 
+                <!-- Valkyrie: Denim Vest Structural Over Blouse Combo -->
                 <div class="avatar-card female" data-avatar="f2">
-                    <div class="chibi-character">
-                        <svg class="sprite-svg" viewBox="0 0 64 80">
-                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
-                            <path d="M14,44 L50,44 L44,72 L20,72 Z" class="suit-primary color-valk-armor"/>
-                            <circle cx="32" cy="32" r="16" class="head-base color-skin-light"/>
-                            <path d="M16,22 L10,12 L20,18 Z" class="helmet-wing"/>
-                            <path d="M48,22 L54,12 L44,18 Z" class="helmet-wing"/>
-                            <path d="M16,26 C16,12 48,12 48,26 Z" class="helmet-top color-valk-gold"/>
-                        </div>
+                    <div class="ultimate-chibi">
+                        <svg class="character-svg" viewBox="0 0 64 90">
+                            <ellipse cx="32" cy="84" rx="18" ry="4" class="char-shadow"/>
+                            <!-- Vest Clothing Topology -->
+                            <path d="M18,60 L46,60 L44,82 L20,82 Z" class="outfit-base fill-soft-white"/>
+                            <path d="M18,60 L26,60 L24,82 L18,82 Z" class="vest-wing fill-denim"/>
+                            <path d="M46,60 L38,60 L40,82 L46,82 Z" class="vest-wing fill-denim"/>
+                            <!-- Head & Features -->
+                            <circle cx="32" cy="38" r="15" class="skin-tone tone-valk"/>
+                            <path d="M29,46 Q32,49 35,46" fill="none" stroke="#000" stroke-width="1.5"/>
+                            <circle cx="25" cy="36" r="2" class="char-eye"/>
+                            <circle cx="39" cy="36" r="2" class="char-eye"/>
+                            <!-- Mid-Length Contoured Classic Cut -->
+                            <path d="M16,35 C14,14 48,14 46,35 C48,45 44,52 42,52 C40,42 42,32 32,30 C22,32 24,42 22,52 C20,52 14,45 16,35 Z" class="hair-core fill-auburn"/>
+                        </svg>
+                    </div>
                     <span>Valkyrie</span>
                 </div>
 
+                <!-- Athena: High Volume Textured Flares Layout -->
                 <div class="avatar-card female" data-avatar="f3">
-                    <div class="chibi-character">
-                        <svg class="sprite-svg" viewBox="0 0 64 80">
-                            <ellipse cx="32" cy="72" rx="16" ry="5" class="chibi-shadow"/>
-                            <path d="M18,48 L46,48 L42,70 L22,70 Z" class="suit-primary color-athena-gear"/>
-                            <circle cx="32" cy="32" r="16" class="head-base color-skin-warm"/>
-                            <path d="M14,24 L50,24 L44,32 L20,32 Z" class="hair color-athena-red"/>
-                            <rect x="12" y="20" width="40" height="6" rx="3" class="gear-accent color-athena-beret"/>
+                    <div class="ultimate-chibi">
+                        <svg class="character-svg" viewBox="0 0 64 90">
+                            <ellipse cx="32" cy="84" rx="18" ry="4" class="char-shadow"/>
+                            <!-- Massive Flared Back Hair Mass -->
+                            <path d="M10,34 C4,50 8,82 18,82 L46,82 C56,82 60,50 54,34 Z" class="hair-fringe fill-caramel-dark"/>
+                            <!-- Tank Top Layer -->
+                            <path d="M20,62 L44,62 L42,82 L22,82 Z" class="outfit-base fill-white"/>
+                            <path d="M20,62 L24,62 L25,70 L22,70 Z" class="strap fill-crimson"/>
+                            <path d="M44,62 L40,62 L39,70 L42,70 Z" class="strap fill-crimson"/>
+                            <!-- Head & Features -->
+                            <circle cx="32" cy="38" r="15" class="skin-tone tone-athena"/>
+                            <ellipse cx="32" cy="46" rx="3" ry="1.5" class="expression-mouth"/>
+                            <circle cx="26" cy="36" r="2.5" class="char-eye"/>
+                            <circle cx="38" cy="36" r="2.5" class="char-eye"/>
+                            <!-- Stylized Flowing Outer Hair Crown -->
+                            <path d="M16,30 C14,12 50,12 48,30 C52,40 46,48 44,48 C42,36 40,26 32,26 C24,26 22,36 20,48 C18,48 12,40 16,30 Z" class="hair-core fill-caramel"/>
                         </svg>
                     </div>
                     <span>Athena</span>
