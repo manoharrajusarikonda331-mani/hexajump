@@ -1,17 +1,17 @@
 /* ==========================================================================
-   HEXAJUMP - STUMBLE-STYLE VECTOR ART ENGINE & STYLING SHEET
+   HEXAJUMP - PIXAR-GRADE 3D CARTOON STYLING AND GRAPHICS ENGINE
    ========================================================================== */
 
 :root {
-    --bg-main: #07090e;
-    --card-bg: #0f131a;
+    --bg-main: #06080b;
+    --card-bg: #0e1117;
     --accent-blue: #00f0ff;
     --text-primary: #ffffff;
-    --text-muted: #4e5d6c;
-    --border-color: #1c2330;
+    --text-muted: #4b5866;
+    --border-color: #1a212c;
     --male-glow: #00a8ff;
     --female-glow: #ff007f;
-    --outline: #000000;
+    --outline: #0e1117;
 }
 
 * {
@@ -45,7 +45,7 @@ body {
     border-radius: 8px;
     padding: 40px;
     width: 100%;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
     text-align: center;
 }
 
@@ -73,12 +73,12 @@ h1 {
 }
 
 .avatar-card {
-    background-color: #151a24;
+    background-color: #131822;
     border: 2px solid var(--border-color);
     border-radius: 6px;
     padding: 20px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -89,109 +89,110 @@ h1 {
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: #8a9bb0;
+    color: #8395a7;
     margin-top: 15px;
-    text-shadow: 0 2px 2px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 
 /* ==========================================================================
-   👥 STUMBLE-STYLE MINI FIGURE VECTOR DESIGN LANGUAGE
+   👥 CHARACTER GRAPHICS PLATFORM VECTORS
    ========================================================================== */
 
-.chibi-character {
-    width: 90px;
-    height: 110px;
+.ultimate-chibi {
+    width: 110px;
+    height: 130px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.sprite-svg {
+.character-svg {
     width: 100%;
     height: 100%;
-    /* Apply cartoon outline styling to every vector component */
     stroke: var(--outline);
     stroke-width: 2.5px;
+    stroke-linecap: round;
     stroke-linejoin: round;
-    animation: cartoonBounce 0.5s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    animation: pixarSquash 0.6s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
     transform-origin: bottom center;
 }
 
-/* Base Drop Shadows */
-.chibi-shadow { fill: rgba(0, 0, 0, 0.4); stroke: none; }
-.eye { fill: #000000; stroke: none; }
-.color-white { fill: #ffffff; }
+/* Base Nodes */
+.char-shadow { fill: rgba(0, 0, 0, 0.45); stroke: none; }
+.char-eye { fill: #11141a; stroke: none; }
+.expression-mouth { fill: #4a1525; stroke: none; }
 
-/* Skin Palette Arrays */
-.color-skin-light { fill: #ffdbac; }
-.color-skin-tan   { fill: #e0ac69; }
-.color-skin-pale  { fill: #f1c27d; }
-.color-skin-warm  { fill: #d8a158; }
+/* Vector Fills */
+.fill-white { fill: #f5f6fa; }
+.fill-carbon { fill: #2f3640; }
+.fill-sky { fill: #00a8ff; }
+.fill-sky-dark { fill: #008ccf; }
+.fill-navy { fill: #192a56; }
+.fill-red { fill: #c23616; }
+.fill-olive { fill: #2f3542; }
+.fill-denim { fill: #4682b4; }
+.fill-soft-white { fill: #f8f9fa; }
+.fill-crimson { fill: #d63031; }
 
-/* Character Team Color Vectors */
-.color-alpha-dark    { fill: #1034a6; }
-.color-alpha-bright  { fill: #007fff; }
-.color-cyber-neon    { fill: var(--accent-blue); }
+/* Hair Array Palette */
+.fill-dark { fill: #181c22; }
+.hair-puff { fill: #181c22; stroke: var(--outline); stroke-width: 2.5px; }
+.fill-brown { fill: #573719; }
+.fill-chestnut { fill: #442812; }
+.fill-brunette { fill: #2c1a0e; }
+.fill-brunette-dark { fill: #190e07; stroke: none; }
+.fill-auburn { fill: #6f2619; }
+.fill-caramel { fill: #965a25; }
+.fill-caramel-dark { fill: #613814; stroke: none; }
 
-.color-striker-dark  { fill: #1a1a1a; }
-.color-striker-bright{ fill: #2e2e2e; }
-.color-striker-glow  { fill: #39ff14; }
+/* Authentic Warm Digital Skin Variations */
+.tone-alpha { fill: #c29166; }
+.tone-striker { fill: #f3cfb3; }
+.tone-mav { fill: #ebd0b9; }
+.tone-nova { fill: #ffdfd3; }
+.tone-valk { fill: #fcd0b4; }
+.tone-athena { fill: #eec096; }
 
-.color-mav-jacket    { fill: #8b5a2b; }
-.color-mav-helmet    { fill: #d4af37; }
-.color-mav-goggles   { fill: #ff4500; }
-
-.color-nova-suit     { fill: #4b0082; }
-.color-nova-pink     { fill: #ff1493; }
-
-.color-valk-armor    { fill: #708090; }
-.color-valk-gold     { fill: #ffd700; }
-.helmet-wing         { fill: #ffffff; }
-
-.color-athena-gear   { fill: #004b49; }
-.color-athena-red    { fill: #cc0000; }
-.color-athena-beret  { fill: #800000; }
-
-/* Squash and Stretch Arcade Animation Core */
-@keyframes cartoonBounce {
+/* Pixar Squish & Vertical Bounce Physics Engine Core */
+@keyframes pixarSquash {
     0% {
         transform: scaleY(1) scaleX(1) translateY(0);
     }
     100% {
-        transform: scaleY(0.92) scaleX(1.04) translateY(4px);
+        transform: scaleY(0.94) scaleX(1.03) translateY(3px);
     }
 }
 
-/* Card Interaction States */
+/* Interactive Card Target Feedback States */
 .avatar-card:hover {
-    border-color: #38465c;
-    background-color: #1b2230;
-    transform: translateY(-2px);
+    border-color: #354459;
+    background-color: #171f2d;
+    transform: translateY(-3px);
 }
 
-.avatar-card:hover .sprite-svg {
-    animation-duration: 0.25s; /* Accelerates animation frequency on active card focus */
+.avatar-card:hover .character-svg {
+    animation-duration: 0.3s;
 }
 
-/* High-End Target Selection Identifiers */
+/* Team Selection Visual Flags */
 .avatar-card.male.selected {
     border-color: var(--male-glow);
-    box-shadow: 0 0 25px rgba(0, 168, 255, 0.25);
-    background-color: #162436;
+    box-shadow: 0 0 30px rgba(0, 168, 255, 0.3);
+    background-color: #14253a;
 }
 .avatar-card.male.selected span { color: var(--male-glow); }
 
 .avatar-card.female.selected {
     border-color: var(--female-glow);
-    box-shadow: 0 0 25px rgba(255, 0, 127, 0.25);
-    background-color: #2b1624;
+    box-shadow: 0 0 30px rgba(255, 0, 127, 0.3);
+    background-color: #291422;
 }
 .avatar-card.female.selected span { color: var(--female-glow); }
 
-/* Main Launcher Launch Action Trigger Button */
+/* Launcher Core Control Launch Trigger Button */
 #start-btn {
     background-color: transparent;
-    color: #435263;
+    color: #3e4c5c;
     border: 3px solid var(--border-color);
     padding: 16px 48px;
     font-size: 1.1rem;
@@ -222,7 +223,7 @@ h1 {
 .hidden { display: none !important; }
 
 #gameCanvas {
-    background-color: #080a0f;
+    background-color: #06080b;
     border: 3px solid var(--border-color);
     border-radius: 6px;
     box-shadow: 0 40px 80px rgba(0,0,0,0.8);
