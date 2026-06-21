@@ -1,23 +1,23 @@
 /* ==========================================================================
-   HEXAJUMP - CYBER-INDUSTRIAL MINIMALIST STYLING SHEET
+   HEXAJUMP - CYBER-INDUSTRIAL STYLE SYSTEM & ANIMATION SPRITES
    ========================================================================== */
 
 :root {
-    --bg-main: #0b0d10;          /* Deep matte carbon black */
-    --card-bg: #13171e;          /* Industrial steel gray */
-    --accent-blue: #00f0ff;      /* Cybernetic neon cyan */
-    --text-primary: #ffffff;     /* Crisp solid white */
-    --text-muted: #6c7a89;        /* Suted engineering gray */
-    --border-color: #222a36;     /* Structural geometric border */
-    --male-glow: #00a8ff;        /* Precision blue highlight */
-    --female-glow: #ff007f;      /* Kinetic magenta highlight */
+    --bg-main: #0b0d10;
+    --card-bg: #13171e;
+    --accent-blue: #00f0ff;
+    --text-primary: #ffffff;
+    --text-muted: #6c7a89;
+    --border-color: #222a36;
+    --male-glow: #00a8ff;
+    --female-glow: #ff007f;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', Roboto, sans-serif;
     user-select: none;
 }
 
@@ -31,7 +31,6 @@ body {
     overflow: hidden;
 }
 
-/* Main Layout Wrapper */
 #game-container {
     position: relative;
     width: 900px;
@@ -40,11 +39,10 @@ body {
     align-items: center;
 }
 
-/* Premium Industrial Launcher Card */
 .menu-card {
     background-color: var(--card-bg);
     border: 2px solid var(--border-color);
-    border-radius: 4px; /* Sharp corners for industrial feel */
+    border-radius: 4px;
     padding: 40px;
     width: 100%;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
@@ -55,8 +53,6 @@ h1 {
     font-size: 2.8rem;
     font-weight: 900;
     letter-spacing: 6px;
-    color: var(--text-primary);
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     margin-bottom: 5px;
 }
 
@@ -68,7 +64,6 @@ h1 {
     margin-bottom: 35px;
 }
 
-/* Grid Layout for the 6 Custom Avatars */
 .avatar-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -76,23 +71,17 @@ h1 {
     margin-bottom: 35px;
 }
 
-/* Professional Product-Style Avatar Cards */
 .avatar-card {
     background-color: #1a202a;
     border: 1px solid var(--border-color);
     border-radius: 3px;
-    padding: 20px;
+    padding: 25px 20px;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.25s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.avatar-preview {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    transition: transform 0.2s ease;
+    position: relative;
 }
 
 .avatar-card span {
@@ -101,36 +90,91 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 1px;
     color: var(--text-muted);
+    margin-top: 15px;
 }
 
-/* Hover States - Tactile & Responsive */
+/* ==========================================================================
+   🕹️ REAL-TIME ANIMATED MINI-CHARACTER ENGINE INTERFACE
+   ========================================================================== */
+
+.character-sprite {
+    width: 40px;
+    height: 60px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: arcadeIdle 0.6s infinite alternate ease-in-out;
+}
+
+/* Base structural blocks for mini characters */
+.character-sprite .head {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    margin-bottom: 4px;
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.character-sprite .body-core {
+    width: 28px;
+    height: 30px;
+    border-radius: 4px 4px 10px 10px;
+}
+
+/* Unique Arcade Character Color Signatures */
+.alpha-sprite .head     { background-color: #00d2ff; }
+.alpha-sprite .body-core { background-color: #006699; }
+
+.striker-sprite .head   { background-color: #00ff88; }
+.striker-sprite .body-core { background-color: #009944; }
+
+.maverick-sprite .head  { background-color: #ffb700; }
+.maverick-sprite .body-core { background-color: #996600; }
+
+.nova-sprite .head      { background-color: #ff007f; }
+.nova-sprite .body-core { background-color: #99004c; }
+
+.valkyrie-sprite .head  { background-color: #b500ff; }
+.valkyrie-sprite .body-core { background-color: #5e008c; }
+
+.athena-sprite .head    { background-color: #ff5500; }
+.athena-sprite .body-core { background-color: #993300; }
+
+/* Micro-animations running at runtime */
+@keyframes arcadeIdle {
+    0% {
+        transform: translateY(0) scaleY(1);
+    }
+    100% {
+        transform: translateY(-5px) scaleY(0.96);
+    }
+}
+
+/* Interactive Hover States */
 .avatar-card:hover {
     border-color: #3b4859;
     background-color: #1e2633;
 }
 
-.avatar-card:hover .avatar-preview {
-    transform: scale(1.1);
+.avatar-card:hover .character-sprite {
+    animation-duration: 0.3s; /* Speeds up animation when hovering for interactive feedback */
 }
 
-/* Precision Selection Glow States instead of blurry glass transparent backgrounds */
+/* Premium Selection Highlights */
 .avatar-card.male.selected {
     border-color: var(--male-glow);
     box-shadow: inset 0 0 12px rgba(0, 168, 255, 0.2), 0 0 20px rgba(0, 168, 255, 0.15);
 }
-.avatar-card.male.selected span {
-    color: var(--male-glow);
-}
+.avatar-card.male.selected span { color: var(--male-glow); }
 
 .avatar-card.female.selected {
     border-color: var(--female-glow);
     box-shadow: inset 0 0 12px rgba(255, 0, 127, 0.2), 0 0 20px rgba(255, 0, 127, 0.15);
 }
-.avatar-card.female.selected span {
-    color: var(--female-glow);
-}
+.avatar-card.female.selected span { color: var(--female-glow); }
 
-/* Action Control Engine Button */
+/* Control Action Button */
 #start-btn {
     background-color: transparent;
     color: var(--text-muted);
@@ -159,10 +203,7 @@ h1 {
     transform: translateY(-1px);
 }
 
-/* Display Control Toggles */
-.hidden {
-    display: none !important;
-}
+.hidden { display: none !important; }
 
 #gameCanvas {
     background-color: #0d1117;
