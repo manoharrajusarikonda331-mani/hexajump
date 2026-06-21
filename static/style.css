@@ -1,24 +1,23 @@
 /* ==========================================================================
-   HEXAJUMP - PIXAR-GRADE 3D CARTOON STYLING AND GRAPHICS ENGINE
+   HEXAJUMP - NEXT-LEVEL INDUSTRIAL TECH VIEW DESIGN LANGUAGE
    ========================================================================== */
 
 :root {
-    --bg-main: #06080b;
-    --card-bg: #0e1117;
+    --bg-main: #06080c;
+    --card-bg: #0c0f14;
     --accent-blue: #00f0ff;
     --text-primary: #ffffff;
-    --text-muted: #4b5866;
-    --border-color: #1a212c;
+    --text-muted: #4e5e78;
+    --border-color: #1b2230;
     --male-glow: #00a8ff;
     --female-glow: #ff007f;
-    --outline: #0e1117;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
     user-select: none;
 }
 
@@ -33,198 +32,190 @@ body {
 }
 
 #game-container {
-    width: 900px;
+    width: 920px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+/* Industrial Structural Module Card */
 .menu-card {
     background-color: var(--card-bg);
-    border: 3px solid var(--border-color);
-    border-radius: 8px;
-    padding: 40px;
+    border: 1px solid var(--border-color);
+    border-radius: 2px; /* Ultra-sharp professional edges */
+    padding: 45px;
     width: 100%;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-    text-align: center;
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.8);
+}
+
+.brand-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 8px;
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 2.4rem;
     font-weight: 900;
-    letter-spacing: 8px;
-    margin-bottom: 5px;
-    text-shadow: 0 4px 0px #000;
+    letter-spacing: 10px;
+    color: #ffffff;
+}
+
+/* Live Operational Server Indicator */
+.system-status {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #00ff88;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pulse-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff88;
+    animation: statusPulse 1s infinite alternate;
+}
+
+@keyframes statusPulse {
+    0% { opacity: 0.3; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1.1); }
 }
 
 .subtitle {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 2.5px;
     margin-bottom: 40px;
+    text-align: left;
 }
 
+/* Precise Operator Selection Matrix Grid */
 .avatar-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 40px;
+    gap: 20px;
+    margin-bottom: 45px;
 }
 
 .avatar-card {
-    background-color: #131822;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    padding: 20px;
+    background-color: #0e121a;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    padding: 30px 20px;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
 .avatar-card span {
-    font-size: 0.9rem;
-    font-weight: 800;
+    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #8395a7;
-    margin-top: 15px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    letter-spacing: 2px;
+    color: #5c6e88;
+    margin-top: 20px;
+    transition: color 0.2s ease;
 }
 
 /* ==========================================================================
-   👥 CHARACTER GRAPHICS PLATFORM VECTORS
+   ⚙️ PREMIUM TELEMETRY GLOW AND SCANNERS
    ========================================================================== */
 
-.ultimate-chibi {
-    width: 110px;
-    height: 130px;
+.operator-frame {
+    width: 80px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.character-svg {
+.operator-svg {
     width: 100%;
     height: 100%;
-    stroke: var(--outline);
-    stroke-width: 2.5px;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    animation: pixarSquash 0.6s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
-    transform-origin: bottom center;
+    animation: telemetryFloat 3s infinite ease-in-out;
 }
 
-/* Base Nodes */
-.char-shadow { fill: rgba(0, 0, 0, 0.45); stroke: none; }
-.char-eye { fill: #11141a; stroke: none; }
-.expression-mouth { fill: #4a1525; stroke: none; }
-
-/* Vector Fills */
-.fill-white { fill: #f5f6fa; }
-.fill-carbon { fill: #2f3640; }
-.fill-sky { fill: #00a8ff; }
-.fill-sky-dark { fill: #008ccf; }
-.fill-navy { fill: #192a56; }
-.fill-red { fill: #c23616; }
-.fill-olive { fill: #2f3542; }
-.fill-denim { fill: #4682b4; }
-.fill-soft-white { fill: #f8f9fa; }
-.fill-crimson { fill: #d63031; }
-
-/* Hair Array Palette */
-.fill-dark { fill: #181c22; }
-.hair-puff { fill: #181c22; stroke: var(--outline); stroke-width: 2.5px; }
-.fill-brown { fill: #573719; }
-.fill-chestnut { fill: #442812; }
-.fill-brunette { fill: #2c1a0e; }
-.fill-brunette-dark { fill: #190e07; stroke: none; }
-.fill-auburn { fill: #6f2619; }
-.fill-caramel { fill: #965a25; }
-.fill-caramel-dark { fill: #613814; stroke: none; }
-
-/* Authentic Warm Digital Skin Variations */
-.tone-alpha { fill: #c29166; }
-.tone-striker { fill: #f3cfb3; }
-.tone-mav { fill: #ebd0b9; }
-.tone-nova { fill: #ffdfd3; }
-.tone-valk { fill: #fcd0b4; }
-.tone-athena { fill: #eec096; }
-
-/* Pixar Squish & Vertical Bounce Physics Engine Core */
-@keyframes pixarSquash {
-    0% {
-        transform: scaleY(1) scaleX(1) translateY(0);
-    }
-    100% {
-        transform: scaleY(0.94) scaleX(1.03) translateY(3px);
-    }
+.tech-visor {
+    box-shadow: 0 0 15px currentColor;
+    filter: drop-shadow(0px 0px 4px rgba(255,255,255,0.5));
 }
 
-/* Interactive Card Target Feedback States */
+@keyframes telemetryFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Interactive Focus Callbacks */
 .avatar-card:hover {
-    border-color: #354459;
-    background-color: #171f2d;
-    transform: translateY(-3px);
+    border-color: #313f59;
+    background-color: #111721;
 }
 
-.avatar-card:hover .character-svg {
-    animation-duration: 0.3s;
+.avatar-card:hover span {
+    color: #a0b2cc;
 }
 
-/* Team Selection Visual Flags */
+/* Enterprise Matrix State Synchronization Locks */
 .avatar-card.male.selected {
     border-color: var(--male-glow);
-    box-shadow: 0 0 30px rgba(0, 168, 255, 0.3);
-    background-color: #14253a;
+    background-color: #0f1926;
+    box-shadow: inset 0 0 15px rgba(0, 168, 255, 0.1), 0 10px 30px rgba(0, 168, 255, 0.15);
 }
 .avatar-card.male.selected span { color: var(--male-glow); }
 
 .avatar-card.female.selected {
     border-color: var(--female-glow);
-    box-shadow: 0 0 30px rgba(255, 0, 127, 0.3);
-    background-color: #291422;
+    background-color: #1c0f17;
+    box-shadow: inset 0 0 15px rgba(255, 0, 127, 0.1), 0 10px 30px rgba(255, 0, 127, 0.15);
 }
 .avatar-card.female.selected span { color: var(--female-glow); }
 
-/* Launcher Core Control Launch Trigger Button */
+/* Command Executive Sync Trigger Link */
 #start-btn {
     background-color: transparent;
-    color: #3e4c5c;
-    border: 3px solid var(--border-color);
-    padding: 16px 48px;
-    font-size: 1.1rem;
-    font-weight: 900;
+    color: #313f54;
+    border: 1px solid var(--border-color);
+    padding: 16px 40px;
+    font-size: 0.9rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 4px;
-    border-radius: 4px;
+    border-radius: 1px;
     cursor: not-allowed;
-    transition: all 0.2s ease;
-    text-shadow: 0 2px 0px #000;
+    width: 100%;
+    transition: all 0.25s ease;
 }
 
 #start-btn:not(:disabled) {
-    background-color: var(--accent-blue);
-    color: #000000;
+    background-color: transparent;
+    color: var(--accent-blue);
     border-color: var(--accent-blue);
     cursor: pointer;
-    box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
-    text-shadow: none;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
 }
 
 #start-btn:not(:disabled):hover {
-    background-color: #2ae8ff;
-    transform: scale(1.02);
-    box-shadow: 0 0 40px rgba(0, 240, 255, 0.6);
+    background-color: var(--accent-blue);
+    color: #06080c;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
 }
 
 .hidden { display: none !important; }
 
 #gameCanvas {
-    background-color: #06080b;
-    border: 3px solid var(--border-color);
-    border-radius: 6px;
-    box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+    background-color: #06080c;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 50px 100px rgba(0,0,0,0.9);
 }
