@@ -1,151 +1,148 @@
 /* ==========================================================================
-   HEXAJUMP - CINEMATIC GAME INTERFACE STYLING SYSTEM
+   HEXAJUMP - MOBILE RUNNER GRAPHICS STYLING SHEETS
    ========================================================================== */
 
 :root {
-    --bg-main: #05070a;
-    --card-bg: #0b0e14;
-    --accent-blue: #00f0ff;
-    --text-primary: #ffffff;
-    --text-muted: #495668;
-    --border-color: #161e2b;
-    --male-glow: #00a8ff;
-    --female-glow: #ff007f;
+    --app-bg: #030508;
+    --panel-bg: #090c12;
+    --neon-blue: #00f0ff;
+    --neon-pink: #ff007f;
+    --neon-gold: #ffb700;
+    --sys-border: #141c29;
 }
 
 * {
-    margin: 0; padding: 0; box-sizing: border-box;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; user-select: none;
+    margin: 0; padding: 0; box-box: border-box;
+    font-family: 'Segoe UI', -apple-system, Roboto, sans-serif; user-select: none;
 }
 
 body {
-    background-color: var(--bg-main); color: var(--text-primary);
-    min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden;
+    background-color: #020305;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
-#game-container { width: 940px; display: flex; flex-direction: column; gap: 16px; }
-
-/* Global Top Telemetry System Navigation Bar */
-#top-telemetry-bar {
-    background-color: var(--card-bg); border: 1px solid var(--border-color);
-    border-radius: 4px; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center;
-}
-.status-indicator { font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; color: #00ff88; display: flex; align-items: center; gap: 8px; }
-.pulse-dot { width: 6px; height: 6px; background-color: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; animation: pulse 0.8s infinite alternate; }
-@keyframes pulse { 0% { opacity: 0.4; } 100% { opacity: 1; } }
-.wallet-indicator { font-size: 0.85rem; font-weight: 900; letter-spacing: 1.5px; color: #ffb700; }
-
-/* Structural Module Screen Cards */
-.screen-card {
-    background-color: var(--card-bg); border: 1px solid var(--border-color);
-    padding: 45px 40px; border-radius: 6px; text-align: center; box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-}
-
-h2 { font-size: 1.8rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 5px; }
-.panel-subtitle { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 35px; }
 
 /* ==========================================================================
-   🎮 SCREEN SPECIFIC DESIGNS
+   📱 VERTICAL DEVICE CONTAINER ENGINE
    ========================================================================== */
-
-/* 1. Loading Screen Utilities */
-.glitch-title { font-size: 3.5rem; font-weight: 900; letter-spacing: 12px; margin-bottom: 25px; }
-.progress-bar-container { width: 100%; height: 6px; background-color: #111622; border-radius: 3px; margin-bottom: 12px; overflow: hidden; }
-.progress-fill { width: 0%; height: 100%; background-color: var(--accent-blue); box-shadow: 0 0 15px var(--accent-blue); transition: width 0.05s linear; }
-.loader-status { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); letter-spacing: 2px; }
-
-/* 2. Character Grid Layout Configs */
-.avatar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 35px; }
-.avatar-card {
-    background-color: #0e121a; border: 1px solid var(--border-color); padding: 20px;
-    border-radius: 4px; cursor: pointer; display: flex; flex-direction: column; align-items: center;
-    position: relative; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+#mobile-device-frame {
+    position: relative;
+    width: 400px;
+    height: 650px;
+    background-color: var(--app-bg);
+    border: 4px solid #1a2333;
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
-.avatar-card.locked { background-color: #070a0f; border-style: dashed; opacity: 0.4; }
-.avatar-card.focused-intent { border-color: #4e5e78; background-color: #131924; }
-.avatar-card.selected-active { border-color: var(--accent-blue); background-color: #0d1724; box-shadow: 0 0 15px rgba(0,240,255,0.15); }
-.avatar-card img { width: 80px; height: 110px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); transition: transform 0.2s ease; }
-.avatar-card:hover img { transform: scale(1.05); }
-.avatar-name { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-top: 12px; color: #7f91a8; }
 
-/* 3. Central Command Hub (Home view Layout) */
-.hub-layout { display: grid; grid-template-columns: 1.2fr 2fr; gap: 30px; text-align: left; align-items: center; }
-.active-profile-card { background-color: #0e121a; border: 1px solid var(--border-color); padding: 30px; border-radius: 4px; text-align: center; }
-.active-profile-card h3 { font-size: 0.8rem; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 15px; }
-.hub-avatar-viewport { width: 140px; height: 180px; margin: 0 auto 15px; display: flex; justify-content: center; }
-.hub-avatar-viewport img { height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px #000); }
-#hub-avatar-name { font-size: 1.2rem; font-weight: 900; letter-spacing: 2px; color: var(--accent-blue); }
-
-.hub-controls-panel { display: flex; flex-direction: column; gap: 15px; }
-.menu-action-btn {
-    padding: 18px 30px; font-size: 0.95rem; font-weight: 800; text-transform: uppercase;
-    letter-spacing: 2px; border-radius: 3px; cursor: pointer; transition: all 0.2s ease; border: 1px solid transparent;
-}
-.launch-btn { background-color: var(--accent-blue); color: #000; }
-.launch-btn:hover { background-color: #2be8ff; box-shadow: 0 0 30px rgba(0,240,255,0.35); transform: translateY(-1px); }
-.fallback-btn { background-color: transparent; color: #7f91a8; border-color: var(--border-color); }
-.fallback-btn:hover { border-color: #4e5e78; color: #fff; }
-
-/* 4. Worlds Carousel Selector Styles */
-.modes-carousel { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 35px; }
-.mode-card {
-    background-color: #0e121a; border: 1px solid var(--border-color); padding: 12px;
-    border-radius: 4px; cursor: pointer; text-align: center; transition: all 0.2s ease;
-}
-.mode-card.selected { border-color: #ffb700; background-color: #1a150e; box-shadow: 0 0 15px rgba(255,183,0,0.15); }
-.mode-preview { width: 100%; height: 80px; border-radius: 2px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); }
-/* Specific Custom Vector Fills simulating 5 running environments */
-.preview-cyber   { background: linear-gradient(180deg, #051329, #00f0ff); }
-.preview-jungle  { background: linear-gradient(180deg, #092414, #00ff88); }
-.preview-volcano { background: linear-gradient(180deg, #2e0b0b, #ff4500); }
-.preview-space   { background: linear-gradient(180deg, #110529, #b500ff); }
-.preview-grid    { background: linear-gradient(180deg, #1a1a1a, #333333); }
-.mode-card span { font-size: 0.75rem; font-weight: 800; color: #8fa3bf; }
-.mode-card.selected span { color: #ffb700; }
-
-/* 5. Runtime Viewport Panel & Overlays */
-#game-stage { display: flex; flex-direction: column; gap: 12px; }
-.gameplay-header { display: flex; justify-content: space-between; width: 100%; }
-.game-nav-btn {
-    background-color: var(--card-bg); border: 1px solid var(--border-color); color: #fff;
-    padding: 10px 20px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1px; cursor: pointer; border-radius: 3px; transition: all 0.15s ease;
-}
-.game-nav-btn:hover { border-color: #4e5e78; }
-.danger-btn { color: #ff007f !important; }
-.danger-btn:hover { border-color: #ff007f !important; background-color: rgba(255,0,127,0.05); }
-
-.canvas-viewport-wrapper { position: relative; width: 800px; height: 450px; }
-canvas { background-color: #05070a; border: 1px solid var(--border-color); border-radius: 4px; box-shadow: 0 40px 80px rgba(0,0,0,0.9); }
-
-/* The Pause Breakdown Break Overlays */
-.canvas-overlay {
+/* Complete Screen Manager Shield Toggle Sets */
+.screen-layout {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(5,7,10,0.85); display: flex; justify-content: center; align-items: center; border-radius: 4px;
+    padding: 30px 20px; display: flex; flex-direction: column;
+    justify-content: space-between; align-items: center; z-index: 5;
 }
-.overlay-card {
-    background-color: #0e121a; border: 1px solid #ffb700; padding: 35px 50px; border-radius: 4px; text-align: center;
-    box-shadow: 0 0 30px rgba(255,183,0,0.15);
-}
-.overlay-card h3 { font-size: 1.4rem; font-weight: 900; color: #ffb700; letter-spacing: 3px; margin-bottom: 5px; }
-.overlay-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
-.overlay-button-row { display: flex; gap: 15px; justify-content: center; }
-.overlay-btn {
-    padding: 12px 25px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-    border-radius: 2px; cursor: pointer; transition: all 0.15s ease; border: 1px solid transparent;
-}
-.primary-btn { background-color: #ffb700; color: #000; }
-.primary-btn:hover { background-color: #ffca43; box-shadow: 0 0 20px rgba(255,183,0,0.3); }
 
-/* Global General Utilities */
-.control-btn {
-    background-color: transparent; color: #313e52; border: 1px solid var(--border-color);
-    padding: 16px; font-size: 0.9rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 3px; width: 100%; border-radius: 2px; transition: all 0.2s ease; cursor: not-allowed;
-}
-.control-btn.ready-buy { border-color: #ffb700; color: #ffb700; cursor: pointer; }
-.control-btn.ready-buy:hover { background-color: #ffb700; color: #000; }
-.control-btn.ready-select { border-color: var(--accent-blue); color: var(--accent-blue); cursor: pointer; }
-.control-btn.ready-select:hover { background-color: var(--accent-blue); color: #000; box-shadow: 0 0 25px rgba(0,240,255,0.4); }
+.active-view { display: flex !important; }
+.hidden-view { display: none !important; }
 
-.hidden { display: none !important; }
+/* Global Top Navigation Telemetry Cap Overlay */
+#top-nav-telemetry {
+    position: absolute; top: 0; left: 0; width: 100%; height: 50px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 20px; z-index: 50; background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+}
+.sys-tag { font-size: 0.7rem; font-weight: 800; color: #00ff88; display: flex; align-items: center; gap: 6px; letter-spacing: 1px; }
+.live-blink { width: 5px; height: 5px; background-color: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; animation: blink 0.6s infinite alternate; }
+@keyframes blink { 0% { opacity: 0.3; } 100% { opacity: 1; } }
+.wallet-tag { font-size: 0.9rem; font-weight: 900; color: var(--neon-gold); }
+
+/* 1. Loading Screens Components */
+.brand-title-group { margin-top: 150px; text-align: center; line-height: 1; }
+.runner-logo { font-size: 3.2rem; font-weight: 900; letter-spacing: 4px; display: inline-block; }
+.color-alt { color: var(--neon-blue); text-shadow: 0 0 15px rgba(0,240,255,0.3); }
+.loader-chassis { width: 100%; margin-bottom: 5px; }
+.bar-container { width: 100%; height: 4px; background-color: #0e131f; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
+.bar-fill { width: 0%; height: 100%; background-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
+.telemetry-status { font-size: 0.65rem; font-weight: 700; color: #435269; letter-spacing: 1px; text-center; }
+
+/* 2. Character Store Layout Cards */
+.section-title { font-size: 1.3rem; font-weight: 900; letter-spacing: 3px; color: #ffffff; margin-top: 35px; text-transform: uppercase; }
+.chibi-store-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; margin: auto 0; overflow-y: auto; max-height: 420px; padding-right: 2px; }
+/* Custom Scrollbars */
+.chibi-store-grid::-webkit-scrollbar { width: 3px; }
+.chibi-store-grid::-webkit-scrollbar-thumb { background-color: var(--sys-border); }
+
+.avatar-card {
+    background-color: var(--panel-bg); border: 1px solid var(--sys-border);
+    padding: 15px 10px; border-radius: 8px; display: flex; flex-direction: column;
+    align-items: center; position: relative; cursor: pointer; transition: all 0.15s ease;
+}
+.avatar-card.locked { opacity: 0.4; background-color: #05070a; border-style: dashed; }
+.avatar-card.focused-intent { border-color: #3b4d6b; background-color: #111621; }
+.avatar-card.selected-active { border-color: var(--neon-blue); background-color: #0c1524; box-shadow: inset 0 0 12px rgba(0,240,255,0.1); }
+.avatar-card img { height: 95px; object-fit: contain; filter: drop-shadow(0 8px 12px #000); }
+.price-status-badge { position: absolute; top: 6px; right: 6px; font-size: 0.6rem; font-weight: 800; color: var(--neon-gold); padding: 2px 6px; background-color: #05070a; border-radius: 4px; }
+.badge-owned { color: #00ff88; }
+.avatar-name { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; color: #6f85a3; }
+.avatar-card.selected-active .avatar-name { color: var(--neon-blue); }
+
+/* 3. Command Central Home Showcase */
+.hub-profile-showcase { display: flex; flex-direction: column; align-items: center; margin-top: 90px; }
+.avatar-perspective-ring { width: 180px; height: 230px; display: flex; justify-content: center; position: relative; }
+.avatar-perspective-ring img { height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.8)); animation: hubFloat 3s infinite ease-in-out; }
+@keyframes hubFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+#hub-avatar-name { font-size: 1.5rem; font-weight: 900; letter-spacing: 4px; color: var(--neon-blue); text-shadow: 0 0 15px rgba(0,240,255,0.2); margin-top: 15px; text-transform: uppercase; }
+.hub-control-stack { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.stack-btn { padding: 16px; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; transition: all 0.2s ease; }
+.pulse-launch { background-color: var(--neon-blue); color: #000; box-shadow: 0 0 20px rgba(0,240,255,0.2); }
+.pulse-launch:hover { background-color: #26ecff; box-shadow: 0 0 30px rgba(0,240,255,0.49); transform: scale(1.01); }
+.cosmetic-btn { background-color: transparent; color: #6f85a3; border-color: var(--sys-border); }
+.cosmetic-btn:hover { border-color: #3e4d66; color: #fff; }
+
+/* 4. Vertical Map Selectors Strip */
+.sectors-vertical-stack { display: flex; flex-direction: column; gap: 8px; width: 100%; margin: auto 0; }
+.sector-strip { position: relative; width: 100%; height: 60px; border-radius: 8px; border: 1px solid var(--sys-border); overflow: hidden; display: flex; align-items: center; padding-left: 20px; cursor: pointer; transition: all 0.2s ease; }
+.sector-strip-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.15; transition: opacity 0.2s ease; }
+.bg-cyber   { background: linear-gradient(90deg, #00f0ff, transparent); }
+.bg-jungle  { background: linear-gradient(90deg, #00ff88, transparent); }
+.bg-volcano { background: linear-gradient(90deg, #ff4500, transparent); }
+.bg-space   { background: linear-gradient(90deg, #b500ff, transparent); }
+.bg-grid    { background: linear-gradient(90deg, #ffffff, transparent); }
+.sector-strip span { font-size: 0.8rem; font-weight: 800; letter-spacing: 1.5px; z-index: 2; color: #5c7291; transition: color 0.2s ease; text-transform: uppercase; }
+.sector-strip:hover { border-color: #32435c; }
+.sector-strip.selected { border-color: var(--neon-gold); background-color: #14130f; }
+.sector-strip.selected .sector-strip-bg { opacity: 0.35; }
+.sector-strip.selected span { color: var(--neon-gold); }
+
+/* 5. In-Game Runtime Canvas Display & HUD layers */
+#game-stage { padding: 0 !important; overflow: hidden; background-color: #030407; }
+.gameplay-hud-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 70px; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; z-index: 30; background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%); }
+.hud-circle-btn { width: 36px; height: 36px; border-radius: 50%; background-color: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #fff; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; cursor: pointer; transition: all 0.15s ease; }
+.hud-circle-btn:hover { background-color: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); }
+.exit-btn:hover { border-color: var(--neon-pink); background-color: rgba(255,0,127,0.1); }
+#live-score-tracker { font-size: 1rem; font-weight: 900; letter-spacing: 2px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+
+#gameCanvas { width: 100%; height: 100%; display: block; background-color: #04060a; }
+
+/* Pause Windows Coverings */
+.runtime-modal-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(3,5,8,0.85); display: flex; justify-content: center; align-items: center; z-index: 40; }
+.stasis-card { background-color: var(--panel-bg); border: 1px solid var(--neon-gold); padding: 30px; border-radius: 12px; text-align: center; width: 85%; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+.stasis-card h3 { font-size: 1.1rem; font-weight: 900; color: var(--neon-gold); letter-spacing: 2px; margin-bottom: 4px; }
+.stasis-card p { font-size: 0.75rem; color: #4e5e75; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+.modal-btn { width: 100%; padding: 12px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; margin-bottom: 8px; transition: all 0.15s ease; }
+.confirm-btn { background-color: var(--neon-gold); color: #000; }
+.abort-btn { background-color: transparent; color: #6f85a3; border-color: var(--sys-border); }
+.abort-btn:hover { border-color: var(--neon-pink); color: var(--neon-pink); }
+
+/* Unified Action Form Triggers */
+.action-trigger-btn { width: 100%; padding: 16px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; border-radius: 8px; border: 1px solid var(--sys-border); background-color: transparent; color: #35455c; transition: all 0.15s ease; cursor: not-allowed; margin-bottom: 5px; }
+.action-trigger-btn.ready-buy { border-color: var(--neon-gold); color: var(--neon-gold); cursor: pointer; }
+.action-trigger-btn.ready-buy:hover { background-color: var(--neon-gold); color: #000; }
+.action-trigger-btn.ready-select { border-color: var(--neon-blue); color: var(--neon-blue); cursor: pointer; }
+.action-trigger-btn.ready-select:hover { background-color: var(--neon-blue); color: #000; box-shadow: 0 0 20px rgba(0,240,255,0.3); }
