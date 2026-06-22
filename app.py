@@ -1,30 +1,27 @@
 """
 ==========================================================================
-HEXAJUMP - ENTERPRISE FULL-STACK CORE SERVER ENGINE
+HEXAJUMP - ENTERPRISE BACKEND ENGINE & STATE LAYER
 ==========================================================================
 """
-
 from flask import Flask, send_from_directory, jsonify, request, session
 import os
 
 app = Flask(__name__, static_folder='static')
-app.secret_key = 'hexajump_crypto_secure_dev_key_2026' # Secures session cookies
+app.secret_key = 'hexajump_crypto_high_performance_system_secure_key_2026'
 
-# --------------------------------------------------------------------------
-# STATE INITIALIZATION HELPER
-# --------------------------------------------------------------------------
 def initialize_player_session():
-    """Initializes standard player save states into the server memory cookie if empty."""
-    if 'coins' not in session:
-        session['coins'] = 500  # Granting starter coins to test the Buy store logic!
-    if 'selected_avatar' not in session:
-        session['selected_avatar'] = 'm1'
-    if 'unlocked_avatars' not in session:
-        session['unlocked_avatars'] = ['m1']  # Only Alpha (M1) is unlocked initially
+    """Initializes player save state structure into the server memory."""
+    if 'coins' not in session: session['coins'] = 1000
+    if 'selected_avatar' not in session: session['selected_avatar'] = 'm1'
+    if 'unlocked_avatars' not in session: session['unlocked_avatars'] = ['m1','f1']
+    
+    # Initialize high score data structure if empty
+    if 'high_scores' not in session:
+        session['high_scores'] = {
+            'm1': 0, 'm2': 0, 'm3': 0,
+            'f1': 0, 'f2': 0, 'f3': 0
+        }
 
-# --------------------------------------------------------------------------
-# CORE WEB SYSTEM ROUTING
-# --------------------------------------------------------------------------
 @app.route('/')
 def serve_launcher():
     initialize_player_session()
@@ -35,57 +32,69 @@ def serve_static_assets(path):
     return send_from_directory(app.static_folder, path)
 
 # --------------------------------------------------------------------------
-# RESTful API ENDPOINTS FOR ACCOUNT STATE SYNCHRONIZATION
+# Restful API Interface Layer
 # --------------------------------------------------------------------------
 
 @app.route('/api/player/data', methods=['GET'])
 def get_player_data():
-    """Fetches full authenticated player coin balances and character unlocks."""
     initialize_player_session()
     return jsonify({
         "coins": session['coins'],
         "selected_avatar": session['selected_avatar'],
-        "unlocked_avatars": session['unlocked_avatars']
+        "unlocked_avatars": session['unlocked_avatars'],
+        "high_scores": session['high_scores']
     }), 200
 
 @app.route('/api/store/buy', methods=['POST'])
 def buy_avatar():
-    """Handles secure backend confirmation and transaction logic for unlocking characters."""
     initialize_player_session()
     data = request.get_json() or {}
     avatar_id = data.get('avatar_id')
-    price = data.get('price', 999999) # Defaults to unreachable price if manipulated
+    price = data.get('price', 999999)
 
-    if not avatar_id:
-        return jsonify({"status": "error", "message": "Missing asset identification parameter."}), 400
-    
-    if avatar_id in session['unlocked_avatars']:
-        return jsonify({"status": "error", "message": "Character profile already unlocked."}), 400
+    if not avatar_id or avatar_id in session['unlocked_avatars']:
+        return jsonify({"status": "error"}), 400
 
     if session['coins'] >= price:
         session['coins'] -= price
         session['unlocked_avatars'].append(avatar_id)
         session.modified = True
-        return jsonify({
-            "status": "success",
-            "coins": session['coins'],
-            "unlocked_avatars": session['unlocked_avatars']
-        }), 200
-    else:
-        return jsonify({"status": "error", "message": "Insufficient coin transaction balance."}), 400
+        return jsonify({"status": "success", "coins": session['coins'], "unlocked_avatars": session['unlocked_avatars']}), 200
+    
+    return jsonify({"status": "error"}), 400
+
+@app.route('/api/game/over', methods=['POST'])
+def handle_game_over():
+    initialize_player_session()
+    data = request.get_json() or {}
+    score = data.get('score', 0)
+    avatar_id = data.get('avatar_id')
+    coins_earned = data.get('coins_earned', 0)
+
+    session['coins'] += coins_earned
+    new_high_score = False
+
+    # Track high score only for the specific avatar used
+    if avatar_id in session['high_scores'] and score > session['high_scores'][avatar_id]:
+        session['high_scores'][avatar_id] = score
+        new_high_score = True
+
+    session.modified = True
+    return jsonify({
+        "status": "success", 
+        "high_score": session['high_scores'][avatar_id], 
+        "is_new_high": new_high_score
+    }), 200
 
 @app.route('/api/state/select', methods=['POST'])
 def select_avatar():
-    """Saves the current active deployment avatar verification node."""
     initialize_player_session()
     data = request.get_json() or {}
     avatar_id = data.get('avatar_id')
-
     if avatar_id in session['unlocked_avatars']:
         session['selected_avatar'] = avatar_id
-        return jsonify({"status": "success", "selected_avatar": session['selected_avatar']}), 200
-    
-    return jsonify({"status": "error", "message": "Target vector path remains locked."}), 400
+        return jsonify({"status": "success"}), 200
+    return jsonify({"status": "error"}), 400
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
