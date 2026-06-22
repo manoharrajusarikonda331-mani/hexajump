@@ -12,36 +12,26 @@
 }
 
 * {
-    margin: 0; padding: 0; box-box: border-box;
+    margin: 0; padding: 0; box-sizing: border-box;
     font-family: 'Segoe UI', -apple-system, Roboto, sans-serif; user-select: none;
 }
 
 body {
-    background-color: #020305;
-    color: #ffffff;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: #020305; color: #ffffff;
+    min-height: 100vh; display: flex; justify-content: center; align-items: center;
 }
 
 /* ==========================================================================
    📱 VERTICAL DEVICE CONTAINER ENGINE
    ========================================================================== */
 #mobile-device-frame {
-    position: relative;
-    width: 400px;
-    height: 650px;
-    background-color: var(--app-bg);
-    border: 4px solid #1a2333;
-    border-radius: 24px;
+    position: relative; width: 400px; height: 650px;
+    background-color: var(--app-bg); border: 4px solid #1a2333; border-radius: 24px;
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.05);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden; display: flex; flex-direction: column;
 }
 
-/* Complete Screen Manager Shield Toggle Sets */
+/* Screen Manager Display Layout Shields */
 .screen-layout {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     padding: 30px 20px; display: flex; flex-direction: column;
@@ -50,6 +40,52 @@ body {
 
 .active-view { display: flex !important; }
 .hidden-view { display: none !important; }
+
+/* ==========================================================================
+   🌌 GAMING BACKGROUND GRAPHICS & TEXTURES
+   ========================================================================== */
+.landing-bg {
+    background: radial-gradient(circle at center, #0a1326 0%, var(--app-bg) 100%);
+}
+
+.cyber-grid-overlay {
+    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+    background-size: 25px 25px;
+    transform: perspective(300px) rotateX(60deg);
+    animation: gridScroll 8s linear infinite;
+    z-index: 1; pointer-events: none;
+}
+
+@keyframes gridScroll {
+    0% { transform: perspective(300px) rotateX(60deg) translateY(0); }
+    100% { transform: perspective(300px) rotateX(60deg) translateY(25px); }
+}
+
+/* Centered Layout Adjustments */
+.welcome-center-panel {
+    margin: auto 0; text-align: center; z-index: 2; width: 100%;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+}
+
+.brand-title-group { line-height: 1; text-align: center; }
+.runner-logo { font-size: 3.4rem; font-weight: 900; letter-spacing: 4px; display: inline-block; }
+.color-alt { color: var(--neon-blue); text-shadow: 0 0 15px rgba(0,240,255,0.4); }
+
+.game-description {
+    font-size: 0.8rem; color: #7388a6; line-height: 1.6; max-width: 90%;
+    text-align: center; letter-spacing: 0.5px;
+    animation: fadeInDesc 1s ease-out;
+}
+
+@keyframes fadeInDesc {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.welcome-action-group { width: 100%; z-index: 2; margin-bottom: 20px; }
 
 /* Global Top Navigation Telemetry Cap Overlay */
 #top-nav-telemetry {
@@ -62,19 +98,9 @@ body {
 @keyframes blink { 0% { opacity: 0.3; } 100% { opacity: 1; } }
 .wallet-tag { font-size: 0.9rem; font-weight: 900; color: var(--neon-gold); }
 
-/* 1. Loading Screens Components */
-.brand-title-group { margin-top: 150px; text-align: center; line-height: 1; }
-.runner-logo { font-size: 3.2rem; font-weight: 900; letter-spacing: 4px; display: inline-block; }
-.color-alt { color: var(--neon-blue); text-shadow: 0 0 15px rgba(0,240,255,0.3); }
-.loader-chassis { width: 100%; margin-bottom: 5px; }
-.bar-container { width: 100%; height: 4px; background-color: #0e131f; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
-.bar-fill { width: 0%; height: 100%; background-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
-.telemetry-status { font-size: 0.65rem; font-weight: 700; color: #435269; letter-spacing: 1px; text-center; }
-
 /* 2. Character Store Layout Cards */
-.section-title { font-size: 1.3rem; font-weight: 900; letter-spacing: 3px; color: #ffffff; margin-top: 35px; text-transform: uppercase; }
+.section-title { font-size: 1.2rem; font-weight: 900; letter-spacing: 3px; color: #ffffff; margin-top: 35px; text-transform: uppercase; }
 .chibi-store-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; margin: auto 0; overflow-y: auto; max-height: 420px; padding-right: 2px; }
-/* Custom Scrollbars */
 .chibi-store-grid::-webkit-scrollbar { width: 3px; }
 .chibi-store-grid::-webkit-scrollbar-thumb { background-color: var(--sys-border); }
 
@@ -90,18 +116,17 @@ body {
 .price-status-badge { position: absolute; top: 6px; right: 6px; font-size: 0.6rem; font-weight: 800; color: var(--neon-gold); padding: 2px 6px; background-color: #05070a; border-radius: 4px; }
 .badge-owned { color: #00ff88; }
 .avatar-name { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; color: #6f85a3; }
-.avatar-card.selected-active .avatar-name { color: var(--neon-blue); }
 
-/* 3. Command Central Home Showcase */
+/* 3. Central Command Home Showcase */
 .hub-profile-showcase { display: flex; flex-direction: column; align-items: center; margin-top: 90px; }
 .avatar-perspective-ring { width: 180px; height: 230px; display: flex; justify-content: center; position: relative; }
 .avatar-perspective-ring img { height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.8)); animation: hubFloat 3s infinite ease-in-out; }
 @keyframes hubFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 #hub-avatar-name { font-size: 1.5rem; font-weight: 900; letter-spacing: 4px; color: var(--neon-blue); text-shadow: 0 0 15px rgba(0,240,255,0.2); margin-top: 15px; text-transform: uppercase; }
 .hub-control-stack { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.stack-btn { padding: 16px; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; transition: all 0.2s ease; }
+.stack-btn { padding: 16px; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; transition: all 0.2s ease; text-align: center; }
 .pulse-launch { background-color: var(--neon-blue); color: #000; box-shadow: 0 0 20px rgba(0,240,255,0.2); }
-.pulse-launch:hover { background-color: #26ecff; box-shadow: 0 0 30px rgba(0,240,255,0.49); transform: scale(1.01); }
+.pulse-launch:hover { background-color: #26ecff; box-shadow: 0 0 30px rgba(0,240,255,0.4); transform: scale(1.01); }
 .cosmetic-btn { background-color: transparent; color: #6f85a3; border-color: var(--sys-border); }
 .cosmetic-btn:hover { border-color: #3e4d66; color: #fff; }
 
@@ -114,35 +139,32 @@ body {
 .bg-volcano { background: linear-gradient(90deg, #ff4500, transparent); }
 .bg-space   { background: linear-gradient(90deg, #b500ff, transparent); }
 .bg-grid    { background: linear-gradient(90deg, #ffffff, transparent); }
-.sector-strip span { font-size: 0.8rem; font-weight: 800; letter-spacing: 1.5px; z-index: 2; color: #5c7291; transition: color 0.2s ease; text-transform: uppercase; }
-.sector-strip:hover { border-color: #32435c; }
+.sector-strip span { font-size: 0.8rem; font-weight: 800; letter-spacing: 1.5px; z-index: 2; color: #5c7291; text-transform: uppercase; }
 .sector-strip.selected { border-color: var(--neon-gold); background-color: #14130f; }
 .sector-strip.selected .sector-strip-bg { opacity: 0.35; }
 .sector-strip.selected span { color: var(--neon-gold); }
 
-/* 5. In-Game Runtime Canvas Display & HUD layers */
-#game-stage { padding: 0 !important; overflow: hidden; background-color: #030407; }
-.gameplay-hud-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 70px; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; z-index: 30; background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%); }
-.hud-circle-btn { width: 36px; height: 36px; border-radius: 50%; background-color: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #fff; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; cursor: pointer; transition: all 0.15s ease; }
-.hud-circle-btn:hover { background-color: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); }
-.exit-btn:hover { border-color: var(--neon-pink); background-color: rgba(255,0,127,0.1); }
-#live-score-tracker { font-size: 1rem; font-weight: 900; letter-spacing: 2px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+/* 5. Loader Bars & Action Buttons */
+.loader-chassis { width: 100%; }
+.bar-container { width: 100%; height: 4px; background-color: #0e131f; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
+.bar-fill { width: 0%; height: 100%; background-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
+.telemetry-status { font-size: 0.65rem; font-weight: 700; color: #435269; letter-spacing: 1px; }
 
-#gameCanvas { width: 100%; height: 100%; display: block; background-color: #04060a; }
-
-/* Pause Windows Coverings */
-.runtime-modal-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(3,5,8,0.85); display: flex; justify-content: center; align-items: center; z-index: 40; }
-.stasis-card { background-color: var(--panel-bg); border: 1px solid var(--neon-gold); padding: 30px; border-radius: 12px; text-align: center; width: 85%; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
-.stasis-card h3 { font-size: 1.1rem; font-weight: 900; color: var(--neon-gold); letter-spacing: 2px; margin-bottom: 4px; }
-.stasis-card p { font-size: 0.75rem; color: #4e5e75; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
-.modal-btn { width: 100%; padding: 12px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; margin-bottom: 8px; transition: all 0.15s ease; }
-.confirm-btn { background-color: var(--neon-gold); color: #000; }
-.abort-btn { background-color: transparent; color: #6f85a3; border-color: var(--sys-border); }
-.abort-btn:hover { border-color: var(--neon-pink); color: var(--neon-pink); }
-
-/* Unified Action Form Triggers */
 .action-trigger-btn { width: 100%; padding: 16px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; border-radius: 8px; border: 1px solid var(--sys-border); background-color: transparent; color: #35455c; transition: all 0.15s ease; cursor: not-allowed; margin-bottom: 5px; }
 .action-trigger-btn.ready-buy { border-color: var(--neon-gold); color: var(--neon-gold); cursor: pointer; }
 .action-trigger-btn.ready-buy:hover { background-color: var(--neon-gold); color: #000; }
 .action-trigger-btn.ready-select { border-color: var(--neon-blue); color: var(--neon-blue); cursor: pointer; }
 .action-trigger-btn.ready-select:hover { background-color: var(--neon-blue); color: #000; box-shadow: 0 0 20px rgba(0,240,255,0.3); }
+
+#game-stage { padding: 0 !important; overflow: hidden; background-color: #030407; }
+.gameplay-hud-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 70px; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; z-index: 30; background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%); }
+.hud-circle-btn { width: 36px; height: 36px; border-radius: 50%; background-color: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #fff; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; cursor: pointer; }
+#live-score-tracker { font-size: 1rem; font-weight: 900; letter-spacing: 2px; color: #fff; }
+#gameCanvas { width: 100%; height: 100%; display: block; }
+.runtime-modal-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(3,5,8,0.85); display: flex; justify-content: center; align-items: center; z-index: 40; }
+.stasis-card { background-color: var(--panel-bg); border: 1px solid var(--neon-gold); padding: 30px; border-radius: 12px; text-align: center; width: 85%; }
+.modal-btn { width: 100%; padding: 12px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; margin-bottom: 8px; }
+.confirm-btn { background-color: var(--neon-gold); color: #000; }
+.abort-btn { background-color: transparent; color: #6f85a3; border-color: var(--sys-border); }
+
+.hidden { display: none !important; }
