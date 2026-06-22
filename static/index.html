@@ -3,39 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HexaJump - Enterprise Customization Dashboard</title>
+    <title>HexaJump - Ultimate Full-Stack Gaming Platform</title>
     <link rel="icon" href="data:;base64,iVBORw0kGgo=">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="game-container">
-        <div id="top-telemetry-bar">
-            <div class="status-indicator">
-                <span class="pulse-dot"></span> SYSTEM CORE: ACTIVE
-            </div>
-            <div class="wallet-indicator">
-                BALANCE: <span id="coin-count">1000</span> <span class="coin-icon">🪙</span>
+
+        <!-- SCREEN 1: THE SYSTEM INITIALIZATION BOOT LOADER -->
+        <div id="loading-screen" class="screen-card">
+            <h1 class="glitch-title">HEXAJUMP</h1>
+            <div class="loader-box">
+                <div class="progress-bar-container">
+                    <div id="boot-progress" class="progress-fill"></div>
+                </div>
+                <p class="loader-status">INITIALIZING NEURAL ENGINE CORE...</p>
             </div>
         </div>
 
-        <div id="launcher-screen" class="menu-card">
-            <h1>HEXAJUMP</h1>
-            <p class="subtitle">Character Matrix Customization Store</p>
-            
+        <!-- GLOBAL TOP SYSTEM STATUS MONITOR BAR (Hidden during loader) -->
+        <div id="top-telemetry-bar" class="hidden">
+            <div class="status-indicator"><span class="pulse-dot"></span> LINK: ACTIVE</div>
+            <div class="wallet-indicator">WALLET: <span id="coin-count">0</span> 🪙</div>
+        </div>
+
+        <!-- SCREEN 2: PREMIUM STORE & AVATAR CHARACTER MATRIX SELECTOR -->
+        <div id="store-screen" class="screen-card hidden">
+            <h2>CHARACTER CUSTOMIZATION MATRIX</h2>
+            <p class="panel-subtitle">Select Operator Profile to Synchronize Neural Loop</p>
             <div id="dynamic-avatar-grid" class="avatar-grid"></div>
+            <button id="store-action-btn" class="control-btn" disabled>Select Profile</button>
+        </div>
 
-            <div class="action-row">
-                <button id="store-action-btn" class="control-btn" disabled>Select Profile</button>
+        <!-- SCREEN 3: GAME HUB CENTRAL COMMAND (HOME VIEW) -->
+        <div id="home-screen" class="screen-card hidden">
+            <h2>COMMAND INTERFACE</h2>
+            <p class="panel-subtitle">System Status: Ready for Deployment</p>
+            
+            <div class="hub-layout">
+                <div class="active-profile-card">
+                    <h3>SELECTED OPERATOR</h3>
+                    <div class="hub-avatar-viewport">
+                        <img id="hub-avatar-img" src="" alt="Active Operator">
+                    </div>
+                    <h4 id="hub-avatar-name">NONE</h4>
+                </div>
+
+                <div class="hub-controls-panel">
+                    <button id="nav-to-modes-btn" class="menu-action-btn launch-btn">Proceed to Mode Selection</button>
+                    <button id="nav-back-to-store-btn" class="menu-action-btn fallback-btn">Change Avatar Character</button>
+                </div>
             </div>
         </div>
 
+        <!-- SCREEN 4: WORLDS & ENVIRONMENTS MODE SELECTOR -->
+        <div id="modes-screen" class="screen-card hidden">
+            <h2>WORLD ENVIRONMENT SELECTOR</h2>
+            <p class="panel-subtitle">Choose Sector Grid Vector Path Running Destination</p>
+            
+            <div class="modes-carousel">
+                <div class="mode-card" data-mode="cyber">
+                    <div class="mode-preview preview-cyber"></div>
+                    <span>Cyber City Grid</span>
+                </div>
+                <div class="mode-card" data-mode="jungle">
+                    <div class="mode-preview preview-jungle"></div>
+                    <span>Mystic Jungle</span>
+                </div>
+                <div class="mode-card" data-mode="volcano">
+                    <div class="mode-preview preview-volcano"></div>
+                    <span>Volcano Core</span>
+                </div>
+                <div class="mode-card" data-mode="space">
+                    <div class="mode-preview preview-space"></div>
+                    <span>Deep Space Void</span>
+                </div>
+                <div class="mode-card" data-mode="grid">
+                    <div class="mode-preview preview-grid"></div>
+                    <span>Neon Retro Field</span>
+                </div>
+            </div>
+            <button id="launch-game-engine-btn" class="control-btn" disabled>Initialize Running Loop</button>
+        </div>
+
+        <!-- SCREEN 5: RUNTIME CANVAS ENVIRONMENT PIPELINE -->
         <div id="game-stage" class="hidden">
-            <canvas id="gameCanvas" width="800" height="450"></canvas>
-            <div class="canvas-controls">
-                <p>Use [ SPACEBAR ] or Click Canvas Frame to JUMP and scale difficulty levels!</p>
+            <div class="gameplay-header">
+                <button id="pause-engine-btn" class="game-nav-btn">⏸️ Pause Run</button>
+                <button id="abort-to-home-btn" class="game-nav-btn danger-btn">🏠 Abort to Home</button>
+            </div>
+
+            <div class="canvas-viewport-wrapper">
+                <canvas id="gameCanvas" width="800" height="450"></canvas>
+                
+                <!-- Overlay Break Window (Pause Menu Menu) -->
+                <div id="pause-overlay" class="canvas-overlay hidden">
+                    <div class="overlay-card">
+                        <h3>NEURAL STASIS MODE</h3>
+                        <p>Game Loop Suspended Safely</p>
+                        <div class="overlay-button-row">
+                            <button id="resume-engine-btn" class="overlay-btn primary-btn">Resume Run</button>
+                            <button id="pause-exit-home-btn" class="overlay-btn danger-btn">Exit to Home</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HexaJump - Ultimate Full-Stack Gaming Platform</title>
+    <link rel="icon" href="data:;base64,iVBORw0kGgo=">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-container">
+
+        <!-- SCREEN 1: THE SYSTEM INITIALIZATION BOOT LOADER -->
+        <div id="loading-screen" class="screen-card">
+            <h1 class="glitch-title">HEXAJUMP</h1>
+            <div class="loader-box">
+                <div class="progress-bar-container">
+                    <div id="boot-progress" class="progress-fill"></div>
+                </div>
+                <p class="loader-status">INITIALIZING NEURAL ENGINE CORE...</p>
+            </div>
+        </div>
+
+        <!-- GLOBAL TOP SYSTEM STATUS MONITOR BAR (Hidden during loader) -->
+        <div id="top-telemetry-bar" class="hidden">
+            <div class="status-indicator"><span class="pulse-dot"></span> LINK: ACTIVE</div>
+            <div class="wallet-indicator">WALLET: <span id="coin-count">0</span> 🪙</div>
+        </div>
+
+        <!-- SCREEN 2: PREMIUM STORE & AVATAR CHARACTER MATRIX SELECTOR -->
+        <div id="store-screen" class="screen-card hidden">
+            <h2>CHARACTER CUSTOMIZATION MATRIX</h2>
+            <p class="panel-subtitle">Select Operator Profile to Synchronize Neural Loop</p>
+            <div id="dynamic-avatar-grid" class="avatar-grid"></div>
+            <button id="store-action-btn" class="control-btn" disabled>Select Profile</button>
+        </div>
+
+        <!-- SCREEN 3: GAME HUB CENTRAL COMMAND (HOME VIEW) -->
+        <div id="home-screen" class="screen-card hidden">
+            <h2>COMMAND INTERFACE</h2>
+            <p class="panel-subtitle">System Status: Ready for Deployment</p>
+            
+            <div class="hub-layout">
+                <div class="active-profile-card">
+                    <h3>SELECTED OPERATOR</h3>
+                    <div class="hub-avatar-viewport">
+                        <img id="hub-avatar-img" src="" alt="Active Operator">
+                    </div>
+                    <h4 id="hub-avatar-name">NONE</h4>
+                </div>
+
+                <div class="hub-controls-panel">
+                    <button id="nav-to-modes-btn" class="menu-action-btn launch-btn">Proceed to Mode Selection</button>
+                    <button id="nav-back-to-store-btn" class="menu-action-btn fallback-btn">Change Avatar Character</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: WORLDS & ENVIRONMENTS MODE SELECTOR -->
+        <div id="modes-screen" class="screen-card hidden">
+            <h2>WORLD ENVIRONMENT SELECTOR</h2>
+            <p class="panel-subtitle">Choose Sector Grid Vector Path Running Destination</p>
+            
+            <div class="modes-carousel">
+                <div class="mode-card" data-mode="cyber">
+                    <div class="mode-preview preview-cyber"></div>
+                    <span>Cyber City Grid</span>
+                </div>
+                <div class="mode-card" data-mode="jungle">
+                    <div class="mode-preview preview-jungle"></div>
+                    <span>Mystic Jungle</span>
+                </div>
+                <div class="mode-card" data-mode="volcano">
+                    <div class="mode-preview preview-volcano"></div>
+                    <span>Volcano Core</span>
+                </div>
+                <div class="mode-card" data-mode="space">
+                    <div class="mode-preview preview-space"></div>
+                    <span>Deep Space Void</span>
+                </div>
+                <div class="mode-card" data-mode="grid">
+                    <div class="mode-preview preview-grid"></div>
+                    <span>Neon Retro Field</span>
+                </div>
+            </div>
+            <button id="launch-game-engine-btn" class="control-btn" disabled>Initialize Running Loop</button>
+        </div>
+
+        <!-- SCREEN 5: RUNTIME CANVAS ENVIRONMENT PIPELINE -->
+        <div id="game-stage" class="hidden">
+            <div class="gameplay-header">
+                <button id="pause-engine-btn" class="game-nav-btn">⏸️ Pause Run</button>
+                <button id="abort-to-home-btn" class="game-nav-btn danger-btn">🏠 Abort to Home</button>
+            </div>
+
+            <div class="canvas-viewport-wrapper">
+                <canvas id="gameCanvas" width="800" height="450"></canvas>
+                
+                <!-- Overlay Break Window (Pause Menu Menu) -->
+                <div id="pause-overlay" class="canvas-overlay hidden">
+                    <div class="overlay-card">
+                        <h3>NEURAL STASIS MODE</h3>
+                        <p>Game Loop Suspended Safely</p>
+                        <div class="overlay-button-row">
+                            <button id="resume-engine-btn" class="overlay-btn primary-btn">Resume Run</button>
+                            <button id="pause-exit-home-btn" class="overlay-btn danger-btn">Exit to Home</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HexaJump - Ultimate Full-Stack Gaming Platform</title>
+    <link rel="icon" href="data:;base64,iVBORw0kGgo=">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-container">
+
+        <!-- SCREEN 1: THE SYSTEM INITIALIZATION BOOT LOADER -->
+        <div id="loading-screen" class="screen-card">
+            <h1 class="glitch-title">HEXAJUMP</h1>
+            <div class="loader-box">
+                <div class="progress-bar-container">
+                    <div id="boot-progress" class="progress-fill"></div>
+                </div>
+                <p class="loader-status">INITIALIZING NEURAL ENGINE CORE...</p>
+            </div>
+        </div>
+
+        <!-- GLOBAL TOP SYSTEM STATUS MONITOR BAR (Hidden during loader) -->
+        <div id="top-telemetry-bar" class="hidden">
+            <div class="status-indicator"><span class="pulse-dot"></span> LINK: ACTIVE</div>
+            <div class="wallet-indicator">WALLET: <span id="coin-count">0</span> 🪙</div>
+        </div>
+
+        <!-- SCREEN 2: PREMIUM STORE & AVATAR CHARACTER MATRIX SELECTOR -->
+        <div id="store-screen" class="screen-card hidden">
+            <h2>CHARACTER CUSTOMIZATION MATRIX</h2>
+            <p class="panel-subtitle">Select Operator Profile to Synchronize Neural Loop</p>
+            <div id="dynamic-avatar-grid" class="avatar-grid"></div>
+            <button id="store-action-btn" class="control-btn" disabled>Select Profile</button>
+        </div>
+
+        <!-- SCREEN 3: GAME HUB CENTRAL COMMAND (HOME VIEW) -->
+        <div id="home-screen" class="screen-card hidden">
+            <h2>COMMAND INTERFACE</h2>
+            <p class="panel-subtitle">System Status: Ready for Deployment</p>
+            
+            <div class="hub-layout">
+                <div class="active-profile-card">
+                    <h3>SELECTED OPERATOR</h3>
+                    <div class="hub-avatar-viewport">
+                        <img id="hub-avatar-img" src="" alt="Active Operator">
+                    </div>
+                    <h4 id="hub-avatar-name">NONE</h4>
+                </div>
+
+                <div class="hub-controls-panel">
+                    <button id="nav-to-modes-btn" class="menu-action-btn launch-btn">Proceed to Mode Selection</button>
+                    <button id="nav-back-to-store-btn" class="menu-action-btn fallback-btn">Change Avatar Character</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: WORLDS & ENVIRONMENTS MODE SELECTOR -->
+        <div id="modes-screen" class="screen-card hidden">
+            <h2>WORLD ENVIRONMENT SELECTOR</h2>
+            <p class="panel-subtitle">Choose Sector Grid Vector Path Running Destination</p>
+            
+            <div class="modes-carousel">
+                <div class="mode-card" data-mode="cyber">
+                    <div class="mode-preview preview-cyber"></div>
+                    <span>Cyber City Grid</span>
+                </div>
+                <div class="mode-card" data-mode="jungle">
+                    <div class="mode-preview preview-jungle"></div>
+                    <span>Mystic Jungle</span>
+                </div>
+                <div class="mode-card" data-mode="volcano">
+                    <div class="mode-preview preview-volcano"></div>
+                    <span>Volcano Core</span>
+                </div>
+                <div class="mode-card" data-mode="space">
+                    <div class="mode-preview preview-space"></div>
+                    <span>Deep Space Void</span>
+                </div>
+                <div class="mode-card" data-mode="grid">
+                    <div class="mode-preview preview-grid"></div>
+                    <span>Neon Retro Field</span>
+                </div>
+            </div>
+            <button id="launch-game-engine-btn" class="control-btn" disabled>Initialize Running Loop</button>
+        </div>
+
+        <!-- SCREEN 5: RUNTIME CANVAS ENVIRONMENT PIPELINE -->
+        <div id="game-stage" class="hidden">
+            <div class="gameplay-header">
+                <button id="pause-engine-btn" class="game-nav-btn">⏸️ Pause Run</button>
+                <button id="abort-to-home-btn" class="game-nav-btn danger-btn">🏠 Abort to Home</button>
+            </div>
+
+            <div class="canvas-viewport-wrapper">
+                <canvas id="gameCanvas" width="800" height="450"></canvas>
+                
+                <!-- Overlay Break Window (Pause Menu Menu) -->
+                <div id="pause-overlay" class="canvas-overlay hidden">
+                    <div class="overlay-card">
+                        <h3>NEURAL STASIS MODE</h3>
+                        <p>Game Loop Suspended Safely</p>
+                        <div class="overlay-button-row">
+                            <button id="resume-engine-btn" class="overlay-btn primary-btn">Resume Run</button>
+                            <button id="pause-exit-home-btn" class="overlay-btn danger-btn">Exit to Home</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="game.js"></script>
