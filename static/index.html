@@ -9,32 +9,52 @@
 </head>
 <body>
 
+    <!-- Unified Vertical Smartphone Device Enclosure Frame -->
     <div id="mobile-device-frame">
 
-        <div id="loading-screen" class="active-view screen-layout">
-            <div class="brand-title-group">
-                <h1 class="runner-logo">HEXA</h1>
-                <h1 class="runner-logo color-alt">JUMP</h1>
-            </div>
-            <div class="loader-chassis">
-                <div class="bar-container">
-                    <div id="boot-progress" class="bar-fill"></div>
+        <!-- SCREEN 1: DYNAMIC WELCOME LANDING SCREEN -->
+        <div id="loading-screen" class="active-view screen-layout landing-bg">
+            <!-- Animated Tech Grid Overlay Background Effect -->
+            <div class="cyber-grid-overlay"></div>
+            
+            <div class="welcome-center-panel">
+                <div class="brand-title-group">
+                    <h1 class="runner-logo">HEXA</h1>
+                    <h1 class="runner-logo color-alt">JUMP</h1>
                 </div>
-                <p class="telemetry-status">SYNCHRONIZING OPERATOR STATE...</p>
+                
+                <!-- Game Description Block -->
+                <p class="game-description">
+                    Dodge high-voltage barriers, collect infinite crypto cores, and survive the terminal velocity loop across 5 neon cyber sectors in this ultimate 3D full-stack arcade runner.
+                </p>
+            </div>
+
+            <!-- Interactive Route Access Button to Operators Page -->
+            <div class="welcome-action-group">
+                <button id="welcome-enter-btn" class="stack-btn pulse-launch">ENTER AVATAR MATRIX</button>
+                <div class="loader-chassis hidden">
+                    <div class="bar-container">
+                        <div id="boot-progress" class="bar-fill"></div>
+                    </div>
+                    <p class="telemetry-status">SYNCHRONIZING OPERATOR STATE...</p>
+                </div>
             </div>
         </div>
 
+        <!-- GLOBAL NAVIGATION OVERLAY CAP -->
         <div id="top-nav-telemetry" class="hidden-view">
             <div class="sys-tag"><span class="live-blink"></span> CORE LIVE</div>
             <div class="wallet-tag"><span id="coin-count">0</span> 🪙</div>
         </div>
 
+        <!-- SCREEN 2: AVATAR CUSTOMIZATION MATRIX (STORE) -->
         <div id="store-screen" class="hidden-view screen-layout">
             <h2 class="section-title">OPERATOR SYSTEM</h2>
             <div id="dynamic-avatar-grid" class="chibi-store-grid"></div>
             <button id="store-action-btn" class="action-trigger-btn" disabled>SELECT PROFILE</button>
         </div>
 
+        <!-- SCREEN 3: COMMAND HUB INTERFACE (HOME CENTRAL) -->
         <div id="home-screen" class="hidden-view screen-layout">
             <div class="hub-profile-showcase">
                 <div class="avatar-perspective-ring">
@@ -48,6 +68,7 @@
             </div>
         </div>
 
+        <!-- SCREEN 4: ENVIRONMENTAL WORLD SECTOR CAROUSEL -->
         <div id="modes-screen" class="hidden-view screen-layout">
             <h2 class="section-title">SECTOR MATRIX</h2>
             <div class="sectors-vertical-stack">
@@ -75,6 +96,7 @@
             <button id="launch-game-engine-btn" class="action-trigger-btn" disabled>ENGAGE SYSTEM LINK</button>
         </div>
 
+        <!-- SCREEN 5: ACTIVE ENDLESS ENGINE STAGE VIEWPORT -->
         <div id="game-stage" class="hidden-view screen-layout">
             <div class="gameplay-hud-overlay">
                 <button id="pause-engine-btn" class="hud-circle-btn">⏸️</button>
