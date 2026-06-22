@@ -1,340 +1,330 @@
 /* ==========================================================================
-   HEXAJUMP - ULTIMATE CORE ARCADE ENGINE (FULL PHYSICS & ECONOMY)
+   HEXAJUMP - FULL STATE ENGINE & MULTI-SCREEN PIPELINE LOOP
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // DEFINITION MATRIX: Central Registry of 6 Unified Character Asset Layers
+    // DEFINITION MATRIX: Central Character Registry Mapping to Local Assets
     const AVATAR_REGISTRY = [
-        { id: 'm1', name: 'Alpha', gender: 'male', price: 0 },
-        { id: 'm2', name: 'Striker', gender: 'male', price: 100 },
-        { id: 'm3', name: 'Maverick', gender: 'male', price: 250 },
-        { id: 'f1', name: 'Nova', gender: 'female', price: 0 },
-        { id: 'f2', name: 'Valkyrie', gender: 'female', price: 150 },
-        { id: 'f3', name: 'Athena', gender: 'female', price: 300 }
+        { id: 'm1', name: 'Alpha', gender: 'male', src: 'assets/alpha.png', price: 0 },
+        { id: 'm2', name: 'Striker', gender: 'male', src: 'assets/striker.png', price: 100 },
+        { id: 'm3', name: 'Maverick', gender: 'male', src: 'assets/maverick.png', price: 250 },
+        { id: 'f1', name: 'Nova', gender: 'female', src: 'assets/nova.png', price: 0 },
+        { id: 'f2', name: 'Valkyrie', gender: 'female', src: 'assets/valkyrie.png', price: 150 },
+        { id: 'f3', name: 'Athena', gender: 'female', src: 'assets/athena.png', price: 300 }
     ];
 
-    // ENGINE CLIENT STATE VARIABLES
-    let coinWallet = 0;
-    let unlockedIds = [];
-    let activeProfileId = null;
-    let focusedCardId = null;
-    let registeredHighScores = {};
+    // DEFINITION MATRIX: 5 Distinct Environment Sectors
+    const WORLD_MODES = {
+        cyber: { name: "Cyber City Grid", skyColor: "#030712", floorColor: "#00f0ff" },
+        jungle: { name: "Mystic Jungle", skyColor: "#021208", floorColor: "#00ff88" },
+        volcano: { name: "Volcano Core", skyColor: "#1c0505", floorColor: "#ff4500" },
+        space: { name: "Deep Space Void", skyColor: "#0b021c", floorColor: "#b500ff" },
+        grid: { name: "Neon Retro Field", skyColor: "#0d0d0d", floorColor: "#ffffff" }
+    };
 
-    // 🕹️ GAMEPLAY PHYSICS ENGINE CONFIGURATION
+    // SYSTEM ROUTING CORE STATE
+    let coinWallet = 0; let unlockedList = [];
+    let activeSelectionId = null; let focusedCardId = null;
+    let designatedWorldMode = null;
+
+    // PHYSICS & CANVAS CORE RUNTIME
     const canvas = document.getElementById('gameCanvas');
-    let ctx = null;
-    let renderFrameId = null;
-    let isLoopRunning = false;
+    let ctx = null; let renderFrameId = null;
+    let isGameRunning = false; let isPaused = false;
 
-    // Movement States & Vectors
-    let operatorX = 150; let operatorY = 350;
-    let charVelocityY = 0; let charVelocityX = 0;
+    let characterY = 350; let velocityY = 0;
+    let obstacleX = 850; let gameSpeed = 4.5; // Smooth reduced baseline speed
+
+    // ANIMATION REGISTER (Handles realistic running stride)
+    let strideFrameCounter = 0;
+
+    // DOM NODE MAPPERS
+    const loadingScreen = document.getElementById('loading-screen');
+    const bootBar = document.getElementById('boot-progress');
+    const telemetryBar = document.getElementById('top-telemetry-bar');
+    const storeScreen = document.getElementById('store-screen');
+    const gridContainer = document.getElementById('dynamic-avatar-grid');
+    const storeActionButton = document.getElementById('store-action-btn');
     
-    // ARCADE GAME TUNING (REDUCED VELOCITY CONFIGURATION)
-    let gameSpeedScalar = 5; // <--- This reduces the base level scaling speed!
-    let difficultyLevel = 1; let gameTimeFrames = 0;
-    let sessionScore = 0;
-    const Gravity = 0.6; const GroundY = 350;
+    // Home View Elements
+    const homeScreen = document.getElementById('home-screen');
+    const hubAvatarImg = document.getElementById('hub-avatar-img');
+    const hubAvatarName = document.getElementById('hub-avatar-name');
+    
+    // Mode Screen Elements
+    const modesScreen = document.getElementById('modes-screen');
+    const modeCards = document.querySelectorAll('.mode-card');
+    const launchGameEngineBtn = document.getElementById('launch-game-engine-btn');
 
-    // Obstacle Management Arrays
-    let obstacleBlocks = [];
-    let coinAssets = [];
-
-    // UI POINTER NODES
-    const launcherScreen = document.getElementById('launcher-screen');
-    const dynamicGrid = document.getElementById('dynamic-avatar-grid');
-    const actionButton = document.getElementById('store-action-btn');
-    const coinMonitor = document.getElementById('coin-count');
-    const gameplayStage = document.getElementById('game-stage');
+    // Gameplay Controls
+    const gameStage = document.getElementById('game-stage');
+    const pauseOverlay = document.getElementById('pause-overlay');
 
     // --------------------------------------------------------------------------
-    // State Synchronization Layer (API Integration with app.py)
+    // SCREEN 1: AUTOMATED BOOT LOADER progress SYSTEM
     // --------------------------------------------------------------------------
-    async function synchronizeAccountState() {
+    function triggerBootLoaderSequence() {
+        let currentProgress = 0;
+        const loaderInterval = setInterval(() => {
+            currentProgress += Math.floor(Math.random() * 8) + 2;
+            if (currentProgress >= 100) {
+                currentProgress = 100;
+                clearInterval(loaderInterval);
+                // System Boot Complete -> Fetch data and route to character selector
+                loadingScreen.classList.add('hidden');
+                telemetryBar.classList.remove('hidden');
+                synchronizeSystemDatabase();
+            }
+            bootBar.style.width = `${currentProgress}%`;
+        }, 60);
+    }
+
+    // --------------------------------------------------------------------------
+    // STATE LAYER: DATABASE INTERFACE SYNCHRONIZATION
+    // --------------------------------------------------------------------------
+    async function synchronizeSystemDatabase() {
         try {
             const response = await fetch('/api/player/data');
             const data = await response.json();
             coinWallet = data.coins;
-            unlockedIds = data.unlocked_avatars;
-            activeProfileId = data.selected_avatar;
-            registeredHighScores = data.high_scores; // Import high scores from server
+            unlockedList = data.unlocked_avatars;
+            activeSelectionId = data.selected_avatar;
+
+            document.getElementById('coin-count').textContent = coinWallet;
             
-            coinMonitor.textContent = coinWallet;
-            renderCharacterSelectionGrid();
-        } catch (error) { console.error("Session breakdown exception critical: ", error); }
+            // Initial routing checklist
+            if (activeSelectionId) {
+                routeToHomeCommandHub();
+            } else {
+                routeToAvatarSelectorStore();
+            }
+        } catch (err) { console.error("System connection failure: ", err); }
     }
 
     // --------------------------------------------------------------------------
-    // Launcher Interface Logic & Grid Generator
+    // SCREEN 2: DYNAMIC CUSTOMIZATION STORE LOGIC
     // --------------------------------------------------------------------------
-    function renderCharacterSelectionGrid() {
-        dynamicGrid.innerHTML = '';
-        
-        AVATAR_REGISTRY.forEach(operator => {
-            const isUnlocked = unlockedIds.includes(operator.id);
-            const isCurrentlySelected = activeProfileId === operator.id;
-            
+    function routeToAvatarSelectorStore() {
+        homeScreen.classList.add('hidden');
+        storeScreen.classList.remove('hidden');
+        renderStoreGridPanel();
+    }
+
+    function renderStoreGridPanel() {
+        gridContainer.innerHTML = '';
+        AVATAR_REGISTRY.forEach(char => {
+            const isUnlocked = unlockedList.includes(char.id);
+            const isActive = activeSelectionId === char.id;
+
             const card = document.createElement('div');
-            card.className = `avatar-card ${operator.gender} ${!isUnlocked ? 'locked' : ''} ${isCurrentlySelected ? 'selected-active' : ''}`;
-            if (operator.id === focusedCardId) card.classList.add('focused-intent');
+            card.className = `avatar-card ${isActive ? 'selected-active' : ''} ${!isUnlocked ? 'locked' : ''}`;
+            if (char.id === focusedCardId) card.classList.add('focused-intent');
 
-            const priceTag = document.createElement('div');
-            priceTag.className = `price-status-badge ${isUnlocked ? 'badge-owned' : ''}`;
-            priceTag.textContent = isUnlocked ? 'OWNED' : `${operator.price} 🪙`;
-            card.appendChild(priceTag);
+            // Embed artwork texture from repo assets folder
+            const img = document.createElement('img');
+            img.src = char.src;
+            img.onerror = () => { img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24'><rect width='24' height='24' fill='%23222'/></svg>"; };
+            card.appendChild(img);
 
-            // Create Animated Mini-Figure Vectors
-            const figureFrame = document.createElement('div');
-            figureFrame.className = 'ultimate-chibi-icon';
-            const head = document.createElement('div'); head.className = 'chibi-head';
-            const body = document.createElement('div'); body.className = 'chibi-body';
-            figureFrame.appendChild(head); figureFrame.appendChild(body);
-            // Hands & Legs
-            const leftArm = document.createElement('div'); leftArm.className = 'chibi-arm left';
-            const rightArm = document.createElement('div'); rightArm.className = 'chibi-arm right';
-            const leftLeg = document.createElement('div'); leftLeg.className = 'chibi-leg left';
-            const rightLeg = document.createElement('div'); rightLeg.className = 'chibi-leg right';
-            figureFrame.appendChild(leftArm); figureFrame.appendChild(rightArm);
-            figureFrame.appendChild(leftLeg); figureFrame.appendChild(rightLeg);
-            card.appendChild(figureFrame);
-
-            const label = document.createElement('span');
-            label.textContent = operator.name;
-            card.appendChild(label);
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'avatar-name';
+            nameSpan.textContent = char.name;
+            card.appendChild(nameSpan);
 
             card.addEventListener('click', () => {
-                focusedCardId = operator.id;
+                focusedCardId = char.id;
                 document.querySelectorAll('.avatar-card').forEach(c => c.classList.remove('focused-intent'));
                 card.classList.add('focused-intent');
-                updateLauncherButtonContext(operator, isUnlocked);
+                updateStoreActionBtn(char, isUnlocked);
             });
 
-            dynamicGrid.appendChild(card);
+            gridContainer.appendChild(card);
         });
     }
 
-    function updateLauncherButtonContext(operator, isUnlocked) {
-        actionButton.disabled = false; actionButton.className = 'control-btn';
+    function updateStoreActionBtn(char, isUnlocked) {
+        storeActionButton.disabled = false;
+        storeActionButton.className = 'control-btn';
         if (isUnlocked) {
-            actionButton.textContent = (activeProfileId === operator.id) ? "DEPLOYED" : `SYNC [ ${operator.name.toUpperCase()} ]`;
-            if (activeProfileId === operator.id) { actionButton.disabled = true; } 
-            else { actionButton.classList.add('ready-deploy'); }
+            storeActionButton.textContent = (activeSelectionId === char.id) ? "CONFIRMED OPERATOR" : `SYNCHRONIZE [ ${char.name.toUpperCase()} ]`;
+            storeActionButton.classList.add('ready-select');
         } else {
-            if (coinWallet >= operator.price) {
-                actionButton.textContent = `UNLOCk [ ${operator.name.toUpperCase()} ] FOR ${operator.price} 🪙`;
-                actionButton.classList.add('ready-buy');
+            if (coinWallet >= char.price) {
+                storeActionButton.textContent = `UNLOCK PROTOCOL FOR ${char.price} 🪙`;
+                storeActionButton.classList.add('ready-buy');
             } else {
-                actionButton.textContent = "INSUFFICIENT FUNDS TRANSMISSION ERROR"; actionButton.disabled = true;
+                storeActionButton.textContent = "INSUFFICIENT FUNDS BALLANCE";
+                storeActionButton.disabled = true;
             }
         }
     }
 
-    // Launch execution listener chain
-    actionButton.addEventListener('click', async () => {
+    storeActionButton.addEventListener('click', async () => {
         if (!focusedCardId) return;
-        const targetOp = AVATAR_REGISTRY.find(o => o.id === focusedCardId);
-        const isUnlocked = unlockedIds.includes(focusedCardId);
+        const targetChar = AVATAR_REGISTRY.find(c => c.id === focusedCardId);
+        const isUnlocked = unlockedList.includes(focusedCardId);
 
         if (isUnlocked) {
-            // Select profile on server backend API path
-            const res = await fetch('/api/state/select', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({avatar_id: focusedCardId}) });
+            const res = await fetch('/api/state/select', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ avatar_id: focusedCardId })
+            });
             if (res.ok) {
-                launcherScreen.classList.add('hidden');
-                gameplayStage.classList.remove('hidden');
-                initializeArcadeGameLoop(); // Boot gameplay stage framework!
+                activeSelectionId = focusedCardId;
+                routeToHomeCommandHub();
             }
         } else {
-            // Execute transactional buy routine API path
-            const res = await fetch('/api/store/buy', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({avatar_id: focusedCardId, price: targetOp.price}) });
-            if (res.ok) { synchronizeAccountState(); }
+            const res = await fetch('/api/store/buy', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ avatar_id: focusedCardId, price: targetChar.price })
+            });
+            if (res.ok) { focusedCardId = null; storeActionButton.disabled = true; synchronizeSystemDatabase(); }
         }
     });
 
     // --------------------------------------------------------------------------
-    // Procedural Graphics Art Engine (Canvas Vector Sprites)
+    // SCREEN 3: HOME INTERFACE COMMAND HUB
     // --------------------------------------------------------------------------
-    function drawFullMiniFigure(context, x, y, avatar_id, angle=0) {
-        context.save();
-        context.translate(x, y);
-        context.rotate(angle);
+    function routeToHomeCommandHub() {
+        storeScreen.classList.add('hidden');
+        modesScreen.classList.add('hidden');
+        homeScreen.classList.remove('hidden');
 
-        // Core Gender-Free Character Colors (Driven by avatar dataset reference matrix)
-        const operatorGenders = AVATAR_REGISTRY.find(o => o.id === avatar_id).gender;
-        const maleColors = { h: '#ffcc99', b: '#00a8ff', s: '#ffffff' };
-        const femaleColors = { h: '#ffcccc', b: '#ff007f', s: '#ffffff' };
-        const palette = operatorGenders === 'male' ? maleColors : femaleColors;
-
-        context.strokeStyle = '#000000'; context.lineWidth = 2.5;
-
-        // Limbs detailing (Arms & Legs) - Pure vector drawing implementation
-        context.fillStyle = palette.s;
-        // Legs
-        context.fillRect(-10, 0, 5, 8); context.strokeRect(-10, 0, 5, 8);
-        context.fillRect(5, 0, 5, 8); context.strokeRect(5, 0, 5, 8);
-        // Arms
-        context.fillRect(-17, -20, 4, 10); context.strokeRect(-17, -20, 4, 10);
-        context.fillRect(13, -20, 4, 10); context.strokeRect(13, -20, 4, 10);
-
-        // Body block matrix layer
-        context.fillStyle = palette.b;
-        context.fillRect(-15, -25, 30, 25); context.strokeRect(-15, -25, 30, 25);
-
-        // Head geometry vector specifications
-        context.fillStyle = palette.h;
-        context.beginPath(); context.arc(0, -36, 13, 0, Math.PI * 2); context.fill(); context.stroke();
-
-        context.restore();
+        const activeCharacter = AVATAR_REGISTRY.find(c => c.id === activeSelectionId);
+        hubAvatarImg.src = activeCharacter.src;
+        hubAvatarName.textContent = activeCharacter.name.toUpperCase();
     }
 
+    document.getElementById('nav-back-to-store-btn').addEventListener('click', routeToAvatarSelectorStore);
+    document.getElementById('nav-to-modes-btn').addEventListener('click', () => {
+        homeScreen.classList.add('hidden');
+        modesScreen.classList.remove('hidden');
+    });
+
     // --------------------------------------------------------------------------
-    // Gameplay Arcade Runner Loop Mechanics
+    // SCREEN 4: RANDOM 5 ENVIRONMENTS MODE SELECTION ARCHITECTURE
     // --------------------------------------------------------------------------
-    function initializeArcadeGameLoop() {
+    modeCards.forEach(card => {
+        card.addEventListener('click', () => {
+            modeCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            designatedWorldMode = card.getAttribute('data-mode');
+            
+            launchGameEngineBtn.disabled = false;
+            launchGameEngineBtn.classList.add('ready-select');
+            launchGameEngineBtn.textContent = `INITIALIZE RUN IN ${WORLD_MODES[designatedWorldMode].name.toUpperCase()}`;
+        });
+    });
+
+    launchGameEngineBtn.addEventListener('click', () => {
+        if (!designatedWorldMode) return;
+        modesScreen.classList.add('hidden');
+        telemetryBar.classList.add('hidden'); // Clear telemetry bar for clean visual immersion
+        gameStage.classList.remove('hidden');
+        bootGameplayCanvasLoop();
+    });
+
+    // --------------------------------------------------------------------------
+    // SCREEN 5: RUNTIME CANVAS ENVIRONMENT LOOP PIPELINE
+    // --------------------------------------------------------------------------
+    function bootGameplayCanvasLoop() {
         ctx = canvas.getContext('2d');
-        isLoopRunning = true;
-        // Reset operational variables
-        operatorY = 350; charVelocityY = 0; charVelocityX = 0;
-        difficultyLevel = 1; gameTimeFrames = 0; sessionScore = 0;
-        gameSpeedScalar = 5;
-        obstacleBlocks = []; coinAssets = [];
+        isGameRunning = true; isPaused = false;
+        characterY = 350; velocityY = 0; obstacleX = 850; gameSpeed = 4.5;
+        strideFrameCounter = 0;
 
-        window.addEventListener('keydown', processUserInputs);
-        window.addEventListener('keyup', releaseUserInputs);
-        canvas.addEventListener('click', triggerMovementJumpAction);
-
-        requestAnimationFrame(updateArcadeRenderLoopFrame);
+        window.addEventListener('keydown', processPlayerJumpInput);
+        renderFrameId = requestAnimationFrame(executeCoreAppGameEngineLoop);
     }
 
-    // Interactive user controller mapping engine core
-    function processUserInputs(e) {
-        if (!isLoopRunning) return;
-        if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') triggerMovementJumpAction();
-        if (e.code === 'ArrowLeft' || e.code === 'KeyA') charVelocityX = -5;
-        if (e.code === 'ArrowRight' || e.code === 'KeyD') charVelocityX = 5;
-    }
-    function releaseUserInputs(e) {
-        if (e.code === 'ArrowLeft' || e.code === 'KeyA' || e.code === 'ArrowRight' || e.code === 'KeyD') charVelocityX = 0;
-    }
-    function triggerMovementJumpAction() {
-        if (operatorY === GroundY) { // Jump lock verification check
-            charVelocityY = -13;
-        }
+    function processPlayerJumpInput(e) {
+        if (e.code === 'Space' && characterY === 350) { velocityY = -12.5; }
     }
 
-    // Core animation runner pipeline
-    function updateArcadeRenderLoopFrame() {
-        if (!isLoopRunning) return;
+    // Interactive Breakdown Break Pausing Action Elements
+    const pauseButton = document.getElementById('pause-engine-btn');
+    const resumeButton = document.getElementById('resume-engine-btn');
+    const abortButton = document.getElementById('abort-to-home-btn');
+    const overlayExitHomeBtn = document.getElementById('pause-exit-home-btn');
 
-        // Viewport sanitize buffer flush layer
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pauseButton.addEventListener('click', () => { isPaused = true; pauseOverlay.classList.remove('hidden'); });
+    resumeButton.addEventListener('click', () => { isPaused = false; pauseOverlay.classList.add('hidden'); renderFrameId = requestAnimationFrame(executeCoreAppGameEngineLoop); });
+    
+    function exitGameplayAndReturnHome() {
+        isGameRunning = false; isPaused = false;
+        cancelAnimationFrame(renderFrameId);
+        window.removeEventListener('keydown', processPlayerJumpInput);
+        pauseOverlay.classList.add('hidden');
+        gameStage.classList.add('hidden');
+        telemetryBar.classList.remove('hidden');
+        synchronizeSystemDatabase();
+    }
+    abortButton.addEventListener('click', exitGameplayAndReturnHome);
+    overlayExitHomeBtn.addEventListener('click', exitGameplayAndReturnHome);
 
-        // Environment Structural Assets (Ground loop frame bounds logic layer assignment)
-        ctx.strokeStyle = '#1b2230'; ctx.lineWidth = 2.5;
+    function executeCoreAppGameEngineLoop() {
+        if (!isGameRunning || isPaused) return;
+
+        // Fetch our environmental colors configuration variables matching your choice
+        const activeTheme = WORLD_MODES[designatedWorldMode];
+
+        // Clear view space matrix matching the custom world theme
+        ctx.fillStyle = activeTheme.skyColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Render floor running path line matching selected environment color parameters
+        ctx.strokeStyle = activeTheme.floorColor; ctx.lineWidth = 3;
         ctx.beginPath(); ctx.moveTo(0, 350); ctx.lineTo(canvas.width, 350); ctx.stroke();
 
-        // 🚀 Player Physics Core: State management system
-        charVelocityY += Gravity;
-        operatorY += charVelocityY;
-        operatorX += charVelocityX; // Horizontal scaling constraints logic
+        // Stride physics mapping system updates
+        velocityY += 0.55; characterY += velocityY;
+        if (characterY >= 350) { characterY = 350; velocityY = 0; }
 
-        // Structural collision ground lock parameters
-        if (operatorY >= GroundY) { operatorY = GroundY; charVelocityY = 0; }
-        if (operatorX <= 25) operatorX = 25; if (operatorX >= canvas.width - 25) operatorX = canvas.width - 25;
+        // --- RUNNING SYSTEM ANIMATION ENGINE (SQUASH AND ROTATION LAYER) ---
+        strideFrameCounter++;
+        let runtimeRotationAngle = 0;
+        let animatedVerticalOffset = 0;
 
-        // Render active deployment skin layer specification
-        drawFullMiniFigure(ctx, operatorX, operatorY, activeProfileId);
-
-        // ARCADE LOOP MANAGEMENT: Procedural Level Scaling Engine core
-        gameTimeFrames++; sessionScore++;
-        // Programmatic level scaling trigger points (Every 1200 frames accelerate game loop frequency scalar)
-        if (gameTimeFrames % 1200 === 0) {
-            difficultyLevel++;
-            gameSpeedScalar += 1.5;
-        }
-
-        // --- Execute procedural object population loops (Obstacles & Coin Matrix assets) ---
-        handleObstacleObjectSystem();
-
-        // Canvas Telemetry Dashboard Layout Interface layer assignment parameters
-        ctx.fillStyle = '#6c7a89'; ctx.font = '11px monospace';
-        ctx.fillText(`OPERATIONAL LEVEL: 0${difficultyLevel}`, 20, 30);
-        ctx.fillText(`ACTIVE VELOCITY SCALAR: ${gameSpeedScalar.toFixed(1)}M/S`, 20, 50);
-
-        requestAnimationFrame(updateArcadeRenderLoopFrame);
-    }
-
-    // --------------------------------------------------------------------------
-    // Sub-Systems Core Logic Frames
-    // --------------------------------------------------------------------------
-    function handleObstacleObjectSystem() {
-        // ... (Obstacle spawning, movement, and collision logic matrix core frames remain)
-        // [SPAWN BLOCKS]
-        if (Math.random() < 0.02 * (gameSpeedScalar / 6)) { // Obstacle frequency scalar driven directly by gameSpeedScalar tuner parameter configuration setting file value output stream result 
-            obstacleBlocks.push({ x: canvas.width + 50, y: 320, w: 20, h: 30 });
-        }
-
-        // [PROCESS & DRAW]
-        obstacleBlocks.forEach((block, index) => {
-            block.x -= gameSpeedScalar;
-            ctx.fillStyle = '#ff007f'; ctx.fillRect(block.x, block.y, block.w, block.h);
-
-            // Crash Exception Crash Detection State
-            if (operatorX > block.x - 15 && operatorX < block.x + block.w + 15 && operatorY > block.y - 15) {
-                isLoopRunning = false;
-                terminateArcadeLoopSession(); // Trigger Game Over frame unmount router pathway assignment!
-            }
-        });
-        obstacleBlocks = obstacleBlocks.filter(b => b.x > -50); // Sanitize buffer nodes
-    }
-
-    // COMMAND: Terminate active rendering loops and shift to Game Over matrix view state routers
-    async function terminateArcadeLoopSession() {
-        cancelAnimationFrame(renderFrameId);
-        window.removeEventListener('keydown', processUserInputs);
-
-        const currentOpName = AVATAR_REGISTRY.find(o => o.id === activeProfileId).name;
-        
-        const res = await fetch('/api/game/over', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                score: sessionScore,
-                avatar_id: activeProfileId,
-                coins_earned: 0 // (Currency accumulation loop framework for points collection logic can be added later)
-            })
-        });
-
-        // Initialize unique Game Over Canvas Frame View state routers assignment
-        ctx.fillStyle = 'rgba(0,0,0,0.85)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Core Status Metadata Dashboard frame logic parameters specifications definitions matrix configurations layout
-        ctx.fillStyle = '#ffffff'; ctx.font = '28px Segoe UI'; ctx.textAlign = 'center'; ctx.fillText("NEURAL STATE SYNCHRONIZATION ERROR: DROPPED LOOP DETECTED", canvas.width / 2, 120);
-        
-        ctx.font = '14px Segoe UI'; ctx.fillStyle = '#ff007f'; ctx.fillText(`SESSION ARCHIVE LOG - Level threshold loop reached at state: ${currentOpName.toUpperCase()}`, canvas.width / 2, 160);
-
-        ctx.fillStyle = '#6c7a89'; ctx.font = '12px monospace';
-        ctx.fillText(`SESSION METRICS // CLEARED STATES: ${sessionScore.toUpperCase()}`, canvas.width / 2, 220);
-        ctx.fillText(`OPERATOR LEVEL: 0${difficultyLevel.toUpperCase()}`, canvas.width / 2, 240);
-        
-        // Finalized high-score telemetry validation state路由器 assignment
-        if (sessionScore > registeredHighScores[activeProfileId]) {
-             ctx.fillStyle = '#ffb700'; ctx.font = '14px Segoe UI'; ctx.fillText("🌟 NEW HIGH NEURAL SCORE LOCKED! 🌟", canvas.width / 2, 280);
-             ctx.fillStyle = '#ffffff'; ctx.fillText(`FINAL VALIDATED SCORE: ${sessionScore}`, canvas.width / 2, 305);
+        if (characterY < 350) {
+            // Jump state rotation matrix
+            runtimeRotationAngle = (strideFrameCounter * 0.05) % (Math.PI * 2);
         } else {
-             ctx.fillStyle = '#6c7a89'; ctx.fillText(`NEURAL LOG SCORE: ${sessionScore}`, canvas.width / 2, 280);
-             ctx.fillStyle = '#ffb700'; ctx.fillText(`OPERATOR HISTORICAL BEST [${activeProfileId.toUpperCase()}]: ${registeredHighScores[activeProfileId]}`, canvas.width / 2, 305);
+            // Dynamic up and down bounce matching stride stride frequencies
+            animatedVerticalOffset = Math.sin(strideFrameCounter * 0.25) * 4;
         }
 
-        // Draw Interactive Replay Control Engine logic points configurations setting parameters assignments setting value output file map
-        // (NOTE: Direct canvas interaction requires complex click boundary mapping logic layers - Recommend using standard HTML DOM overlay buttons for advanced industrial view stability.)
-        alert(`CRASH LOG TERMINATION: Your run has ended. Retrying Level threshold loops for operator state...`);
-        // Force state reset router shift router router router logic settings settings settings settings parameters settings parameters settings configuration value
-        gameplayStage.classList.add('hidden');
-        launcherScreen.classList.remove('hidden');
-        focusedCardId = null; // Flush focused intent targets before initialization synchronization loop call cascade routers pathways router parameters settings settings settings parameters setting file map configuration value
-        synchronizeAccountState(); // Synchronize wallet updates and high-score metrics validation state locks immediately on server backend API pathway return cascade value output value
+        // Draw your ultra-premium character image directly inside the gameplay loop coordinate box!
+        const activeCharacterData = AVATAR_REGISTRY.find(c => c.id === activeSelectionId);
+        
+        ctx.save();
+        ctx.translate(150, characterY - 45 + animatedVerticalOffset);
+        ctx.rotate(runtimeRotationAngle);
+        
+        // Render image element texture frames matching dimensions cleanly
+        const imageElement = new Image();
+        imageElement.src = activeCharacterData.src;
+        ctx.drawImage(imageElement, -30, -40, 60, 80);
+        
+        ctx.restore();
+
+        // Move obstacle items across tracks safely
+        obstacleX -= gameSpeed;
+        if (obstacleX < -30) obstacleX = 850;
+
+        // Draw obstacle blocks matching environment styles
+        ctx.fillStyle = "#ff007f";
+        ctx.fillRect(obstacleX, 325, 20, 25);
+
+        // Collision reset router mappings
+        if (obstacleX > 120 && obstacleX < 170 && characterY > 310) {
+            obstacleX = 850;
+            alert("COLLISION MAP WARNING: Loop Resetting safely...");
+        }
+
+        renderFrameId = requestAnimationFrame(executeCoreAppGameEngineLoop);
     }
 
-    // Start initialization workflow pipeline cascade
-    synchronizeAccountState();
+    // Trigger boot pipeline sequence directly on execution load
+    triggerBootLoaderSequence();
 });
