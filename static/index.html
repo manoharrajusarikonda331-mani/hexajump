@@ -3,65 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HexaJump - Ultimate Full-Stack Gaming Platform</title>
+    <title>HexaJump - Premium Customization Dashboard</title>
     <link rel="icon" href="data:;base64,iVBORw0kGgo=">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="game-container">
-        <div id="launcher-screen" class="menu-card">
-            <h1>HEXAJUMP</h1>
-            <p class="subtitle">Select Character Profile To Enter The Endless Loop</p>
-            
-            <div class="avatar-grid">
-                <div class="avatar-card male" data-avatar="m1">
-                    <div class="character-viewport">
-                        <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&w=200&q=80" alt="Alpha" class="chibi-render">
-                    </div>
-                    <span>Alpha // M1</span>
-                </div>
-
-                <div class="avatar-card male" data-avatar="m2">
-                    <div class="character-viewport">
-                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" alt="Striker" class="chibi-render">
-                    </div>
-                    <span>Striker // M2</span>
-                </div>
-
-                <div class="avatar-card male" data-avatar="m3">
-                    <div class="character-viewport">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Maverick" class="chibi-render">
-                    </div>
-                    <span>Maverick // M3</span>
-                </div>
-
-                <div class="avatar-card female" data-avatar="f1">
-                    <div class="character-viewport">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80" alt="Nova" class="chibi-render">
-                    </div>
-                    <span>Nova // F1</span>
-                </div>
-
-                <div class="avatar-card female" data-avatar="f2">
-                    <div class="character-viewport">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Valkyrie" class="chibi-render">
-                    </div>
-                    <span>Valkyrie // F2</span>
-                </div>
-
-                <div class="avatar-card female" data-avatar="f3">
-                    <div class="character-viewport">
-                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80" alt="Athena" class="chibi-render">
-                    </div>
-                    <span>Athena // F3</span>
-                </div>
-            </div>
-
-            <button id="start-btn" disabled>Launch Game Loop</button>
+        <div id="inventory-bar">
+            <div class="system-tag"><span class="pulse-dot"></span> ENGINE LIVE</div>
+            <div class="coin-display">COINS: <span id="player-coins">0</span> 🪙</div>
         </div>
 
-        <canvas id="gameCanvas" width="800" height="500" class="hidden"></canvas>
+        <div id="launcher-screen" class="menu-card">
+            <h1>HEXAJUMP</h1>
+            <p class="subtitle">Character Matrix Customization Store</p>
+            
+            <div id="dynamic-avatar-grid" class="avatar-grid"></div>
+
+            <div class="action-row">
+                <button id="store-action-btn" class="control-btn" disabled>Select Profile</button>
+            </div>
+        </div>
+
+        <div id="game-stage" class="hidden">
+            <canvas id="gameCanvas" width="800" height="450"></canvas>
+            <div class="canvas-controls">
+                <p>Use [ SPACEBAR ] or Click Canvas Frame to JUMP and scale difficulty levels!</p>
+            </div>
+        </div>
     </div>
 
     <script src="game.js"></script>
