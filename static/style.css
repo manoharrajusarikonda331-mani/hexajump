@@ -1,20 +1,21 @@
 /* ==========================================================================
-   HEXAJUMP - PROFESSIONAL CUSTOMIZATION INTERFACE LAYOUT
+   HEXAJUMP - ENTERPRISE TECH VIEW DESIGN LANGUAGE & GRAPHICS SHEET
    ========================================================================== */
 
 :root {
-    --bg-main: #06080b;
-    --card-bg: #0d1117;
+    --bg-main: #06080c;
+    --card-bg: #121824;
     --accent-blue: #00f0ff;
     --text-primary: #ffffff;
-    --text-muted: #4d5b6e;
-    --border-color: #1a222d;
-    --locked-color: #232d3d;
+    --text-muted: #576f8f;
+    --border-color: #232c3d;
+    --male-glow: #00a8ff;
+    --female-glow: #ff007f;
 }
 
 * {
     margin: 0; padding: 0; box-sizing: border-box;
-    font-family: 'Segoe UI', system-ui, sans-serif; user-select: none;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; user-select: none;
 }
 
 body {
@@ -22,61 +23,94 @@ body {
     min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden;
 }
 
-#game-container { width: 940px; display: flex; flex-direction: column; gap: 15px; }
+#game-container {
+    width: 900px; display: flex; flex-direction: column; align-items: center;
+}
 
-/* Real-Time Wallet Asset Banner */
-#inventory-bar {
+.menu-card {
     background-color: var(--card-bg); border: 1px solid var(--border-color);
-    padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; border-radius: 4px;
+    border-radius: 6px; padding: 40px; width: 100%; text-align: center;
 }
 
-.system-tag { font-size: 0.75rem; font-weight: 800; color: #00ff88; display: flex; align-items: center; gap: 8px; letter-spacing: 1px; }
-.pulse-dot { width: 6px; height: 6px; background-color: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; animation: pulse 0.8s infinite alternate; }
-@keyframes pulse { 0% { opacity: 0.4; } 100% { opacity: 1; } }
+h1 { font-size: 2.8rem; font-weight: 900; letter-spacing: 6px; margin-bottom: 5px; }
+.subtitle { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 35px; }
 
-.coin-display { font-size: 1rem; font-weight: 900; color: #ffb700; letter-spacing: 1px; }
+.avatar-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 35px;
+}
 
-/* Main Corporate Dashboard Panel */
-.menu-card { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 40px; border-radius: 4px; text-align: center; }
-h1 { font-size: 2.6rem; font-weight: 900; letter-spacing: 8px; margin-bottom: 5px; }
-.subtitle { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 35px; }
-
-/* Dynamic Vector Grid Components */
-.avatar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 35px; }
-
+/* Updated Avatar Frame Cards - Premium Industrial View */
 .avatar-card {
-    background-color: #090c12; border: 1px solid var(--border-color); padding: 25px 15px;
-    border-radius: 3px; cursor: pointer; display: flex; flex-direction: column; align-items: center;
-    position: relative; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #171e2b; border: 1px solid var(--border-color);
+    border-radius: 4px; padding: 25px 20px; cursor: pointer;
+    transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center;
+    position: relative; overflow: hidden;
 }
 
-.avatar-card.locked { background-color: #07090d; border-style: dashed; opacity: 0.5; }
-.avatar-card.selected-active { border-color: var(--accent-blue); box-shadow: 0 0 20px rgba(0, 240, 255, 0.2); background-color: #0c1724; }
+.avatar-card.locked { background-color: #0d121a; opacity: 0.5; border-style: dashed; }
+.avatar-card.focused-intent { border-color: #6c7a89; background-color: #1a2233; }
 
-/* Custom Price Badge Elements */
-.price-tag {
-    position: absolute; top: 10px; right: 10px; font-size: 0.7rem; font-weight: 800;
-    padding: 3px 8px; border-radius: 2px; background-color: #1e2736; color: #ffb700;
+/* Dedicated Selection State Toggles */
+.avatar-card.male.selected-active {
+    border-color: var(--male-glow);
+    box-shadow: 0 0 15px rgba(0, 168, 255, 0.2);
+    background-color: #17283c;
 }
-.unlocked-tag { background-color: #00ff88; color: #000; }
+.avatar-card.male.selected-active span { color: var(--male-glow); }
 
-.avatar-name { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: #7f92a8; margin-top: 15px; }
-.avatar-card.selected-active .avatar-name { color: var(--accent-blue); }
-
-/* Interface Execution Buttons */
-.control-btn {
-    background-color: transparent; color: #313e52; border: 1px solid var(--border-color);
-    padding: 16px; font-size: 0.9rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 3px; width: 100%; border-radius: 2px; transition: all 0.2s ease; cursor: not-allowed;
+.avatar-card.female.selected-active {
+    border-color: var(--female-glow);
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+    background-color: #2a1725;
 }
-.control-btn.ready-buy { border-color: #ffb700; color: #ffb700; cursor: pointer; box-shadow: 0 0 15px rgba(255,183,0,0.1); }
-.control-btn.ready-buy:hover { background-color: #ffb700; color: #000; box-shadow: 0 0 25px rgba(255,183,0,0.3); }
-.control-btn.ready-select { border-color: var(--accent-blue); color: var(--accent-blue); cursor: pointer; }
-.control-btn.ready-select:hover { background-color: var(--accent-blue); color: #000; box-shadow: 0 0 25px rgba(0,240,255,0.4); }
+.avatar-card.female.selected-active span { color: var(--female-glow); }
 
-.hidden { display: none !important; }
+/* SVG Vector character blocks */
+.ultimate-chibi-icon {
+    width: 80px; height: 100px; position: relative;
+    animation: idleBounce 0.5s infinite alternate ease-in-out;
+}
+.chibi-head { width: 30px; height: 32px; border-radius: 50%; }
+.chibi-body { width: 40px; height: 45px; border-radius: 5px; }
+
+@keyframes idleBounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-3px); }
+}
+
+.avatar-card.male .chibi-head { background-color: #ffcc99; }
+.avatar-card.male .chibi-body { background-color: var(--male-glow); }
+.avatar-card.female .chibi-head { background-color: #ffcccc; }
+.avatar-card.female .chibi-body { background-color: var(--female-glow); }
+
+.avatar-card span {
+    font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 1px; color: #8fa3bf; margin-top: 15px;
+}
+
+/* Control Engine Action Buttons */
+#store-action-btn {
+    background-color: transparent; color: #435166; border: 1px solid var(--border-color);
+    padding: 14px 40px; font-size: 1rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 3px; border-radius: 3px; cursor: not-allowed; transition: all 0.2s ease;
+}
+
+#store-action-btn:not(:disabled) {
+    background-color: var(--accent-blue); color: #000000; border-color: var(--accent-blue);
+    cursor: pointer; box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+}
+
+#store-action-btn:not(:disabled):hover {
+    background-color: #2ae8ff; box-shadow: 0 0 35px rgba(0, 240, 255, 0.5);
+    transform: scale(1.02);
+}
 
 /* Gameplay Stage Views */
 #game-stage { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-canvas { background-color: #06080c; border: 1px solid var(--border-color); border-radius: 4px; box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
+canvas {
+    background-color: #06080c; border: 1px solid var(--border-color);
+    border-radius: 4px; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+}
 .canvas-controls { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+.hidden { display: none !important; }
