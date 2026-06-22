@@ -3,100 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HexaJump - Subway Endless Runner Engine</title>
+    <title>HexaJump - Premium Subway Endless Runner Engine</title>
     <link rel="icon" href="data:;base64,iVBORw0kGgo=">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Unified Vertical Smartphone Device Enclosure Frame -->
+    <div class="ambient-universe-backdrop">
+        <div class="space-nebula-glow"></div>
+        <div class="infinite-horizon-matrix"></div>
+    </div>
+
     <div id="mobile-device-frame">
 
-        <!-- SCREEN 1: DYNAMIC WELCOME LANDING SCREEN -->
         <div id="loading-screen" class="active-view screen-layout landing-bg">
-            <!-- Animated Tech Grid Overlay Background Effect -->
             <div class="cyber-grid-overlay"></div>
-            
             <div class="welcome-center-panel">
                 <div class="brand-title-group">
                     <h1 class="runner-logo">HEXA</h1>
                     <h1 class="runner-logo color-alt">JUMP</h1>
                 </div>
-                
-                <!-- Game Description Block -->
                 <p class="game-description">
-                    Dodge high-voltage barriers, collect infinite crypto cores, and survive the terminal velocity loop across 5 neon cyber sectors in this ultimate 3D full-stack arcade runner.
+                    Dodge tactical obstacles, slide across 3 active subway paths, and establish high-score neural connections across 5 custom neon environments.
                 </p>
             </div>
-
-            <!-- Interactive Route Access Button to Operators Page -->
             <div class="welcome-action-group">
-                <button id="welcome-enter-btn" class="stack-btn pulse-launch">ENTER AVATAR MATRIX</button>
+                <button id="welcome-enter-btn" class="stack-btn pulse-launch">ENTER SYSTEM LINK</button>
                 <div class="loader-chassis hidden">
-                    <div class="bar-container">
-                        <div id="boot-progress" class="bar-fill"></div>
-                    </div>
-                    <p class="telemetry-status">SYNCHRONIZING OPERATOR STATE...</p>
+                    <div class="bar-container"><div id="boot-progress" class="bar-fill"></div></div>
+                    <p class="telemetry-status">ESTABLISHING ACCOUNT SECTOR PATHS...</p>
                 </div>
             </div>
         </div>
 
-        <!-- GLOBAL NAVIGATION OVERLAY CAP -->
+        <div id="account-creation-screen" class="hidden-view screen-layout">
+            <h2 class="section-title">ACCOUNT SECTOR</h2>
+            <p class="panel-subtitle">Register New Driver Credentials Matrix</p>
+            <div class="registration-form-box">
+                <label class="form-label">ENTER RUNNER USERNAME:</label>
+                <input type="text" id="username-input" class="form-input-field" placeholder="Operator_Mani" maxlength="12">
+                <label class="form-label">CHOOSE IDENTITY PROFILE PIC:</label>
+                <div id="profile-pic-selection-row" class="pic-selector-row"></div>
+            </div>
+            <button id="confirm-account-btn" class="action-trigger-btn" disabled>INITIALIZE ACCOUNT</button>
+        </div>
+
         <div id="top-nav-telemetry" class="hidden-view">
-            <div class="sys-tag"><span class="live-blink"></span> CORE LIVE</div>
+            <div id="trigger-user-overlay-btn" class="user-pill-btn">
+                <span class="live-blink"></span> <span id="nav-display-username">USER</span>
+            </div>
             <div class="wallet-tag"><span id="coin-count">0</span> 🪙</div>
         </div>
 
-        <!-- SCREEN 2: AVATAR CUSTOMIZATION MATRIX (STORE) -->
         <div id="store-screen" class="hidden-view screen-layout">
-            <h2 class="section-title">OPERATOR SYSTEM</h2>
+            <h2 class="section-title">OPERATOR MATRIX</h2>
             <div id="dynamic-avatar-grid" class="chibi-store-grid"></div>
-            <button id="store-action-btn" class="action-trigger-btn" disabled>SELECT PROFILE</button>
+            <div class="store-footer-controls">
+                <button id="store-action-btn" class="action-trigger-btn" disabled>SELECT PROFILE</button>
+                <button id="store-to-hub-btn" class="secondary-nav-btn">RETURN TO MISSION CONTROL</button>
+            </div>
         </div>
 
-        <!-- SCREEN 3: COMMAND HUB INTERFACE (HOME CENTRAL) -->
         <div id="home-screen" class="hidden-view screen-layout">
             <div class="hub-profile-showcase">
                 <div class="avatar-perspective-ring">
-                    <img id="hub-avatar-img" src="" alt="Active Driver Profile">
+                    <img id="hub-avatar-img" src="assets/alpha.png" alt="Active Profile Image">
                 </div>
                 <h3 id="hub-avatar-name">ALPHA</h3>
             </div>
             <div class="hub-control-stack">
-                <button id="nav-to-modes-btn" class="stack-btn pulse-launch">TAP TO RUN</button>
-                <button id="nav-back-to-store-btn" class="stack-btn cosmetic-btn">OPERATORS GEAR</button>
+                <button id="nav-to-modes-btn" class="stack-btn pulse-launch">DEPLOY TO TRACKS</button>
+                <button id="nav-to-store-btn" class="stack-btn cosmetic-btn">OPERATORS EQUIPMENT STORE</button>
             </div>
         </div>
 
-        <!-- SCREEN 4: ENVIRONMENTAL WORLD SECTOR CAROUSEL -->
         <div id="modes-screen" class="hidden-view screen-layout">
-            <h2 class="section-title">SECTOR MATRIX</h2>
+            <h2 class="section-title">SECTOR CAROUSEL</h2>
             <div class="sectors-vertical-stack">
                 <div class="sector-strip" data-mode="cyber">
                     <div class="sector-strip-bg bg-cyber"></div>
-                    <span>CYBER CITY SECTOR</span>
+                    <span>CYBER CITY SUBWAY</span>
                 </div>
                 <div class="sector-strip" data-mode="jungle">
                     <div class="sector-strip-bg bg-jungle"></div>
-                    <span>MYSTIC CANOPY</span>
+                    <span>MYSTIC CANOPY CHASSIS</span>
                 </div>
                 <div class="sector-strip" data-mode="volcano">
                     <div class="sector-strip-bg bg-volcano"></div>
-                    <span>MAGMA CORE SUBWAY</span>
+                    <span>MAGMA RIDGE RUNWAY</span>
                 </div>
                 <div class="sector-strip" data-mode="space">
                     <div class="sector-strip-bg bg-space"></div>
-                    <span>NEBULA STATION STAGE</span>
+                    <span>NEBULA OUTPOST LINE</span>
                 </div>
                 <div class="sector-strip" data-mode="grid">
                     <div class="sector-strip-bg bg-grid"></div>
-                    <span>SYSTEM MATRIX GRID</span>
+                    <span>SYSTEM CORE MATRIX</span>
                 </div>
             </div>
-            <button id="launch-game-engine-btn" class="action-trigger-btn" disabled>ENGAGE SYSTEM LINK</button>
+            <div class="carousel-footer-controls">
+                <button id="launch-game-engine-btn" class="action-trigger-btn" disabled>LAUNCH CORE RUN</button>
+                <button id="modes-to-hub-btn" class="secondary-nav-btn">ABORT TO MISSION CONTROL</button>
+            </div>
         </div>
 
-        <!-- SCREEN 5: ACTIVE ENDLESS ENGINE STAGE VIEWPORT -->
         <div id="game-stage" class="hidden-view screen-layout">
             <div class="gameplay-hud-overlay">
                 <button id="pause-engine-btn" class="hud-circle-btn">⏸️</button>
@@ -111,7 +121,25 @@
                     <h3>LOOP SUSPENDED</h3>
                     <p>Neural engine connection idling</p>
                     <button id="resume-engine-btn" class="modal-btn confirm-btn">RESUME CORE RUN</button>
-                    <button id="pause-exit-home-btn" class="modal-btn abort-btn">RETURN TO HUB</button>
+                    <button id="pause-exit-home-btn" class="modal-btn abort-btn">LOGOUT GAME</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="user-profile-modal" class="hidden-view runtime-modal-mask">
+            <div class="profile-stats-card">
+                <div class="close-profile-row"><button id="close-profile-modal-btn">❌</button></div>
+                <div class="user-meta-header">
+                    <div class="meta-pic-wrapper"><img id="profile-stats-img" src="" alt="User Pic"></div>
+                    <div class="meta-text-block">
+                        <h4 id="profile-stats-username">OPERATOR</h4>
+                        <p id="profile-stats-uid">ID: #000000</p>
+                    </div>
+                </div>
+                <div class="stats-data-grid">
+                    <div class="stat-node"><span class="stat-val" id="stat-best-score">0000</span><span class="stat-lbl">BEST RUN</span></div>
+                    <div class="stat-node"><span class="stat-val" id="stat-avg-score">0000</span><span class="stat-lbl">AVG RUN</span></div>
+                    <div class="stat-node"><span class="stat-val" id="stat-total-runs">0</span><span class="stat-lbl">TOTAL LOGS</span></div>
                 </div>
             </div>
         </div>
