@@ -1,150 +1,187 @@
 /* ==========================================================================
-   HEXAJUMP - MOBILE RUNNER GRAPHICS STYLING SHEETS
+   HEXAJUMP - VERTICAL MOBILE RUNNER ARCHITECTURE & PERSPECTIVE BACKDROP
    ========================================================================== */
 
 :root {
-    --app-bg: #030508;
-    --panel-bg: #090c12;
+    --app-bg: #03060a;
+    --panel-bg: #0b0f17;
     --neon-blue: #00f0ff;
     --neon-pink: #ff007f;
     --neon-gold: #ffb700;
-    --sys-border: #141c29;
+    --sys-border: #131b29;
 }
 
 * {
     margin: 0; padding: 0; box-sizing: border-box;
-    font-family: 'Segoe UI', -apple-system, Roboto, sans-serif; user-select: none;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; user-select: none;
 }
 
 body {
-    background-color: #020305; color: #ffffff;
-    min-height: 100vh; display: flex; justify-content: center; align-items: center;
+    background-color: #010204; color: #ffffff;
+    min-height: 100vh; width: 100vw; display: flex;
+    justify-content: center; align-items: center; position: relative; overflow: hidden;
 }
 
 /* ==========================================================================
-   📱 VERTICAL DEVICE CONTAINER ENGINE
+   🌌 OUTSIDE MONITOR BACKDROP TELEMETRY GRAPHICS (AMBIENT LAYERS)
+   ========================================================================== */
+.ambient-universe-backdrop {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
+}
+.space-nebula-glow {
+    position: absolute; top: 25%; left: 20%; width: 450px; height: 450px;
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.06) 0%, rgba(255, 0, 127, 0.04) 50%, transparent 100%);
+    filter: blur(40px); animation: auroraShift 12s infinite alternate ease-in-out;
+}
+.infinite-horizon-matrix {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 45%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 40px 40px; transform: perspective(400px) rotateX(75deg); transform-origin: top center; opacity: 0.7;
+}
+@keyframes auroraShift { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(40px, -20px) scale(1.1); } }
+
+/* ==========================================================================
+   📱 MOBILE HOUSING CHASSIS ENCLOSURE SYSTEM
    ========================================================================== */
 #mobile-device-frame {
-    position: relative; width: 400px; height: 650px;
-    background-color: var(--app-bg); border: 4px solid #1a2333; border-radius: 24px;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.05);
+    position: relative; width: 400px; height: 650px; z-index: 10;
+    background-color: var(--app-bg); border: 3px solid #192333; border-radius: 20px;
+    box-shadow: 0 35px 80px rgba(0, 0, 0, 0.95), 0 0 50px rgba(0, 240, 255, 0.07);
     overflow: hidden; display: flex; flex-direction: column;
 }
 
-/* Screen Manager Display Layout Shields */
+/* Layered Router Display Masks */
 .screen-layout {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    padding: 30px 20px; display: flex; flex-direction: column;
-    justify-content: space-between; align-items: center; z-index: 5;
+    padding: 35px 24px; display: flex; flex-direction: column;
+    justify-content: space-between; align-items: center; z-index: 15;
 }
-
 .active-view { display: flex !important; }
 .hidden-view { display: none !important; }
 
-/* ==========================================================================
-   🌌 GAMING BACKGROUND GRAPHICS & TEXTURES
-   ========================================================================== */
-.landing-bg {
-    background: radial-gradient(circle at center, #0a1326 0%, var(--app-bg) 100%);
-}
-
+/* 1. Landing Welcome Page Configurations */
+.landing-bg { background: radial-gradient(circle at center, #0d1629 0%, var(--app-bg) 100%); }
 .cyber-grid-overlay {
     position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-    background-image: 
-        linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
-    background-size: 25px 25px;
-    transform: perspective(300px) rotateX(60deg);
-    animation: gridScroll 8s linear infinite;
-    z-index: 1; pointer-events: none;
+    background-image: linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+    background-size: 25px 25px; transform: perspective(250px) rotateX(65deg); animation: gridScroll 6s linear infinite; z-index: 1;
 }
-
-@keyframes gridScroll {
-    0% { transform: perspective(300px) rotateX(60deg) translateY(0); }
-    100% { transform: perspective(300px) rotateX(60deg) translateY(25px); }
-}
-
-/* Centered Layout Adjustments */
-.welcome-center-panel {
-    margin: auto 0; text-align: center; z-index: 2; width: 100%;
-    display: flex; flex-direction: column; align-items: center; gap: 20px;
-}
-
-.brand-title-group { line-height: 1; text-align: center; }
+@keyframes gridScroll { 0% { transform: perspective(250px) rotateX(65deg) translateY(0); } 100% { transform: perspective(250px) rotateX(65deg) translateY(25px); } }
+.welcome-center-panel { margin: auto 0; text-align: center; z-index: 5; display: flex; flex-direction: column; gap: 20px; }
+.brand-title-group { line-height: 1; }
 .runner-logo { font-size: 3.4rem; font-weight: 900; letter-spacing: 4px; display: inline-block; }
 .color-alt { color: var(--neon-blue); text-shadow: 0 0 15px rgba(0,240,255,0.4); }
+.game-description { font-size: 0.8rem; color: #6d81a3; line-height: 1.6; max-width: 95%; }
+.welcome-action-group { width: 100%; z-index: 5; margin-bottom: 10px; }
 
-.game-description {
-    font-size: 0.8rem; color: #7388a6; line-height: 1.6; max-width: 90%;
-    text-align: center; letter-spacing: 0.5px;
-    animation: fadeInDesc 1s ease-out;
+/* 2. Account Registration Form Layout */
+.registration-form-box { width: 100%; margin: auto 0; display: flex; flex-direction: column; gap: 12px; text-align: left; }
+.form-label { font-size: 0.7rem; font-weight: 800; color: #516480; letter-spacing: 1.5px; text-transform: uppercase; }
+.form-input-field {
+    width: 100%; padding: 14px; background-color: #06080d; border: 1px solid var(--sys-border);
+    color: #fff; font-size: 0.9rem; font-weight: 700; border-radius: 6px; outline: none; transition: all 0.2s;
 }
-
-@keyframes fadeInDesc {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
+.form-input-field:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0,240,255,0.15); }
+.pic-selector-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 5px; }
+.pic-node-option {
+    background-color: #06080d; border: 1px solid var(--sys-border); border-radius: 6px;
+    padding: 10px; display: flex; justify-content: center; cursor: pointer; transition: all 0.15s;
 }
+.pic-node-option:hover { border-color: #2b394d; }
+.pic-node-option.active-option { border-color: var(--neon-blue); background-color: #0c1524; }
+.pic-node-option img { height: 50px; object-fit: contain; }
 
-.welcome-action-group { width: 100%; z-index: 2; margin-bottom: 20px; }
-
-/* Global Top Navigation Telemetry Cap Overlay */
+/* Global Top Navigation Telemetry Header Banner Panel */
 #top-nav-telemetry {
-    position: absolute; top: 0; left: 0; width: 100%; height: 50px;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 20px; z-index: 50; background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+    position: absolute; top: 0; left: 0; width: 100%; height: 55px;
+    display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 50;
 }
-.sys-tag { font-size: 0.7rem; font-weight: 800; color: #00ff88; display: flex; align-items: center; gap: 6px; letter-spacing: 1px; }
-.live-blink { width: 5px; height: 5px; background-color: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; animation: blink 0.6s infinite alternate; }
-@keyframes blink { 0% { opacity: 0.3; } 100% { opacity: 1; } }
-.wallet-tag { font-size: 0.9rem; font-weight: 900; color: var(--neon-gold); }
+.user-pill-btn {
+    background-color: rgba(11,15,23,0.7); border: 1px solid var(--sys-border); padding: 6px 14px;
+    border-radius: 20px; font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; color: #a4b7d1;
+    display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.15s;
+}
+.user-pill-btn:hover { border-color: #3b4d66; color: #fff; }
+.wallet-tag { font-size: 0.9rem; font-weight: 900; color: var(--neon-gold); letter-spacing: 0.5px; }
 
-/* 2. Character Store Layout Cards */
-.section-title { font-size: 1.2rem; font-weight: 900; letter-spacing: 3px; color: #ffffff; margin-top: 35px; text-transform: uppercase; }
-.chibi-store-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; margin: auto 0; overflow-y: auto; max-height: 420px; padding-right: 2px; }
+/* 3. Operators Equipment Store Screen Layout */
+.chibi-store-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; margin: auto 0; overflow-y: auto; max-height: 380px; padding: 5px 2px; }
 .chibi-store-grid::-webkit-scrollbar { width: 3px; }
 .chibi-store-grid::-webkit-scrollbar-thumb { background-color: var(--sys-border); }
+.store-footer-controls { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+.secondary-nav-btn { background-color: transparent; color: #516480; border: none; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: color 0.15s; }
+.secondary-nav-btn:hover { color: #fff; }
 
 .avatar-card {
-    background-color: var(--panel-bg); border: 1px solid var(--sys-border);
-    padding: 15px 10px; border-radius: 8px; display: flex; flex-direction: column;
-    align-items: center; position: relative; cursor: pointer; transition: all 0.15s ease;
+    background-color: var(--panel-bg); border: 1px solid var(--sys-border); padding: 15px 10px;
+    border-radius: 8px; display: flex; flex-direction: column; align-items: center; position: relative; cursor: pointer; transition: all 0.15s ease;
 }
 .avatar-card.locked { opacity: 0.4; background-color: #05070a; border-style: dashed; }
-.avatar-card.focused-intent { border-color: #3b4d6b; background-color: #111621; }
-.avatar-card.selected-active { border-color: var(--neon-blue); background-color: #0c1524; box-shadow: inset 0 0 12px rgba(0,240,255,0.1); }
-.avatar-card img { height: 95px; object-fit: contain; filter: drop-shadow(0 8px 12px #000); }
-.price-status-badge { position: absolute; top: 6px; right: 6px; font-size: 0.6rem; font-weight: 800; color: var(--neon-gold); padding: 2px 6px; background-color: #05070a; border-radius: 4px; }
+.avatar-card.focused-intent { border-color: #3e526b; background-color: #111724; }
+.avatar-card.selected-active { border-color: var(--neon-blue); background-color: #0c1626; box-shadow: inset 0 0 10px rgba(0,240,255,0.1); }
+.avatar-card img { height: 90px; object-fit: contain; filter: drop-shadow(0 6px 10px #000); }
+.price-status-badge { position: absolute; top: 6px; right: 6px; font-size: 0.55rem; font-weight: 800; color: var(--neon-gold); padding: 2px 6px; background-color: #05070a; border-radius: 4px; }
 .badge-owned { color: #00ff88; }
 .avatar-name { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; color: #6f85a3; }
 
-/* 3. Central Command Home Showcase */
-.hub-profile-showcase { display: flex; flex-direction: column; align-items: center; margin-top: 90px; }
+/* 4. Central Hub (Home Dashboard) Components */
+.hub-profile-showcase { display: flex; flex-direction: column; align-items: center; margin-top: 95px; }
 .avatar-perspective-ring { width: 180px; height: 230px; display: flex; justify-content: center; position: relative; }
-.avatar-perspective-ring img { height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.8)); animation: hubFloat 3s infinite ease-in-out; }
-@keyframes hubFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-#hub-avatar-name { font-size: 1.5rem; font-weight: 900; letter-spacing: 4px; color: var(--neon-blue); text-shadow: 0 0 15px rgba(0,240,255,0.2); margin-top: 15px; text-transform: uppercase; }
-.hub-control-stack { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.stack-btn { padding: 16px; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; transition: all 0.2s ease; text-align: center; }
-.pulse-launch { background-color: var(--neon-blue); color: #000; box-shadow: 0 0 20px rgba(0,240,255,0.2); }
-.pulse-launch:hover { background-color: #26ecff; box-shadow: 0 0 30px rgba(0,240,255,0.4); transform: scale(1.01); }
-.cosmetic-btn { background-color: transparent; color: #6f85a3; border-color: var(--sys-border); }
-.cosmetic-btn:hover { border-color: #3e4d66; color: #fff; }
+.avatar-perspective-ring img { height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.85)); animation: float 3s infinite ease-in-out; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.hub-control-stack { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+.stack-btn { padding: 16px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; transition: all 0.15s ease; text-align: center; }
+.pulse-launch { background-color: var(--neon-blue); color: #000; box-shadow: 0 0 20px rgba(0,240,255,0.15); }
+.pulse-launch:hover { background-color: #2bf0ff; box-shadow: 0 0 35px rgba(0,240,255,0.4); }
+.cosmetic-btn { background-color: transparent; color: #6c7f9c; border-color: var(--sys-border); }
+.cosmetic-btn:hover { border-color: #3b4d66; color: #fff; }
 
-/* 4. Vertical Map Selectors Strip */
+/* 5. Sector Maps Carousel Selection Panels */
 .sectors-vertical-stack { display: flex; flex-direction: column; gap: 8px; width: 100%; margin: auto 0; }
-.sector-strip { position: relative; width: 100%; height: 60px; border-radius: 8px; border: 1px solid var(--sys-border); overflow: hidden; display: flex; align-items: center; padding-left: 20px; cursor: pointer; transition: all 0.2s ease; }
-.sector-strip-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.15; transition: opacity 0.2s ease; }
+.sector-strip { position: relative; width: 100%; height: 55px; border-radius: 8px; border: 1px solid var(--sys-border); overflow: hidden; display: flex; align-items: center; padding-left: 20px; cursor: pointer; transition: all 0.2s ease; }
+.sector-strip-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.15; }
 .bg-cyber   { background: linear-gradient(90deg, #00f0ff, transparent); }
 .bg-jungle  { background: linear-gradient(90deg, #00ff88, transparent); }
 .bg-volcano { background: linear-gradient(90deg, #ff4500, transparent); }
 .bg-space   { background: linear-gradient(90deg, #b500ff, transparent); }
 .bg-grid    { background: linear-gradient(90deg, #ffffff, transparent); }
-.sector-strip span { font-size: 0.8rem; font-weight: 800; letter-spacing: 1.5px; z-index: 2; color: #5c7291; text-transform: uppercase; }
+.sector-strip span { font-size: 0.8rem; font-weight: 800; letter-spacing: 1.5px; z-index: 2; color: #576d8c; text-transform: uppercase; }
 .sector-strip.selected { border-color: var(--neon-gold); background-color: #14130f; }
 .sector-strip.selected .sector-strip-bg { opacity: 0.35; }
 .sector-strip.selected span { color: var(--neon-gold); }
+.carousel-footer-controls { width: 100%; display: flex; flex-direction: column; gap: 8px; }
 
-/* 5. Loader Bars & Action Buttons */
+/* 6. Runtime In-Game Viewport Hud Overlays & Account Stats Sheet Card */
+#game-stage { padding: 0 !important; overflow: hidden; background-color: #030406; }
+.gameplay-hud-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 70px; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; z-index: 30; background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%); }
+.hud-circle-btn { width: 36px; height: 36px; border-radius: 50%; background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; cursor: pointer; }
+#live-score-tracker { font-size: 1rem; font-weight: 900; letter-spacing: 2px; color: #fff; }
+#gameCanvas { width: 100%; height: 100%; display: block; }
+.runtime-modal-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(2,4,7,0.85); display: flex; justify-content: center; align-items: center; z-index: 40; }
+.stasis-card { background-color: var(--panel-bg); border: 1px solid var(--neon-gold); padding: 30px; border-radius: 12px; text-align: center; width: 85%; }
+.stasis-card h3 { font-size: 1.1rem; font-weight: 900; color: var(--neon-gold); letter-spacing: 2px; margin-bottom: 4px; }
+.stasis-card p { font-size: 0.75rem; color: #4e5e75; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+.modal-btn { width: 100%; padding: 12px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; margin-bottom: 8px; }
+.confirm-btn { background-color: var(--neon-gold); color: #000; }
+.abort-btn { background-color: transparent; color: #6f85a3; border-color: var(--sys-border); }
+
+/* Profile Stats Sheet Window Container */
+.profile-stats-card { background-color: var(--panel-bg); border: 1px solid var(--sys-border); padding: 25px; border-radius: 12px; width: 88%; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 20px 45px rgba(0,0,0,0.6); }
+.close-profile-row { width: 100%; display: flex; justify-content: flex-end; }
+.close-profile-row button { background: none; border: none; font-size: 0.9rem; cursor: pointer; }
+.user-meta-header { display: flex; align-items: center; gap: 15px; border-bottom: 1px solid var(--sys-border); padding-bottom: 15px; }
+.meta-pic-wrapper { width: 55px; height: 55px; border-radius: 50%; background-color: #06080d; border: 1px solid var(--sys-border); overflow: hidden; display: flex; justify-content: center; align-items: center; }
+.meta-pic-wrapper img { height: 85%; object-fit: contain; }
+.meta-text-block h4 { font-size: 1.1rem; font-weight: 900; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1px; }
+.meta-text-block p { font-size: 0.7rem; font-weight: 700; color: #516480; letter-spacing: 0.5px; margin-top: 2px; }
+.stats-data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.stat-node { background-color: #06080d; border: 1px solid var(--sys-border); border-radius: 6px; padding: 12px 5px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.stat-val { font-size: 1rem; font-weight: 900; color: var(--neon-gold); }
+.stat-lbl { font-size: 0.55rem; font-weight: 800; color: #516480; letter-spacing: 0.5px; }
+
+/* 7. Action Global Base Button Elements */
 .loader-chassis { width: 100%; }
 .bar-container { width: 100%; height: 4px; background-color: #0e131f; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
 .bar-fill { width: 0%; height: 100%; background-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
@@ -155,16 +192,3 @@ body {
 .action-trigger-btn.ready-buy:hover { background-color: var(--neon-gold); color: #000; }
 .action-trigger-btn.ready-select { border-color: var(--neon-blue); color: var(--neon-blue); cursor: pointer; }
 .action-trigger-btn.ready-select:hover { background-color: var(--neon-blue); color: #000; box-shadow: 0 0 20px rgba(0,240,255,0.3); }
-
-#game-stage { padding: 0 !important; overflow: hidden; background-color: #030407; }
-.gameplay-hud-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 70px; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; z-index: 30; background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%); }
-.hud-circle-btn { width: 36px; height: 36px; border-radius: 50%; background-color: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #fff; display: flex; justify-content: center; align-items: center; font-size: 0.85rem; cursor: pointer; }
-#live-score-tracker { font-size: 1rem; font-weight: 900; letter-spacing: 2px; color: #fff; }
-#gameCanvas { width: 100%; height: 100%; display: block; }
-.runtime-modal-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(3,5,8,0.85); display: flex; justify-content: center; align-items: center; z-index: 40; }
-.stasis-card { background-color: var(--panel-bg); border: 1px solid var(--neon-gold); padding: 30px; border-radius: 12px; text-align: center; width: 85%; }
-.modal-btn { width: 100%; padding: 12px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; margin-bottom: 8px; }
-.confirm-btn { background-color: var(--neon-gold); color: #000; }
-.abort-btn { background-color: transparent; color: #6f85a3; border-color: var(--sys-border); }
-
-.hidden { display: none !important; }
