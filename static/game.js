@@ -1,10 +1,10 @@
 /* ==========================================================================
-   HEXAJUMP - 3D PERSPECTIVE ENDLESS RUNNER ENGINE (SUBWAY STYLE)
+   HEXAJUMP - VERTICAL SUBWAY RUNNER ARCHITECTURE WITH CHASSIS PROFILE MATRICES
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // DEFINITION MATRIX: Central Operator Character Registry Mapping
+    // DEFINITION MATRIX: Central Operators Character Registry Mapping
     const AVATAR_REGISTRY = [
         { id: 'm1', name: 'Alpha', gender: 'male', src: 'assets/alpha.png', price: 0 },
         { id: 'm2', name: 'Striker', gender: 'male', src: 'assets/striker.png', price: 100 },
@@ -23,7 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
         grid: { name: "System Matrix Grid", sky: "#080808", rail: "#ffffff", dynamicGrid: false }
     };
 
-    // MANAGEMENT STATE LAYER
+    // ACCOUNT STORAGE REGISTERS
+    let globalUsername = ""; let globalUserID = "";
+    let bestScoreRegistered = 0; let averageScoreCalculated = 0; let totalRunsLog = 0;
+    let selectedProfilePicSrc = "assets/alpha.png";
+
+    // STATE LOOP INTEGRATION VARIABLES
     let accountCoins = 0; let unlockedList = [];
     let activeSelectionId = null; let focusedCardId = null;
     let designatedWorldMode = null;
@@ -33,42 +38,67 @@ document.addEventListener('DOMContentLoaded', () => {
     let ctx = null; let renderFrameId = null;
     let isGameRunning = false; let isPaused = false;
 
-    // SUBWAY JUMP PHYSICS REGISTERS
+    // 🕹️ PERSPECTIVE LANE PHYSICAL OFFSETS CONFIGURATION
+    const TRACK_LANES = { left: 100, center: 200, right: 300 };
+    let currentLaneTarget = "center";
     let playerX = 200; let playerY = 520; let velocityY = 0;
     
-    // RUNNING TIMELINES
-    let runningTimeline = 0; let gameSpeed = 5; let currentScore = 0;
+    // RUNTIME PROJECTIONS TIMELINES
+    let runningTimeline = 0; let gameSpeed = 4.5; let currentScore = 0;
     let obstacleQueue = [];
 
-    // DOM INTERFACE POINTER NODES
+    // DOM NODE DIRECTORY POINTER MAPPERS
     const loadingScreen = document.getElementById('loading-screen');
     const welcomeEnterBtn = document.getElementById('welcome-enter-btn');
     const loaderChassis = document.querySelector('.loader-chassis');
     const bootBar = document.getElementById('boot-progress');
     const telemetryBar = document.getElementById('top-nav-telemetry');
+    const navUsernameText = document.getElementById('nav-display-username');
     
+    // Account Creation Nodes
+    const accountCreationScreen = document.getElementById('account-creation-screen');
+    const usernameInputField = document.getElementById('username-input');
+    const profilePicRow = document.getElementById('profile-pic-selection-row');
+    const confirmAccountBtn = document.getElementById('confirm-account-btn');
+
+    // Operator Shop View Elements
     const storeScreen = document.getElementById('store-screen');
     const gridContainer = document.getElementById('dynamic-avatar-grid');
     const storeActionButton = document.getElementById('store-action-btn');
-    
+    const storeToHubBtn = document.getElementById('store-to-hub-btn');
+
+    // Home Command View Elements
     const homeScreen = document.getElementById('home-screen');
     const hubAvatarImg = document.getElementById('hub-avatar-img');
     const hubAvatarName = document.getElementById('hub-avatar-name');
-    
+    const triggerProfileModalBtn = document.getElementById('trigger-user-overlay-btn');
+
+    // World Modes Selection Elements
     const modesScreen = document.getElementById('modes-screen');
     const modeCards = document.querySelectorAll('.sector-strip');
     const launchGameEngineBtn = document.getElementById('launch-game-engine-btn');
-    
+    const modesToHubBtn = document.getElementById('modes-to-hub-btn');
+
+    // Gameplay Stage Panels
     const gameStage = document.getElementById('game-stage');
     const pauseOverlay = document.getElementById('pause-overlay');
     const liveScoreText = document.getElementById('live-score-tracker');
 
+    // User Profile Overlay Stats Sheet Elements
+    const userProfileModal = document.getElementById('user-profile-modal');
+    const closeProfileModalBtn = document.getElementById('close-profile-modal-btn');
+    const statsImg = document.getElementById('profile-stats-img');
+    const statsUser = document.getElementById('profile-stats-username');
+    const statsUid = document.getElementById('profile-stats-uid');
+    const statsBest = document.getElementById('stat-best-score');
+    const statsAvg = document.getElementById('stat-avg-score');
+    const statsCount = document.getElementById('stat-total-runs');
+
     // --------------------------------------------------------------------------
-    // SCREEN 1: LINKED USER CLICK LOADING SEQUENCE RETRY
+    // SCREEN 1 & INTRO MODULE: BOOT SECTORS & FORM VALIDATION ARCHITECTURE
     // --------------------------------------------------------------------------
     welcomeEnterBtn.addEventListener('click', () => {
-        welcomeEnterBtn.classList.add('hidden');
-        loaderChassis.classList.remove('hidden');
+        welcomeEnterBtn.classList.add('hidden'); loaderChassis.classList.remove('hidden');
         executeBootLoaderSequence();
     });
 
@@ -77,20 +107,55 @@ document.addEventListener('DOMContentLoaded', () => {
         const loader = setInterval(() => {
             loadingProgress += Math.floor(Math.random() * 6) + 4;
             if (loadingProgress >= 100) {
-                loadingProgress = 100;
-                clearInterval(loader);
-                loadingScreen.classList.remove('active-view');
-                loadingScreen.classList.add('hidden-view');
-                telemetryBar.classList.remove('hidden-view');
-                telemetryBar.classList.add('active-view');
-                synchronizeAccountStateData();
+                loadingProgress = 100; clearInterval(loader);
+                loadingScreen.classList.remove('active-view'); loadingScreen.classList.add('hidden-view');
+                mountAccountRegistrationView(); // Step Forward to account data sheet initialization!
             }
             bootBar.style.width = `${loadingProgress}%`;
         }, 35);
     }
 
+    function mountAccountRegistrationView() {
+        accountCreationScreen.classList.remove('hidden-view'); accountCreationScreen.classList.add('active-view');
+        profilePicRow.innerHTML = '';
+        
+        // Loop through register to present character choices as account avatars
+        AVATAR_REGISTRY.slice(0, 3).forEach((char, index) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = `pic-node-option ${index === 0 ? 'active-option' : ''}`;
+            const img = document.createElement('img'); img.src = char.src;
+            wrapper.appendChild(img);
+
+            wrapper.addEventListener('click', () => {
+                document.querySelectorAll('.pic-node-option').forEach(n => n.classList.remove('active-option'));
+                wrapper.classList.add('active-option');
+                selectedProfilePicSrc = char.src;
+            });
+            profilePicRow.appendChild(wrapper);
+        });
+
+        usernameInputField.addEventListener('input', () => {
+            const val = usernameInputField.value.trim();
+            if (val.length >= 3) {
+                confirmAccountBtn.disabled = false; confirmAccountBtn.classList.add('ready-select');
+            } else {
+                confirmAccountBtn.disabled = true; confirmAccountBtn.classList.remove('ready-select');
+            }
+        });
+    }
+
+    confirmAccountBtn.addEventListener('click', () => {
+        globalUsername = usernameInputField.value.trim();
+        globalUserID = "ID_" + Math.floor(100000 + Math.random() * 900000); // Generate hash
+        navUsernameText.textContent = globalUsername.toUpperCase();
+
+        accountCreationScreen.classList.remove('active-view'); accountCreationScreen.classList.add('hidden-view');
+        telemetryBar.classList.remove('hidden-view'); telemetryBar.classList.add('active-view');
+        synchronizeAccountStateData();
+    });
+
     // --------------------------------------------------------------------------
-    // SERVER ENDPOINT API SYNCHRONIZATION
+    // FULL SERVER ENDPOINT CONNECTION LAYER
     // --------------------------------------------------------------------------
     async function synchronizeAccountStateData() {
         try {
@@ -102,11 +167,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('coin-count').textContent = accountCoins;
             routeToHomeCommandHub();
-        } catch (err) { console.error("API link anomaly: ", err); }
+        } catch (err) { console.error("API mapping failure: ", err); }
     }
 
     // --------------------------------------------------------------------------
-    // SCREEN 2: OPERATORS CUSTOMIZATION MATRIX (STORE)
+    // ACCOUNT SYSTEM USER MODAL PANEL STATE HANDLERS
+    // --------------------------------------------------------------------------
+    triggerProfileModalBtn.addEventListener('click', () => {
+        statsImg.src = selectedProfilePicSrc;
+        statsUser.textContent = globalUsername;
+        statsUid.textContent = globalUserID;
+        statsBest.textContent = String(bestScoreRegistered).padStart(4, '0');
+        statsAvg.textContent = String(Math.floor(averageScoreCalculated)).padStart(4, '0');
+        statsCount.textContent = totalRunsLog;
+
+        userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view');
+    });
+    closeProfileModalBtn.addEventListener('click', () => { userProfileModal.classList.remove('active-view'); userProfileModal.classList.add('hidden-view'); });
+
+    // --------------------------------------------------------------------------
+    // SCREEN 2: EQUIPMENT MATRIX STORE LOGIC
     // --------------------------------------------------------------------------
     function routeToAvatarSelectorStore() {
         homeScreen.classList.remove('active-view'); homeScreen.classList.add('hidden-view');
@@ -176,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --------------------------------------------------------------------------
-    // SCREEN 3: CENTRAL COMMAND INTERFACE HUB (HOME)
+    // SCREEN 3: HOME INTERFACE OPERATIONS CONTROL HUB
     // --------------------------------------------------------------------------
     function routeToHomeCommandHub() {
         storeScreen.classList.remove('active-view'); storeScreen.classList.add('hidden-view');
@@ -188,14 +268,17 @@ document.addEventListener('DOMContentLoaded', () => {
         hubAvatarName.textContent = deployedOp.name;
     }
 
-    document.getElementById('nav-back-to-store-btn').addEventListener('click', routeToAvatarSelectorStore);
+    document.getElementById('nav-to-store-btn').addEventListener('click', routeToAvatarSelectorStore);
+    storeToHubBtn.addEventListener('click', routeToHomeCommandHub);
+    modesToHubBtn.addEventListener('click', routeToHomeCommandHub);
+
     document.getElementById('nav-to-modes-btn').addEventListener('click', () => {
         homeScreen.classList.remove('active-view'); homeScreen.classList.add('hidden-view');
         modesScreen.classList.remove('hidden-view'); modesScreen.classList.add('active-view');
     });
 
     // --------------------------------------------------------------------------
-    // SCREEN 4: ENVIRONMENTAL GRIDS CHASSIS MATRIX CAROUSEL
+    // SCREEN 4: ENVIRONMENTAL WORLD MAPS CAROUSEL
     // --------------------------------------------------------------------------
     modeCards.forEach(card => {
         card.addEventListener('click', () => {
@@ -217,12 +300,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --------------------------------------------------------------------------
-    // SCREEN 5: RUNTIME CANVAS ENDLESS 3D TRACK ENGINE
+    // SCREEN 5: RUNTIME CANVAS ENDLESS 3-LANE PERSPECTIVE PIPELINE ENGINE
     // --------------------------------------------------------------------------
     function initializeSubwayRunnerLoop() {
         ctx = canvas.getContext('2d');
         isGameRunning = true; isPaused = false;
-        playerX = 200; playerY = 520; velocityY = 0;
+        currentLaneTarget = "center"; playerX = TRACK_LANES[currentLaneTarget];
+        playerY = 520; velocityY = 0;
         runningTimeline = 0; currentScore = 0; gameSpeed = 5;
         obstacleQueue = [];
 
@@ -231,30 +315,64 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleSubwayControllerInputs(e) {
+        if (!isGameRunning || isPaused) return;
         if (e.code === 'Space' && playerY === 520) { velocityY = -12.5; }
-        if (e.code === 'ArrowLeft' || e.code === 'KeyA') playerX = Math.max(100, playerX - 100);
-        if (e.code === 'ArrowRight' || e.code === 'KeyD') playerX = Math.min(300, playerX + 100);
+        
+        // Accurate Complete 3-Lane Traversal Locking System (Left, Center, Right)
+        if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
+            if (currentLaneTarget === "center") currentLaneTarget = "left";
+            else if (currentLaneTarget === "right") currentLaneTarget = "center";
+        }
+        if (e.code === 'ArrowRight' || e.code === 'KeyD') {
+            if (currentLaneTarget === "center") currentLaneTarget = "right";
+            else if (currentLaneTarget === "left") currentLaneTarget = "center";
+        }
     }
 
+    // Modal Suspension Action Listeners Configuration Row
     const pauseButton = document.getElementById('pause-engine-btn');
     const resumeButton = document.getElementById('resume-engine-btn');
     const abortButton = document.getElementById('abort-to-home-btn');
-    const overlayExitHubBtn = document.getElementById('pause-exit-home-btn');
+    const overlayLogoutGameBtn = document.getElementById('pause-exit-home-btn');
 
     pauseButton.addEventListener('click', () => { isPaused = true; pauseOverlay.classList.remove('hidden-view'); pauseOverlay.classList.add('active-view'); });
     resumeButton.addEventListener('click', () => { isPaused = false; pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view'); renderFrameId = requestAnimationFrame(updateSubwayRunnerLoopPipeline); });
     
-    function tearDownGameplayAndReturnHome() {
+    function exitLoopAndReturnToHub() {
         isGameRunning = false; isPaused = false;
         cancelAnimationFrame(renderFrameId);
         window.removeEventListener('keydown', handleSubwayControllerInputs);
         pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view');
         gameStage.classList.remove('active-view'); gameStage.classList.add('hidden-view');
         telemetryBar.classList.remove('hidden-view'); telemetryBar.classList.add('active-view');
+        
+        // Record and aggregate account score data sets directly on local cache bounds
+        totalRunsLog++;
+        if(currentScore > bestScoreRegistered) { bestScoreRegistered = currentScore; }
+        averageScoreCalculated = ((averageScoreCalculated * (totalRunsLog - 1)) + currentScore) / totalRunsLog;
+
         synchronizeAccountStateData();
     }
-    abortButton.addEventListener('click', tearDownGameplayAndReturnHome);
-    overlayExitHubBtn.addEventListener('click', tearDownGameplayAndReturnHome);
+    abortButton.addEventListener('click', exitLoopAndReturnToHub);
+
+    // LOGOUT GAME Pathway Router Link Configuration
+    overlayLogoutGameBtn.addEventListener('click', () => {
+        isGameRunning = false; isPaused = false;
+        cancelAnimationFrame(renderFrameId);
+        window.removeEventListener('keydown', handleSubwayControllerInputs);
+        
+        // Accumulate statistics bounds before returning to core loader
+        totalRunsLog++;
+        if(currentScore > bestScoreRegistered) { bestScoreRegistered = currentScore; }
+        averageScoreCalculated = ((averageScoreCalculated * (totalRunsLog - 1)) + currentScore) / totalRunsLog;
+
+        pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view');
+        gameStage.classList.remove('active-view'); gameStage.classList.add('hidden-view');
+        
+        // Reset full layout routing and bounce back to first landing welcome page
+        loadingScreen.classList.remove('hidden-view'); loadingScreen.classList.add('active-view');
+        welcomeEnterBtn.classList.remove('hidden'); loaderChassis.classList.add('hidden');
+    });
 
     function updateSubwayRunnerLoopPipeline() {
         if (!isGameRunning || isPaused) return;
@@ -263,20 +381,23 @@ document.addEventListener('DOMContentLoaded', () => {
         runningTimeline++; currentScore++;
         liveScoreText.textContent = `SCORE: ${String(currentScore).padStart(4, '0')}`;
 
-        if (runningTimeline % 1000 === 0) gameSpeed += 1;
+        if (runningTimeline % 1000 === 0) gameSpeed += 0.8;
 
+        // Draw 3D Sky Dome Panels
         ctx.fillStyle = activeSector.sky; ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.strokeStyle = activeSector.rail; ctx.lineWidth = 2;
+        // Render rolling perspective horizon lines receding down into the center point vanishing horizon
+        ctx.strokeStyle = activeSector.rail; ctx.lineWidth = 2.5;
         const vanishingX = 200; const vanishingY = 220;
 
+        // Four track guide walls convergence line points drawing
         [-150, -50, 50, 150].forEach(laneOffset => {
             ctx.beginPath(); ctx.moveTo(vanishingX, vanishingY);
             ctx.lineTo(vanishingX + laneOffset * 2.5, canvas.height); ctx.stroke();
         });
 
         if (activeSector.dynamicGrid) {
-            ctx.strokeStyle = "rgba(255,255,255,0.07)"; ctx.lineWidth = 1;
+            ctx.strokeStyle = "rgba(255,255,255,0.06)"; ctx.lineWidth = 1;
             for (let i = 0; i < 6; i++) {
                 let depthProgress = ((runningTimeline * (gameSpeed * 0.4)) + (i * 70)) % 430;
                 let horizontalLineY = vanishingY + depthProgress;
@@ -286,10 +407,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // Smoothly interpolate the playerX coordinate toward the targeted lane to create fluid horizontal sliding animations
+        const targetXCoordinate = TRACK_LANES[currentLaneTarget];
+        playerX += (targetXCoordinate - playerX) * 0.25;
+
         velocityY += 0.55; playerY += velocityY;
         if (playerY >= 520) { playerY = 520; velocityY = 0; }
 
-        let dynamicStrideOffset = (playerY === 520) ? Math.sin(runningTimeline * 0.3) * 3 : 0;
+        let dynamicStrideOffset = (playerY === 520) ? Math.sin(runningTimeline * 0.3) * 4 : 0;
 
         const deployedTexture = AVATAR_REGISTRY.find(c => c.id === activeSelectionId);
         const driverImage = new Image(); driverImage.src = deployedTexture.src;
@@ -299,30 +424,55 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.drawImage(driverImage, -25, -45, 50, 90);
         ctx.restore();
 
-        if (Math.random() < 0.015) {
+        // 🪨 PERSPECTIVE GENERATION FOR 3D GEOMETRIC STONE FORMATIONS 
+        if (Math.random() < 0.016) {
             const laneSlots = [100, 200, 300];
             const chosenLane = laneSlots[Math.floor(Math.random() * laneSlots.length)];
-            if (!obstacleQueue.some(obs => obs.targetLane === chosenLane && obs.zDepth < 80)) {
+            if (!obstacleQueue.some(obs => obs.targetLane === chosenLane && obs.zDepth < 90)) {
                 obstacleQueue.push({ targetLane: chosenLane, zDepth: 0 });
             }
         }
 
-        obstacleQueue.forEach((barrier, index) => {
-            barrier.zDepth += (gameSpeed * 0.8);
-            let scaleRatio = barrier.zDepth / 430;
-            let obstacleCurrentY = vanishingY + barrier.zDepth;
-            let obstacleCurrentX = vanishingX + (barrier.targetLane - vanishingX) * scaleRatio;
-            let widthBounds = 28 * scaleRatio; let heightBounds = 35 * scaleRatio;
+        obstacleQueue.forEach((stone, index) => {
+            stone.zDepth += (gameSpeed * 0.75);
 
-            ctx.fillStyle = "#ff007f";
-            ctx.fillRect(obstacleCurrentX - widthBounds/2, obstacleCurrentY - heightBounds, widthBounds, heightBounds);
-            ctx.strokeRect(obstacleCurrentX - widthBounds/2, obstacleCurrentY - heightBounds, widthBounds, heightBounds);
+            let scaleRatio = stone.zDepth / 430;
+            let obstacleCurrentY = vanishingY + stone.zDepth;
+            let obstacleCurrentX = vanishingX + (stone.targetLane - vanishingX) * scaleRatio;
+            
+            // Scaled dimensional projection vectors matching perspective depths
+            let stoneWidth = 36 * scaleRatio; let stoneHeight = 24 * scaleRatio;
 
+            // DRAWING PROCEDURAL GEOMETRIC 3D SHADED STONES (🪨)
+            ctx.save();
+            ctx.translate(obstacleCurrentX, obstacleCurrentY);
+            
+            // Build rock linear gradient shading properties
+            let stoneGrad = ctx.createLinearGradient(-stoneWidth/2, -stoneHeight, stoneWidth/2, 0);
+            stoneGrad.addColorStop(0, '#7f8c8d'); stoneGrad.addColorStop(1, '#34495e');
+            ctx.fillStyle = stoneGrad; ctx.strokeStyle = '#2c3e50'; ctx.lineWidth = 1.5;
+
+            ctx.beginPath();
+            ctx.moveTo(-stoneWidth/2, 0);
+            ctx.lineTo(-stoneWidth * 0.4, -stoneHeight * 0.8);
+            ctx.lineTo(0, -stoneHeight);
+            ctx.lineTo(stoneWidth * 0.4, -stoneHeight * 0.7);
+            ctx.lineTo(stoneWidth/2, 0);
+            ctx.closePath();
+            ctx.fill(); ctx.stroke();
+            
+            ctx.restore();
+
+            // Subway 3D Collision Hitbox Framework
             if (obstacleCurrentY > 490 && obstacleCurrentY < 540) {
-                if (Math.abs(playerX - obstacleCurrentX) < 25 && playerY > obstacleCurrentY - heightBounds - 15) {
+                if (Math.abs(playerX - obstacleCurrentX) < 30 && playerY > obstacleCurrentY - stoneHeight - 15) {
                     isGameRunning = false; cancelAnimationFrame(renderFrameId);
-                    alert(`CRASH SUBWAY IMPACT DETECTED! Run Log Score: ${currentScore}`);
-                    tearDownGameplayAndReturnHome();
+                    
+                    const currentOpName = AVATAR_REGISTRY.find(o => o.id === activeSelectionId).name;
+                    alert(`🚨 CRASH IMPACT DETECTED! 🚨\n\nOperator: ${currentOpName.toUpperCase()}\nSector Run Score: ${currentScore}`);
+                    
+                    // Route directly through exit handler to accumulate statistics logs cleanly
+                    exitLoopAndReturnToHub();
                 }
             }
         });
@@ -330,4 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderFrameId = requestAnimationFrame(updateSubwayRunnerLoopPipeline);
     }
+
+    // Execute core app loader loop sequence immediately
+    executeBootLoaderSequence();
 });
