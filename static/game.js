@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadingProgress = 100;
                 clearInterval(loader);
                 
-                // Automatically forwards you to the next page
+                // Automatically forwards you to the Account Config screen
                 loadingScreen.classList.remove('active-view'); 
                 loadingScreen.classList.add('hidden-view');
                 mountAccountRegistrationFormView();
