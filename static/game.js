@@ -94,20 +94,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const pfpDropdownDrawerGrid = document.getElementById('pfp-images-dropdown-subgrid');
     const pfpPortraitImagesRow = document.getElementById('pfp-portrait-images-row');
 
-    // --------------------------------------------------------------------------
-    // SCREEN 1: THE FIRST INITIAL LOADING SEQUENCE
+   // --------------------------------------------------------------------------
+    // SCREEN 1: DYNAMIC WELCOME LOADING SEQUENCE (HARD-LOCKED TO 7 SECONDS)
     // --------------------------------------------------------------------------
     function fireInitialBootLoaderPipeline() {
-        let loadingProgress = 0;
+        const totalDuration = 7000; // Hard-locked 7-second time period
+        const tickInterval = 50;    // Smooth incremental updates
+        let timeElapsed = 0;
+
         const loader = setInterval(() => {
-            loadingProgress += Math.floor(Math.random() * 5) + 3;
+            timeElapsed += tickInterval;
+            let loadingProgress = (timeElapsed / totalDuration) * 100;
+
             if (loadingProgress >= 100) {
-                loadingProgress = 100; clearInterval(loader);
-                loadingScreen.classList.remove('active-view'); loadingScreen.classList.add('hidden-view');
+                loadingProgress = 100;
+                clearInterval(loader);
+                
+                // Automatically forwards you to the next page
+                loadingScreen.classList.remove('active-view'); 
+                loadingScreen.classList.add('hidden-view');
                 mountAccountRegistrationFormView();
             }
             bootBar.style.width = `${loadingProgress}%`;
-        }, 35);
+        }, tickInterval);
     }
 
     function mountAccountRegistrationFormView() {
@@ -202,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
             statsUserEditor.disabled = true; editUsernameToggleBtn.textContent = "✏️";
         }
     });
-
+   
     // --------------------------------------------------------------------------
     // SCREEN 2: 2D PURE VECTOR MINI-HUMAN CHARACTER SELECTOR STORE
     // --------------------------------------------------------------------------
