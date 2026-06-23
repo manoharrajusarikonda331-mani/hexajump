@@ -9,13 +9,16 @@
 </head>
 <body>
 
+    <!-- PRODUCTION BACKGROUND: GAME AMBIENT SCI-FI DECORATION MONITOR LAYER -->
     <div class="ambient-universe-backdrop">
         <div class="space-nebula-glow"></div>
         <div class="infinite-horizon-matrix"></div>
     </div>
 
+    <!-- Centralized 9:16 Smartphone Emulation Chassis -->
     <div id="mobile-device-frame">
 
+        <!-- SCREEN 1: CLASSIC SYSTEM COGNITIVE LOADER SEQUENCE -->
         <div id="loading-screen" class="active-view screen-layout landing-bg">
             <div class="cyber-grid-overlay"></div>
             <div class="welcome-center-panel">
@@ -23,123 +26,170 @@
                     <h1 class="runner-logo">HEXA</h1>
                     <h1 class="runner-logo color-alt">JUMP</h1>
                 </div>
-                <p class="game-description">
-                    Dodge tactical obstacles, slide across 3 active subway paths, and establish high-score neural connections across 5 custom neon environments.
-                </p>
-            </div>
-            <div class="welcome-action-group">
-                <button id="welcome-enter-btn" class="stack-btn pulse-launch">ENTER SYSTEM LINK</button>
-                <div class="loader-chassis hidden">
-                    <div class="bar-container"><div id="boot-progress" class="bar-fill"></div></div>
-                    <p class="telemetry-status">ESTABLISHING ACCOUNT SECTOR PATHS...</p>
+                <div class="bar-container">
+                    <div id="boot-progress" class="bar-fill"></div>
                 </div>
+                <p class="telemetry-status">SYNCHRONIZING SECURE FILE NODES...</p>
             </div>
         </div>
 
+        <!-- NEW SYSTEM INTERFACE: OPERATOR ACCOUNT ENTRY VIEW -->
         <div id="account-creation-screen" class="hidden-view screen-layout">
-            <h2 class="section-title">ACCOUNT SECTOR</h2>
-            <p class="panel-subtitle">Register New Driver Credentials Matrix</p>
+            <h2 class="section-title">ACCOUNT CONFIG</h2>
             <div class="registration-form-box">
-                <label class="form-label">ENTER RUNNER USERNAME:</label>
+                <label class="form-label">ENTER RUNNER IDENTITY USERNAME:</label>
                 <input type="text" id="username-input" class="form-input-field" placeholder="Operator_Mani" maxlength="12">
-                <label class="form-label">CHOOSE IDENTITY PROFILE PIC:</label>
-                <div id="profile-pic-selection-row" class="pic-selector-row"></div>
             </div>
-            <button id="confirm-account-btn" class="action-trigger-btn" disabled>INITIALIZE ACCOUNT</button>
+            <button id="confirm-account-btn" class="action-trigger-btn" disabled>INITIALIZE DRIVE LINK</button>
         </div>
 
+        <!-- UNIVERSAL HUD STATUS PANEL HEADER OVERLAY -->
         <div id="top-nav-telemetry" class="hidden-view">
-            <div id="trigger-user-overlay-btn" class="user-pill-btn">
-                <span class="live-blink"></span> <span id="nav-display-username">USER</span>
+            <div class="sys-tag"><span class="live-blink"></span> ONLINE</div>
+            <!-- Small Slide Top-Right Circle Profile Trigger Pfp Button Slot -->
+            <div id="nav-profile-trigger" class="circle-nav-pfp-btn">
+                <img id="nav-pfp-icon-img" src="assets/alpha.png" alt="Pfp">
+                <span id="nav-display-username">USER</span>
             </div>
-            <div class="wallet-tag"><span id="coin-count">0</span> 🪙</div>
         </div>
 
+        <!-- SCREEN 2: 2D VECTOR CODE MINI-HUMAN SELECTION STORE VIEW -->
         <div id="store-screen" class="hidden-view screen-layout">
-            <h2 class="section-title">OPERATOR MATRIX</h2>
+            <h2 class="section-title">CHOOSE AVATAR</h2>
+            <p class="panel-subtitle">Select 2D Mini-Human Character Model Template</p>
             <div id="dynamic-avatar-grid" class="chibi-store-grid"></div>
             <div class="store-footer-controls">
-                <button id="store-action-btn" class="action-trigger-btn" disabled>SELECT PROFILE</button>
-                <button id="store-to-hub-btn" class="secondary-nav-btn">RETURN TO MISSION CONTROL</button>
+                <button id="store-action-btn" class="action-trigger-btn" disabled>CONFIRM SELECTION</button>
+                <button id="store-to-hub-btn" class="secondary-nav-btn">GO BACK TO HOME HUB</button>
             </div>
         </div>
 
+        <!-- SCREEN 3: COMMAND INTERFACE MAIN CENTER HUB (HOME) -->
         <div id="home-screen" class="hidden-view screen-layout">
             <div class="hub-profile-showcase">
                 <div class="avatar-perspective-ring">
-                    <img id="hub-avatar-img" src="assets/alpha.png" alt="Active Profile Image">
+                    <!-- Dynamic Live 2D Pure-Code Avatar Canvas Container -->
+                    <canvas id="hubCharacterCanvas" width="160" height="200"></canvas>
                 </div>
                 <h3 id="hub-avatar-name">ALPHA</h3>
             </div>
             <div class="hub-control-stack">
-                <button id="nav-to-modes-btn" class="stack-btn pulse-launch">DEPLOY TO TRACKS</button>
-                <button id="nav-to-store-btn" class="stack-btn cosmetic-btn">OPERATORS EQUIPMENT STORE</button>
+                <button id="nav-to-modes-btn" class="stack-btn pulse-launch">TAP TO START GAME 🎮</button>
+                <button id="nav-to-store-btn" class="stack-btn cosmetic-btn">CHANGE AVATAR</button>
             </div>
         </div>
 
+        <!-- SCREEN 4: 5 SPECIFIC RAILWAY & HIGHWAY ENVIRONMENT WORLD SELECTOR -->
         <div id="modes-screen" class="hidden-view screen-layout">
-            <h2 class="section-title">SECTOR CAROUSEL</h2>
+            <h2 class="section-title">ROAD SECTOR</h2>
+            <p class="panel-subtitle">Select Real-Time Destination Runner Path View</p>
             <div class="sectors-vertical-stack">
-                <div class="sector-strip" data-mode="cyber">
+                <div class="sector-strip" data-mode="railway">
                     <div class="sector-strip-bg bg-cyber"></div>
-                    <span>CYBER CITY SUBWAY</span>
+                    <span>Railway Track Path 🛤️</span>
                 </div>
-                <div class="sector-strip" data-mode="jungle">
+                <div class="sector-strip" data-mode="desert">
                     <div class="sector-strip-bg bg-jungle"></div>
-                    <span>MYSTIC CANOPY CHASSIS</span>
+                    <span>Desert Road Path 🏜️</span>
                 </div>
-                <div class="sector-strip" data-mode="volcano">
+                <div class="sector-strip" data-mode="city">
                     <div class="sector-strip-bg bg-volcano"></div>
-                    <span>MAGMA RIDGE RUNWAY</span>
+                    <span>City Road Path 🛣️</span>
                 </div>
-                <div class="sector-strip" data-mode="space">
+                <div class="sector-strip" data-mode="bridge">
                     <div class="sector-strip-bg bg-space"></div>
-                    <span>NEBULA OUTPOST LINE</span>
+                    <span>Bridge Road Path 🌉</span>
                 </div>
-                <div class="sector-strip" data-mode="grid">
+                <div class="sector-strip" data-mode="mountain">
                     <div class="sector-strip-bg bg-grid"></div>
-                    <span>SYSTEM CORE MATRIX</span>
+                    <span>Mountain Road Path 🏞️</span>
                 </div>
             </div>
             <div class="carousel-footer-controls">
-                <button id="launch-game-engine-btn" class="action-trigger-btn" disabled>LAUNCH CORE RUN</button>
-                <button id="modes-to-hub-btn" class="secondary-nav-btn">ABORT TO MISSION CONTROL</button>
+                <button id="launch-game-engine-btn" class="action-trigger-btn" disabled>ENGAGE LINK RUN</button>
+                <button id="modes-to-hub-btn" class="secondary-nav-btn">RETURN TO HOME HUB</button>
             </div>
         </div>
 
+        <!-- SCREEN 5: RUNTIME CANVAS ENDLESS GRAPHICS ENVIRONMENT RUN -->
         <div id="game-stage" class="hidden-view screen-layout">
             <div class="gameplay-hud-overlay">
                 <button id="pause-engine-btn" class="hud-circle-btn">⏸️</button>
                 <div id="live-score-tracker">SCORE: 0000</div>
-                <button id="abort-to-home-btn" class="hud-circle-btn exit-btn">🏠</button>
+                <div class="hud-coins-display"><span id="live-coins-count">0</span> 🪙</div>
             </div>
 
             <canvas id="gameCanvas" width="400" height="650"></canvas>
             
+            <!-- Mid-Run Loop Suspended Frame Menu Overlay -->
             <div id="pause-overlay" class="hidden-view runtime-modal-mask">
                 <div class="stasis-card">
                     <h3>LOOP SUSPENDED</h3>
-                    <p>Neural engine connection idling</p>
+                    <p>Neural link idling safely</p>
                     <button id="resume-engine-btn" class="modal-btn confirm-btn">RESUME CORE RUN</button>
                     <button id="pause-exit-home-btn" class="modal-btn abort-btn">LOGOUT GAME</button>
                 </div>
             </div>
+
+            <!-- SCREEN 6: DEDICATED PLAYER OUT SCOREBOARD OVERLAY VIEW -->
+            <div id="game-over-overlay" class="hidden-view runtime-modal-mask">
+                <div class="game-over-card">
+                    <h2 class="game-over-title">CRASH LOG TERMINATION</h2>
+                    <p class="game-over-subtitle">Subway Impact Exception Code Detected</p>
+                    
+                    <div class="session-summary-box">
+                        <div class="summary-row"><span>RUNNER SCORE:</span><span id="final-score-val">0000</span></div>
+                        <div class="summary-row"><span>COINS ACQUIRED:</span><span id="final-coins-val">0</span> 🪙</div>
+                    </div>
+
+                    <div class="game-over-btn-stack">
+                        <button id="go-btn-play-again" class="go-stack-btn primary-go-btn">PLAY AGAIN</button>
+                        <button id="go-btn-home" class="go-stack-btn">HOME PAGE</button>
+                        <button id="go-btn-profile" class="go-stack-btn">PROFILE PAGE</button>
+                        <button id="go-btn-avatar" class="go-stack-btn">CHANGE AVATAR</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <!-- SCREEN 7: PREMIUM ACCOUNT PROFILE SHEETS CARD OVERLAY VIEW -->
         <div id="user-profile-modal" class="hidden-view runtime-modal-mask">
             <div class="profile-stats-card">
                 <div class="close-profile-row"><button id="close-profile-modal-btn">❌</button></div>
+                
                 <div class="user-meta-header">
-                    <div class="meta-pic-wrapper"><img id="profile-stats-img" src="" alt="User Pic"></div>
+                    <!-- Circle 3D Portrait Frame with Change Pencil Button Indicator -->
+                    <div class="meta-pic-container">
+                        <div class="meta-pic-circle">
+                            <img id="profile-stats-img" src="assets/alpha.png" alt="Profile Portrait">
+                        </div>
+                        <button id="edit-pfp-trigger-btn" class="pfp-pencil-badge">✏️</button>
+                    </div>
+                    
                     <div class="meta-text-block">
-                        <h4 id="profile-stats-username">OPERATOR</h4>
+                        <div class="editable-name-row">
+                            <input type="text" id="profile-username-editor" class="inline-name-input" value="OPERATOR" disabled>
+                            <button id="edit-username-toggle-btn" class="input-pencil-inline-btn">✏️</button>
+                        </div>
                         <p id="profile-stats-uid">ID: #000000</p>
                     </div>
                 </div>
+
+                <!-- Live Sub-Grid Holding Dynamic Selection Core Images (Hidden by default) -->
+                <div id="pfp-images-dropdown-subgrid" class="pfp-dropdown-drawer hidden">
+                    <p class="drawer-instruction-lbl">SELECT 3D PORTRAIT CHARACTER PFP:</p>
+                    <div id="pfp-portrait-images-row" class="drawer-images-row"></div>
+                </div>
+
                 <div class="stats-data-grid">
                     <div class="stat-node"><span class="stat-val" id="stat-best-score">0000</span><span class="stat-lbl">BEST RUN</span></div>
                     <div class="stat-node"><span class="stat-val" id="stat-avg-score">0000</span><span class="stat-lbl">AVG RUN</span></div>
                     <div class="stat-node"><span class="stat-val" id="stat-total-runs">0</span><span class="stat-lbl">TOTAL LOGS</span></div>
+                </div>
+                
+                <div class="recommended-panel-box">
+                    <span class="rec-title-tag">SYSTEM RECOMMENDATION:</span>
+                    <p class="rec-desc-txt">Upgrade active stride multipliers or unlock higher-tier female operator templates to maximize performance data collection maps.</p>
                 </div>
             </div>
         </div>
