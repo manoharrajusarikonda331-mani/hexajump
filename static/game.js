@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     closeProfileModalBtn.addEventListener('click', () => { userProfileModal.classList.remove('active-view'); userProfileModal.classList.add('hidden-view'); });
 
-    // Dynamic 3D Portraits Selector Dropdown Row Injection Node
+   // Dynamic 3D Portraits Selector Dropdown Row Injection Node
     editPfpTriggerBtn.addEventListener('click', () => {
         if (!pfpDropdownDrawerGrid.classList.contains('hidden')) {
             pfpDropdownDrawerGrid.classList.add('hidden'); return;
@@ -184,12 +184,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Render all 6 3D portrait image files inside the account selector matrix frame row
         AVATAR_REGISTRY.forEach(char => {
             const wrap = document.createElement('div');
-            wrap.className = `drawer-pfp-node ${selected3DPortraitFile === char.3dPortrait ? 'active-pfp' : ''}`;
-            const img = document.createElement('img'); img.src = char.3dPortrait;
+            wrap.className = `drawer-pfp-node ${selected3DPortraitFile === char.portrait3d ? 'active-pfp' : ''}`;
+            
+            const img = document.createElement('img'); 
+            img.src = char.portrait3d;
             wrap.appendChild(img);
 
             wrap.addEventListener('click', () => {
-                selected3DPortraitFile = char.3dPortrait;
+                selected3DPortraitFile = char.portrait3d;
                 statsImg.src = selected3DPortraitFile;
                 navPfpIconImg.src = selected3DPortraitFile;
                 document.querySelectorAll('.drawer-pfp-node').forEach(n => n.classList.remove('active-pfp'));
