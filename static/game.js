@@ -6,12 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // DEFINITION MATRIX: Central Character Data Profiles (3 Male, 3 Female 2D Code Vectors)
     const AVATAR_REGISTRY = [
-        { id: 'm1', name: 'Alpha', gender: 'male', headSkin: '#ffcc99', clothing: '#00a8ff', pants: '#333333', price: 0, 3dPortrait: 'assets/alpha.png' },
-        { id: 'm2', name: 'Striker', gender: 'male', headSkin: '#e0ac69', clothing: '#ffb700', pants: '#111111', price: 100, 3dPortrait: 'assets/striker.png' },
-        { id: 'm3', name: 'Maverick', gender: 'male', headSkin: '#ffdbac', clothing: '#00ff88', pants: '#222222', price: 250, 3dPortrait: 'assets/maverick.png' },
-        { id: 'f1', name: 'Nova', gender: 'female', headSkin: '#ffcccc', clothing: '#ff007f', pants: '#444444', price: 0, 3dPortrait: 'assets/nova.png' },
-        { id: 'f2', name: 'Valkyrie', gender: 'female', headSkin: '#f1c27d', clothing: '#b500ff', pants: '#1e1e1e', price: 150, 3dPortrait: 'assets/valkyrie.png' },
-        { id: 'f3', name: 'Athena', gender: 'female', headSkin: '#ffd1dc', clothing: '#00f0ff', pants: '#2c3e50', price: 300, 3dPortrait: 'assets/athena.png' }
+        { id: 'm1', name: 'Alpha', gender: 'male', headSkin: '#ffcc99', clothing: '#00a8ff', pants: '#333333', price: 0, portrait3d: 'assets/alpha.png' },
+        { id: 'm2', name: 'Striker', gender: 'male', headSkin: '#e0ac69', clothing: '#ffb700', pants: '#111111', price: 100, portrait3d: 'assets/striker.png' },
+        { id: 'm3', name: 'Maverick', gender: 'male', headSkin: '#ffdbac', clothing: '#00ff88', pants: '#222222', price: 250, portrait3d: 'assets/maverick.png' },
+        { id: 'f1', name: 'Nova', gender: 'female', headSkin: '#ffcccc', clothing: '#ff007f', pants: '#444444', price: 0, portrait3d: 'assets/nova.png' },
+        { id: 'f2', name: 'Valkyrie', gender: 'female', headSkin: '#f1c27d', clothing: '#b500ff', pants: '#1e1e1e', price: 150, portrait3d: 'assets/valkyrie.png' },
+        { id: 'f3', name: 'Athena', gender: 'female', headSkin: '#ffd1dc', clothing: '#00f0ff', pants: '#2c3e50', price: 300, portrait3d: 'assets/athena.png' }
     ];
 
     // DEFINITION MATRIX: 5 Real-Time Styled Road 🛣️ Paths Viewport Environments
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let sessionScore = 0; let sessionCoinsEarned = 0;
     let obstacleQueue = [];
 
-   // DOM NODE CAPTURES DIRECTORY
+    // DOM NODE CAPTURES DIRECTORY
     const loadingScreen = document.getElementById('loading-screen');
     const bootBar = document.getElementById('boot-progress');
     const telemetryBar = document.getElementById('top-nav-telemetry');
