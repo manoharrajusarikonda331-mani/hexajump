@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let sessionScore = 0; let sessionCoinsEarned = 0;
     let obstacleQueue = [];
 
-    // DOM NODE CAPTURES DIRECTORY
+   // DOM NODE CAPTURES DIRECTORY
     const loadingScreen = document.getElementById('loading-screen');
     const bootBar = document.getElementById('boot-progress');
     const telemetryBar = document.getElementById('top-nav-telemetry');
@@ -67,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const homeScreen = document.getElementById('home-screen');
     const hubAvatarName = document.getElementById('hub-avatar-name');
     const hubCharacterCanvas = document.getElementById('hubCharacterCanvas');
-    const hCtx = hubCharacterCanvas.getContext('2d');
+    // Error Safeguard: Only initialize 2D context if the canvas element exists on screen
+    const hCtx = hubCharacterCanvas ? hubCharacterCanvas.getContext('2d') : null;
 
     const modesScreen = document.getElementById('modes-screen');
     const modeCards = document.querySelectorAll('.sector-strip');
