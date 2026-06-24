@@ -643,23 +643,24 @@ if (btnProfile) {
 // ==========================================================================
 // 🔗 BLOCK C: NEW OVERLAYS & NAVIGATION HOOKS (PAUSE MENU LINK MATRIX)
 // ==========================================================================
-const pauseProfileBtn = document.getElementById('pause-profile-btn');
-if (pauseProfileBtn) {
-    pauseProfileBtn.addEventListener('click', () => {
-        terminateActiveTrackSessionAndWipeCounters();
-        if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
-    });
-}
+// Link the newly introduced Pause Menu navigation buttons safely
+    const pauseProfileBtn = document.getElementById('pause-profile-btn');
+    if (pauseProfileBtn) {
+        pauseProfileBtn.addEventListener('click', () => {
+            terminateActiveTrackSessionAndWipeCounters();
+            if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
+        });
+    }
 
-const pauseHomeBtn = document.getElementById('pause-home-btn');
-if (pauseHomeBtn) {
-    pauseHomeBtn.addEventListener('click', () => {
-        terminateActiveTrackSessionAndWipeCounters();
-        if (homeScreen) { homeScreen.classList.remove('hidden-view'); homeScreen.classList.add('active-view'); }
-    });
-}
+    const pauseHomeBtn = document.getElementById('pause-home-btn');
+    if (pauseHomeBtn) {
+        pauseHomeBtn.addEventListener('click', () => {
+            terminateActiveTrackSessionAndWipeCounters();
+            if (homeScreen) { homeScreen.classList.remove('hidden-view'); homeScreen.classList.add('active-view'); }
+        });
+    }
 
-// Link the CRASH OVERLAY "CHANGE AVATAR" action button property
+    // Link the CRASH OVERLAY "CHANGE AVATAR" action button property
     const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
     if (crashChangeAvatarBtn) {
         crashChangeAvatarBtn.addEventListener('click', () => {
@@ -671,5 +672,3 @@ if (pauseHomeBtn) {
 
     // Execute application load triggers immediately on file entry mount
     fireInitialBootloaderPipeline();
-
-});
