@@ -3,17 +3,20 @@
 HEXAJUMP - ENTERPRISE BACKEND ENGINE & STATE LAYER
 ==========================================================================
 """
-from flask import Flask, send_from_directory, jsonify, request, session
 import os
+from flask import Flask, send_from_directory, jsonify, request, session, render_template
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__, static_folder='static', template_folder='templates')
 app.secret_key = 'hexajump_crypto_high_performance_system_secure_key_2026'
 
 def initialize_player_session():
     """Initializes player save state structure into the server memory."""
-    if 'coins' not in session: session['coins'] = 1000
-    if 'selected_avatar' not in session: session['selected_avatar'] = 'm1'
-    if 'unlocked_avatars' not in session: session['unlocked_avatars'] = ['m1','f1']
+    if 'coins' not in session: 
+        session['coins'] = 1000
+    if 'selected_avatar' not in session: 
+        session['selected_avatar'] = 'm1'
+    if 'unlocked_avatars' not in session: 
+        session['unlocked_avatars'] = ['m1', 'f1']
     
     # Initialize high score data structure if empty
     if 'high_scores' not in session:
@@ -24,11 +27,13 @@ def initialize_player_session():
 
 @app.route('/')
 def serve_launcher():
+    """Serves the primary UI canvas layer out of the templates environment."""
     initialize_player_session()
-    return send_from_directory(app.static_folder, 'index.html')
+    return render_template('index.html')
 
 @app.route('/<path:path>')
 def serve_static_assets(path):
+    """Fallback directory route map for serving static media assets cleanly."""
     return send_from_directory(app.static_folder, path)
 
 # --------------------------------------------------------------------------
@@ -59,7 +64,11 @@ def buy_avatar():
         session['coins'] -= price
         session['unlocked_avatars'].append(avatar_id)
         session.modified = True
-        return jsonify({"status": "success", "coins": session['coins'], "unlocked_avatars": session['unlocked_avatars']}), 200
+        return jsonify({
+            "status": "success", 
+            "coins": session['coins'], 
+            "unlocked_avatars": session['unlocked_avatars']
+        }), 200
     
     return jsonify({"status": "error"}), 400
 
@@ -82,7 +91,7 @@ def handle_game_over():
     session.modified = True
     return jsonify({
         "status": "success", 
-        "high_score": session['high_scores'][avatar_id], 
+        "high_score": session['high_scores'].get(avatar_id, 0), 
         "is_new_high": new_high_score
     }), 200
 
@@ -93,6 +102,7 @@ def select_avatar():
     avatar_id = data.get('avatar_id')
     if avatar_id in session['unlocked_avatars']:
         session['selected_avatar'] = avatar_id
+        session.modified = True
         return jsonify({"status": "success"}), 200
     return jsonify({"status": "error"}), 400
 
