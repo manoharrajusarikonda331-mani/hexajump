@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'f3', name: 'Athena', gender: 'female', headSkin: '#ffd1dc', clothing: '#00f0ff', pants: '#2c3e50', price: 300, portrait3d: 'assets/athena.png' }
     ];
 
-    // DEFINITION MATRIX: 5 Real-Time Styled Road 🛣️ Paths Viewport Environments
+    // DEFINITION MATRIX: 5 Real-Time Styled Road Paths Viewport Environments
     const WORLD_MODES = {
         railway: { name: "Railway Track Path 🛤️", sky: "#040914", laneLines: "#ff007f", tiesColor: "#2c3e50" },
         desert: { name: "Desert Road Path 🏜️", sky: "#1a0f02", laneLines: "#ffb700", tiesColor: "#d35400" },
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeSelectionId = 'm1'; let focusedCardId = null;
     let designatedWorldMode = null;
 
-   // RUNTIME ENVIRONMENT ENGINE PROPERTIES
+    // RUNTIME ENVIRONMENT ENGINE PROPERTIES
     const canvas = document.getElementById('gameCanvas');
     let ctx = null; let renderFrameId = null;
     let isGameRunning = false; let isPaused = false;
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pfpDropdownDrawerGrid = document.getElementById('pfp-images-dropdown-subgrid');
     const pfpPortraitImagesRow = document.getElementById('pfp-portrait-images-row');
 
-   // --------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
     // SCREEN 1: DYNAMIC WELCOME LOADING SEQUENCE (HARD-LOCKED TO 7 SECONDS)
     // --------------------------------------------------------------------------
     function fireInitialBootLoaderPipeline() {
@@ -115,34 +115,49 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(loader);
                 
                 // Automatically forwards you to the Account Config screen
-                loadingScreen.classList.remove('active-view'); 
-                loadingScreen.classList.add('hidden-view');
+                if (loadingScreen) {
+                    loadingScreen.classList.remove('active-view'); 
+                    loadingScreen.classList.add('hidden-view');
+                }
                 mountAccountRegistrationFormView();
             }
-            bootBar.style.width = `${loadingProgress}%`;
+            if (bootBar) bootBar.style.width = `${loadingProgress}%`;
         }, tickInterval);
     }
 
     function mountAccountRegistrationFormView() {
-        accountCreationScreen.classList.remove('hidden-view'); accountCreationScreen.classList.add('active-view');
-        usernameInputField.addEventListener('input', () => {
-            if (usernameInputField.value.trim().length >= 3) {
-                confirmAccountBtn.disabled = false; confirmAccountBtn.classList.add('ready-select');
-            } else {
-                confirmAccountBtn.disabled = true; confirmAccountBtn.classList.remove('ready-select');
-            }
-        });
+        if (accountCreationScreen) {
+            accountCreationScreen.classList.remove('hidden-view'); 
+            accountCreationScreen.classList.add('active-view');
+        }
+        if (usernameInputField) {
+            usernameInputField.addEventListener('input', () => {
+                if (usernameInputField.value.trim().length >= 3) {
+                    confirmAccountBtn.disabled = false; confirmAccountBtn.classList.add('ready-select');
+                } else {
+                    confirmAccountBtn.disabled = true; confirmAccountBtn.classList.remove('ready-select');
+                }
+            });
+        }
     }
 
-    confirmAccountBtn.addEventListener('click', () => {
-        globalUsername = usernameInputField.value.trim();
-        globalUserID = "ID_" + Math.floor(100000 + Math.random() * 900000);
-        navUsernameText.textContent = globalUsername.toUpperCase();
+    if (confirmAccountBtn) {
+        confirmAccountBtn.addEventListener('click', () => {
+            globalUsername = usernameInputField.value.trim();
+            globalUserID = "ID_" + Math.floor(100000 + Math.random() * 900000);
+            if (navUsernameText) navUsernameText.textContent = globalUsername.toUpperCase();
 
-        accountCreationScreen.classList.remove('active-view'); accountCreationScreen.classList.add('hidden-view');
-        telemetryBar.classList.remove('hidden-view'); telemetryBar.classList.add('active-view');
-        synchronizeServerDatabaseState();
-    });
+            if (accountCreationScreen) {
+                accountCreationScreen.classList.remove('active-view'); 
+                accountCreationScreen.classList.add('hidden-view');
+            }
+            if (telemetryBar) {
+                telemetryBar.classList.remove('hidden-view'); 
+                telemetryBar.classList.add('active-view');
+            }
+            synchronizeServerDatabaseState();
+        });
+    }
 
     // --------------------------------------------------------------------------
     // API SYNCHRONIZATION POINT CALLS
@@ -165,76 +180,101 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Fires your layout system to show your dashboard details and character preview
             routeToHomeCommandHub();
-        } catch (err) { console.error("Database connection exception: ", err); }
+        } catch (err) { 
+            console.error("Database connection exception: ", err); 
+            // Graceful frontend fallback mapping if database is booting
+            routeToHomeCommandHub();
+        }
     }
 
     // --------------------------------------------------------------------------
     // USER ACCOUNT MODAL CONFIGURE SYSTEMS AND DRAWERS
     // --------------------------------------------------------------------------
-    profileTriggerBtn.addEventListener('click', () => {
-        statsImg.src = selected3DPortraitFile;
-        statsUserEditor.value = globalUsername;
-        statsUid.textContent = globalUserID;
-        statsBest.textContent = String(highBestScore).padStart(4, '0');
-        statsAvg.textContent = String(Math.floor(computedAvgScore)).padStart(4, '0');
-        statsCount.textContent = totalRunsCount;
+    if (profileTriggerBtn) {
+        profileTriggerBtn.addEventListener('click', () => {
+            if (statsImg) statsImg.src = selected3DPortraitFile;
+            if (statsUserEditor) statsUserEditor.value = globalUsername;
+            if (statsUid) statsUid.textContent = globalUserID;
+            if (statsBest) statsBest.textContent = String(highBestScore).padStart(4, '0');
+            if (statsAvg) statsAvg.textContent = String(Math.floor(computedAvgScore)).padStart(4, '0');
+            if (statsCount) statsCount.textContent = totalRunsCount;
 
-        pfpDropdownDrawerGrid.classList.add('hidden'); // Ensure picker starts minimized
-        userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view');
-    });
-    closeProfileModalBtn.addEventListener('click', () => { userProfileModal.classList.remove('active-view'); userProfileModal.classList.add('hidden-view'); });
-
-   // Dynamic 3D Portraits Selector Dropdown Row Injection Node
-    editPfpTriggerBtn.addEventListener('click', () => {
-        if (!pfpDropdownDrawerGrid.classList.contains('hidden')) {
-            pfpDropdownDrawerGrid.classList.add('hidden'); return;
-        }
-        pfpPortraitImagesRow.innerHTML = '';
-        
-        // Render all 6 3D portrait image files inside the account selector matrix frame row
-        AVATAR_REGISTRY.forEach(char => {
-            const wrap = document.createElement('div');
-            wrap.className = `drawer-pfp-node ${selected3DPortraitFile === char.portrait3d ? 'active-pfp' : ''}`;
-            
-            const img = document.createElement('img'); 
-            img.src = char.portrait3d;
-            wrap.appendChild(img);
-
-            wrap.addEventListener('click', () => {
-                selected3DPortraitFile = char.portrait3d;
-                statsImg.src = selected3DPortraitFile;
-                navPfpIconImg.src = selected3DPortraitFile;
-                document.querySelectorAll('.drawer-pfp-node').forEach(n => n.classList.remove('active-pfp'));
-                wrap.classList.add('active-pfp');
-            });
-            pfpPortraitImagesRow.appendChild(wrap);
+            if (pfpDropdownDrawerGrid) pfpDropdownDrawerGrid.classList.add('hidden'); // Ensure picker starts minimized
+            if (userProfileModal) {
+                userProfileModal.classList.remove('hidden-view'); 
+                userProfileModal.classList.add('active-view');
+            }
         });
-        pfpDropdownDrawerGrid.classList.remove('hidden');
-    });
+    }
+    
+    if (closeProfileModalBtn) {
+        closeProfileModalBtn.addEventListener('click', () => { 
+            if (userProfileModal) {
+                userProfileModal.classList.remove('active-view'); 
+                userProfileModal.classList.add('hidden-view'); 
+            }
+        });
+    }
+
+    // Dynamic 3D Portraits Selector Dropdown Row Injection Node
+    if (editPfpTriggerBtn) {
+        editPfpTriggerBtn.addEventListener('click', () => {
+            if (pfpDropdownDrawerGrid && !pfpDropdownDrawerGrid.classList.contains('hidden')) {
+                pfpDropdownDrawerGrid.classList.add('hidden'); 
+                return;
+            }
+            if (pfpPortraitImagesRow) pfpPortraitImagesRow.innerHTML = '';
+            
+            // Render all 6 3D portrait image files inside the account selector matrix frame row
+            AVATAR_REGISTRY.forEach(char => {
+                const wrap = document.createElement('div');
+                wrap.className = `drawer-pfp-node ${selected3DPortraitFile === char.portrait3d ? 'active-pfp' : ''}`;
+                
+                const img = document.createElement('img'); 
+                img.src = char.portrait3d;
+                wrap.appendChild(img);
+
+                wrap.addEventListener('click', () => {
+                    selected3DPortraitFile = char.portrait3d;
+                    if (statsImg) statsImg.src = selected3DPortraitFile;
+                    if (navPfpIconImg) navPfpIconImg.src = selected3DPortraitFile;
+                    document.querySelectorAll('.drawer-pfp-node').forEach(n => n.classList.remove('active-pfp'));
+                    wrap.classList.add('active-pfp');
+                });
+                if (pfpPortraitImagesRow) pfpPortraitImagesRow.appendChild(wrap);
+            });
+            if (pfpDropdownDrawerGrid) pfpDropdownDrawerGrid.classList.remove('hidden');
+        });
+    }
 
     // Username inline configuration button mapping
-    editUsernameToggleBtn.addEventListener('click', () => {
-        if (statsUserEditor.disabled) {
-            statsUserEditor.disabled = false; statsUserEditor.focus(); editUsernameToggleBtn.textContent = "💾";
-        } else {
-            const newName = statsUserEditor.value.trim();
-            if (newName.length >= 3) {
-                globalUsername = newName; navUsernameText.textContent = globalUsername.toUpperCase();
+    if (editUsernameToggleBtn) {
+        editUsernameToggleBtn.addEventListener('click', () => {
+            if (statsUserEditor) {
+                if (statsUserEditor.disabled) {
+                    statsUserEditor.disabled = false; statsUserEditor.focus(); editUsernameToggleBtn.textContent = "💾";
+                } else {
+                    const newName = statsUserEditor.value.trim();
+                    if (newName.length >= 3) {
+                        globalUsername = newName; if (navUsernameText) navUsernameText.textContent = globalUsername.toUpperCase();
+                    }
+                    statsUserEditor.disabled = true; editUsernameToggleBtn.textContent = "✏️";
+                }
             }
-            statsUserEditor.disabled = true; editUsernameToggleBtn.textContent = "✏️";
-        }
-    });
+        });
+    }
    
     // --------------------------------------------------------------------------
     // SCREEN 2: 2D PURE VECTOR MINI-HUMAN CHARACTER SELECTOR STORE
     // --------------------------------------------------------------------------
     function routeToAvatarSelectorStore() {
-        homeScreen.classList.remove('active-view'); homeScreen.classList.add('hidden-view');
-        storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view');
+        if (homeScreen) { homeScreen.classList.remove('active-view'); homeScreen.classList.add('hidden-view'); }
+        if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
         renderStoreGridPanel();
     }
 
     function renderStoreGridPanel() {
+        if (!gridContainer) return;
         gridContainer.innerHTML = '';
         AVATAR_REGISTRY.forEach(char => {
             const isUnlocked = unlockedList.includes(char.id);
@@ -271,6 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateStoreActionButtonContext(char, isUnlocked) {
+        if (!storeActionButton) return;
         storeActionButton.disabled = false; storeActionButton.className = 'action-trigger-btn';
         if (isUnlocked) {
             storeActionButton.textContent = (activeSelectionId === char.id) ? "ACTIVE OPERATOR" : `DEPLOY [ ${char.name.toUpperCase()} ]`;
@@ -285,44 +326,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    storeActionButton.addEventListener('click', async () => {
-        if (!focusedCardId) return;
-        const targetOp = AVATAR_REGISTRY.find(c => c.id === focusedCardId);
-        const isUnlocked = unlockedList.includes(focusedCardId);
+    if (storeActionButton) {
+        storeActionButton.addEventListener('click', async () => {
+            if (!focusedCardId) return;
+            const targetOp = AVATAR_REGISTRY.find(c => c.id === focusedCardId);
+            const isUnlocked = unlockedList.includes(focusedCardId);
 
-        if (isUnlocked) {
-            const res = await fetch('/api/state/select', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ avatar_id: focusedCardId }) });
-            if (res.ok) { activeSelectionId = focusedCardId; routeToHomeCommandHub(); }
-        } else {
-            const res = await fetch('/api/store/buy', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ avatar_id: focusedCardId, price: targetOp.price }) });
-            if (res.ok) { focusedCardId = null; storeActionButton.disabled = true; synchronizeServerDatabaseState(); }
-        }
-    });
+            if (isUnlocked) {
+                const res = await fetch('/api/state/select', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ avatar_id: focusedCardId }) });
+                if (res.ok) { activeSelectionId = focusedCardId; routeToHomeCommandHub(); }
+            } else {
+                const res = await fetch('/api/store/buy', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ avatar_id: focusedCardId, price: targetOp.price }) });
+                if (res.ok) { focusedCardId = null; storeActionButton.disabled = true; synchronizeServerDatabaseState(); }
+            }
+        });
+    }
 
     // --------------------------------------------------------------------------
     // SCREEN 3: HOME VIEWS & PURE VECTOR CANVAS GRAPHICS DRAWS
     // --------------------------------------------------------------------------
     function routeToHomeCommandHub() {
-        storeScreen.classList.remove('active-view'); storeScreen.classList.add('hidden-view');
-        modesScreen.classList.remove('active-view'); modesScreen.classList.add('hidden-view');
-        homeScreen.classList.remove('hidden-view'); homeScreen.classList.add('active-view');
+        if (storeScreen) { storeScreen.classList.remove('active-view'); storeScreen.classList.add('hidden-view'); }
+        if (modesScreen) { modesScreen.classList.remove('active-view'); modesScreen.classList.add('hidden-view'); }
+        if (homeScreen) { homeScreen.classList.remove('hidden-view'); homeScreen.classList.add('active-view'); }
 
         const activeCharacter = AVATAR_REGISTRY.find(c => c.id === activeSelectionId);
-        hubAvatarName.textContent = activeCharacter.name;
+        if (hubAvatarName && activeCharacter) hubAvatarName.textContent = activeCharacter.name;
         
         // Draw character standing inside the home dashboard canvas container bounds
-        hCtx.clearRect(0,0, hubCharacterCanvas.width, hubCharacterCanvas.height);
-        draw2DMiniHumanVector(hCtx, 80, 160, activeSelectionId, 0, true);
+        if (hCtx && hubCharacterCanvas) {
+            hCtx.clearRect(0, 0, hubCharacterCanvas.width, hubCharacterCanvas.height);
+            draw2DMiniHumanVector(hCtx, 80, 160, activeSelectionId, 0, true);
+        }
     }
 
-    document.getElementById('nav-to-store-btn').addEventListener('click', routeToAvatarSelectorStore);
-    storeToHubBtn.addEventListener('click', routeToHomeCommandHub);
-    modesToHubBtn.addEventListener('click', routeToHomeCommandHub);
+    const navToStoreBtn = document.getElementById('nav-to-store-btn');
+    if (navToStoreBtn) navToStoreBtn.addEventListener('click', routeToAvatarSelectorStore);
+    if (storeToHubBtn) storeToHubBtn.addEventListener('click', routeToHomeCommandHub);
+    if (modesToHubBtn) modesToHubBtn.addEventListener('click', routeToHomeCommandHub);
 
-    document.getElementById('nav-to-modes-btn').addEventListener('click', () => {
-        homeScreen.classList.remove('active-view'); homeScreen.classList.add('hidden-view');
-        modesScreen.classList.remove('hidden-view'); modesScreen.classList.add('active-view');
-    });
+    const navToModesBtn = document.getElementById('nav-to-modes-btn');
+    if (navToModesBtn) {
+        navToModesBtn.addEventListener('click', () => {
+            if (homeScreen) { homeScreen.classList.remove('active-view'); homeScreen.classList.add('hidden-view'); }
+            if (modesScreen) { modesScreen.classList.remove('hidden-view'); modesScreen.classList.add('active-view'); }
+        });
+    }
 
     // --------------------------------------------------------------------------
     // SCREEN 4: ENVIRONMENTAL ROAD GRIDS CAROUSEL SELECTOR
@@ -333,93 +382,99 @@ document.addEventListener('DOMContentLoaded', () => {
             card.classList.add('selected');
             designatedWorldMode = card.getAttribute('data-mode');
             
-            launchGameEngineBtn.disabled = false; launchGameEngineBtn.className = 'action-trigger-btn ready-select';
-            launchGameEngineBtn.textContent = `ENGAGE SYSTEM RUNLINK`;
+            if (launchGameEngineBtn) {
+                launchGameEngineBtn.disabled = false; launchGameEngineBtn.className = 'action-trigger-btn ready-select';
+                launchGameEngineBtn.textContent = `ENGAGE SYSTEM RUNLINK`;
+            }
         });
     });
 
-    launchGameEngineBtn.addEventListener('click', () => {
-        if (!designatedWorldMode) return;
-        modesScreen.classList.remove('active-view'); modesScreen.classList.add('hidden-view');
-        telemetryBar.classList.remove('active-view'); telemetryBar.classList.add('hidden-view');
-        gameStage.classList.remove('hidden-view'); gameStage.classList.add('active-view');
-        initializeEndlessSubwayEngineLoop();
-    });
+    if (launchGameEngineBtn) {
+        launchGameEngineBtn.addEventListener('click', () => {
+            if (!designatedWorldMode) return;
+            if (modesScreen) { modesScreen.classList.remove('active-view'); modesScreen.classList.add('hidden-view'); }
+            if (telemetryBar) { telemetryBar.classList.remove('active-view'); telemetryBar.classList.add('hidden-view'); }
+            if (gameStage) { gameStage.classList.remove('hidden-view'); gameStage.classList.add('active-view'); }
+            initializeEndlessSubwayEngineLoop();
+        });
+    }
 
     // --------------------------------------------------------------------------
     // PROCEDURAL ART GRAPHICS NODE: PURE VECTOR 2D MINI-HUMAN DRAW INTERFACE
     // --------------------------------------------------------------------------
     function draw2DMiniHumanVector(context, x, y, characterId, timelineFrames = 0, animateIdle = false) {
-    const data = AVATAR_REGISTRY.find(c => c.id === characterId);
-    if (!data) return; // Safeguard if data profile is missing
-    context.save();
-    context.translate(x, y);
+        if (!context) return;
+        const data = AVATAR_REGISTRY.find(c => c.id === characterId);
+        if (!data) return; // Safeguard if data profile is missing
+        context.save();
+        context.translate(x, y);
 
-    let bodyBounce = (animateIdle) ? Math.sin(Date.now() * 0.004) * 2 : 0;
-    let runningCycle = Math.sin(timelineFrames * 0.25);
+        let bodyBounce = (animateIdle) ? Math.sin(Date.now() * 0.004) * 2 : 0;
+        let runningCycle = Math.sin(timelineFrames * 0.25);
 
-    context.strokeStyle = '#000000'; context.lineWidth = 2.5;
+        context.strokeStyle = '#000000'; context.lineWidth = 2.5;
 
-    // 1. Render Legs & Shoes Procedural Vectors
-    context.fillStyle = data.pants;
-    if (timelineFrames > 0) {
-        // Running limb animation sequence shifts
-        context.fillRect(-12, 0 + (runningCycle > 0 ? -5 : 0), 6, 12);
-        context.fillRect(6, 0 + (runningCycle < 0 ? -5 : 0), 6, 12);
-    } else {
-        // Idle stance limb mappings
-        context.fillRect(-10, 0, 6, 12); context.fillRect(4, 0, 6, 12);
+        // 1. Render Legs & Shoes Procedural Vectors
+        context.fillStyle = data.pants;
+        if (timelineFrames > 0) {
+            // Running limb animation sequence shifts
+            context.fillRect(-12, 0 + (runningCycle > 0 ? -5 : 0), 6, 12);
+            context.fillRect(6, 0 + (runningCycle < 0 ? -5 : 0), 6, 12);
+        } else {
+            // Idle stance limb mappings
+            context.fillRect(-10, 0, 6, 12); context.fillRect(4, 0, 6, 12);
+        }
+
+        // 2. Torso Body Block Layout Frame Layers
+        context.fillStyle = data.clothing;
+        context.fillRect(-14, -34 + bodyBounce, 28, 34);
+        context.strokeRect(-14, -34 + bodyBounce, 28, 34);
+
+        // 3. Hands Detailing Extensions
+        context.fillStyle = data.headSkin;
+        if (timelineFrames > 0) {
+            context.fillRect(-19, -28 + bodyBounce + (runningCycle * 4), 5, 12);
+            context.fillRect(14, -28 + bodyBounce - (runningCycle * 4), 5, 12);
+        } else {
+            context.fillRect(-18, -26 + bodyBounce, 4, 12);
+            context.fillRect(14, -26 + bodyBounce, 4, 12);
+        }
+
+        // 4. Head Skin Matrix Frame
+        context.fillStyle = data.headSkin;
+        context.beginPath(); context.arc(0, -47 + bodyBounce, 11, 0, Math.PI * 2); context.fill(); context.stroke();
+
+        // FACIAL EXPRESSIONS (EYES & MOUTH)
+        context.fillStyle = "#ffffff"; // Eye bases (Whites)
+        context.fillRect(-5, -50 + bodyBounce, 3, 3);
+        context.fillRect(2, -50 + bodyBounce, 3, 3);
+        context.fillStyle = "#000000"; // Pupils
+        context.fillRect(-4, -49 + bodyBounce, 1.5, 1.5);
+        context.fillRect(3, -49 + bodyBounce, 1.5, 1.5);
+        context.fillStyle = "#ff4d4d"; // Expressive Smile Line
+        context.fillRect(-2, -41 + bodyBounce, 4, 1.5);
+
+        // COMPREHENSIVE HAIR ENGINE
+        context.fillStyle = "#2c1a04"; // Rich Dark Brunette/Black Hair Color Mapping
+        if (data.gender === 'female') {
+            // Full skull cap overlay to cover the bald top completely
+            context.fillRect(-13, -59 + bodyBounce, 26, 11);
+            // Extended long hair blocks flowing smoothly on sides down to shoulders
+            context.fillRect(-13, -48 + bodyBounce, 4, 22);
+            context.fillRect(9, -48 + bodyBounce, 4, 22);
+        } else {
+            // Clean professional crop cut for male profiles
+            context.fillRect(-12, -58 + bodyBounce, 24, 10);
+        }
+
+        context.restore();
     }
-
-    // 2. Torso Body Block Layout Frame Layers
-    context.fillStyle = data.clothing;
-    context.fillRect(-14, -34 + bodyBounce, 28, 34);
-    context.strokeRect(-14, -34 + bodyBounce, 28, 34);
-
-    // 3. Hands Detailing Extensions
-    context.fillStyle = data.headSkin;
-    if (timelineFrames > 0) {
-        context.fillRect(-19, -28 + bodyBounce + (runningCycle * 4), 5, 12);
-        context.fillRect(14, -28 + bodyBounce - (runningCycle * 4), 5, 12);
-    } else {
-        context.fillRect(-18, -26 + bodyBounce, 4, 12);
-        context.fillRect(14, -26 + bodyBounce, 4, 12);
-    }
-
-    // 4. Head Skin Matrix Frame
-    context.fillStyle = data.headSkin;
-    context.beginPath(); context.arc(0, -47 + bodyBounce, 11, 0, Math.PI * 2); context.fill(); context.stroke();
-
-    // 👀 NEW ADDITION: UNIVERSAL FACIAL EXPRESSIONS (EYES & MOUTH)
-    context.fillStyle = "#ffffff"; // Eye bases (Whites)
-    context.fillRect(-5, -50 + bodyBounce, 3, 3);
-    context.fillRect(2, -50 + bodyBounce, 3, 3);
-    context.fillStyle = "#000000"; // Pupils
-    context.fillRect(-4, -49 + bodyBounce, 1.5, 1.5);
-    context.fillRect(3, -49 + bodyBounce, 1.5, 1.5);
-    context.fillStyle = "#ff4d4d"; // Expressive Smile Line
-    context.fillRect(-2, -41 + bodyBounce, 4, 1.5);
-
-    // 🎀 UPGRADED ADDITION: COMPREHENSIVE HAIR ENGINE
-    context.fillStyle = "#2c1a04"; // Rich Dark Brunette/Black Hair Color Mapping
-    if (data.gender === 'female') {
-        // Full skull cap overlay to cover the bald top completely
-        context.fillRect(-13, -59 + bodyBounce, 26, 11);
-        // Extended long hair blocks flowing smoothly on sides down to shoulders
-        context.fillRect(-13, -48 + bodyBounce, 4, 22);
-        context.fillRect(9, -48 + bodyBounce, 4, 22);
-    } else {
-        // Clean professional crop cut for male profiles
-        context.fillRect(-12, -58 + bodyBounce, 24, 10);
-    }
-
-    context.restore();
-}
 
     // --------------------------------------------------------------------------
     // SCREEN 5: RUNTIME CANVAS ENDLESS TRACK PIPELINE ENGINE LOOP
     // --------------------------------------------------------------------------
     function initializeEndlessSubwayEngineLoop() {
+        if (!canvas) return;
         ctx = canvas.getContext('2d');
         isGameRunning = true; isPaused = false;
         activeLaneKey = "center"; playerX = TRACK_LANES[activeLaneKey];
@@ -463,9 +518,11 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelAnimationFrame(renderFrameId);
         window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
         if (pauseOverlay) { pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view'); }
+    }
 
     // LOGOUT GAME Pathway routing action links to initial loading page reset
-    if (typeof overlayLogoutGameBtn !== 'undefined' && overlayLogoutGameBtn) {
+    const overlayLogoutGameBtn = document.getElementById('abort-run-btn') || document.getElementById('pause-exit-home-btn');
+    if (overlayLogoutGameBtn) {
         overlayLogoutGameBtn.addEventListener('click', () => {
             isGameRunning = false; isPaused = false;
             cancelAnimationFrame(renderFrameId);
@@ -493,201 +550,205 @@ document.addEventListener('DOMContentLoaded', () => {
         // Award points currency multiplier logs periodically
         if (runningTimeline % 80 === 0) sessionCoinsEarned += 1;
 
-        liveScoreText.textContent = `SCORE: ${String(sessionScore).padStart(4, '0')}`;
-        liveCoinsText.textContent = sessionCoinsEarned;
+        if (liveScoreText) liveScoreText.textContent = `SCORE: ${String(sessionScore).padStart(4, '0')}`;
+        if (liveCoinsText) liveCoinsText.textContent = sessionCoinsEarned;
 
         if (runningTimeline % 1200 === 0) gameSpeed += 0.6;
 
         // Draw sky layers matching environmental properties
-        ctx.fillStyle = theme.sky; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        if (ctx && theme) {
+            ctx.fillStyle = theme.sky; ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Render 3D lane depth profiles focusing toward converging horizon point nodes
-        ctx.strokeStyle = theme.laneLines; ctx.lineWidth = 3;
-        const horizonX = 200; const horizonY = 220;
+            // Render 3D lane depth profiles focusing toward converging horizon point nodes
+            ctx.strokeStyle = theme.laneLines; ctx.lineWidth = 3;
+            const horizonX = 200; const horizonY = 220;
 
-        [-150, -50, 50, 150].forEach(offset => {
-            ctx.beginPath(); ctx.moveTo(horizonX, horizonY);
-            ctx.lineTo(horizonX + offset * 2.5, canvas.height); ctx.stroke();
-        });
+            [-150, -50, 50, 150].forEach(offset => {
+                ctx.beginPath(); ctx.moveTo(horizonX, horizonY);
+                ctx.lineTo(horizonX + offset * 2.5, canvas.height); ctx.stroke();
+            });
 
-        // Procedural road cross tie maps
-        ctx.fillStyle = theme.tiesColor;
-        for (let i = 0; i < 5; i++) {
-            let zVal = ((runningTimeline * (gameSpeed * 0.5)) + (i * 85)) % 430;
-            let currentLineY = horizonY + zVal;
-            if (currentLineY < canvas.height) {
-                ctx.fillRect(horizonX - (zVal*0.35), currentLineY, zVal * 0.7, 3);
-            }
-        }
-
-        // Smooth horizontal sliding interpolation logic lines
-        const targetCoordX = TRACK_LANES[activeLaneKey];
-        playerX += (targetCoordX - playerX) * 0.25;
-
-        velocityY += 0.55; playerY += velocityY;
-        if (playerY >= 520) { playerY = 520; velocityY = 0; }
-
-        // Trigger vector human graphics frame draw arrays using code engine properties
-        draw2DMiniHumanVector(ctx, playerX, playerY, activeSelectionId, runningTimeline);
-
-        // 🪨 PERSPECTIVE GENERATION FOR SHADED JAGGED 3D STONE BARRIERS
-        if (Math.random() < 0.018) {
-            const spaces = [100, 200, 300];
-            const lane = spaces[Math.floor(Math.random() * spaces.length)];
-            if (!obstacleQueue.some(o => o.lane === lane && o.z < 85)) {
-                obstacleQueue.push({ lane: lane, z: 0 });
-            }
-        }
-
-        obstacleQueue.forEach((rock, index) => {
-            rock.z += (gameSpeed * 0.75);
-
-            let depthScalar = rock.z / 430;
-            let stoneY = horizonY + rock.z;
-            let stoneX = horizonX + (rock.lane - horizonX) * depthScalar;
-            let w = 34 * depthScalar; let h = 26 * depthScalar;
-
-            // DRAW SHADED 3D GEOMETRIC ROCKS (🪨)
-            ctx.save(); ctx.translate(stoneX, stoneY);
-            let rockGradient = ctx.createLinearGradient(-w/2, -h, w/2, 0);
-            rockGradient.addColorStop(0, '#95a5a6'); rockGradient.addColorStop(1, '#2c3e50');
-            ctx.fillStyle = rockGradient; ctx.strokeStyle = '#34495e'; ctx.lineWidth = 1.5;
-
-            ctx.beginPath();
-            ctx.moveTo(-w/2, 0); ctx.lineTo(-w * 0.4, -h * 0.85);
-            ctx.lineTo(0, -h); ctx.lineTo(w * 0.4, -h * 0.75);
-            ctx.lineTo(w/2, 0); ctx.closePath();
-            ctx.fill(); ctx.stroke();
-            ctx.restore();
-
-            // Subway Crash Matrix Evaluation Locks
-            if (stoneY > 490 && stoneY < 540) {
-                if (Math.abs(playerX - stoneX) < 28 && playerY > stoneY - h - 15) {
-                    isGameRunning = false; cancelAnimationFrame(renderFrameId);
-                    triggerIsolatedGameOverOverlayView(); // Open custom frame layout instead of system alert boxes!
+            // Procedural road cross tie maps
+            ctx.fillStyle = theme.tiesColor;
+            for (let i = 0; i < 5; i++) {
+                let zVal = ((runningTimeline * (gameSpeed * 0.5)) + (i * 85)) % 430;
+                let currentLineY = horizonY + zVal;
+                if (currentLineY < canvas.height) {
+                    ctx.fillRect(horizonX - (zVal*0.35), currentLineY, zVal * 0.7, 3);
                 }
             }
-        });
-        obstacleQueue = obstacleQueue.filter(o => o.z < 430);
 
-        renderFrameId = requestAnimationFrame(updateEndlessTrackLoopPipelineFrame);
+            // Smooth horizontal sliding interpolation logic lines
+            const targetCoordX = TRACK_LANES[activeLaneKey];
+            playerX += (targetCoordX - playerX) * 0.25;
+
+            velocityY += 0.55; playerY += velocityY;
+            if (playerY >= 520) { playerY = 520; velocityY = 0; }
+
+            // Trigger vector human graphics frame draw arrays using code engine properties
+            draw2DMiniHumanVector(ctx, playerX, playerY, activeSelectionId, runningTimeline);
+
+            // PERSPECTIVE GENERATION FOR SHADED JAGGED 3D STONE BARRIERS
+            if (Math.random() < 0.018) {
+                const spaces = [100, 200, 300];
+                const lane = spaces[Math.floor(Math.random() * spaces.length)];
+                if (!obstacleQueue.some(o => o.lane === lane && o.z < 85)) {
+                    obstacleQueue.push({ lane: lane, z: 0 });
+                }
+            }
+
+            obstacleQueue.forEach((rock, index) => {
+                rock.z += (gameSpeed * 0.75);
+
+                let depthScalar = rock.z / 430;
+                let stoneY = horizonY + rock.z;
+                let stoneX = horizonX + (rock.lane - horizonX) * depthScalar;
+                let w = 34 * depthScalar; let h = 26 * depthScalar;
+
+                // DRAW SHADED 3D GEOMETRIC ROCKS (🪨)
+                ctx.save(); ctx.translate(stoneX, stoneY);
+                let rockGradient = ctx.createLinearGradient(-w/2, -h, w/2, 0);
+                rockGradient.addColorStop(0, '#95a5a6'); rockGradient.addColorStop(1, '#2c3e50');
+                ctx.fillStyle = rockGradient; ctx.strokeStyle = '#34495e'; ctx.lineWidth = 1.5;
+
+                ctx.beginPath();
+                ctx.moveTo(-w/2, 0); ctx.lineTo(-w * 0.4, -h * 0.85);
+                ctx.lineTo(0, -h); ctx.lineTo(w * 0.4, -h * 0.75);
+                ctx.lineTo(w/2, 0); ctx.closePath();
+                ctx.fill(); ctx.stroke();
+                ctx.restore();
+
+                // Subway Crash Matrix Evaluation Locks
+                if (stoneY > 490 && stoneY < 540) {
+                    if (Math.abs(playerX - stoneX) < 28 && playerY > stoneY - h - 15) {
+                        isGameRunning = false; cancelAnimationFrame(renderFrameId);
+                        triggerIsolatedGameOverOverlayView(); // Open custom frame layout instead of system alert boxes!
+                    }
+                }
+            });
+            obstacleQueue = obstacleQueue.filter(o => o.z < 430);
+        }
+
+        if (isGameRunning && !isPaused) {
+            renderFrameId = requestAnimationFrame(updateEndlessTrackLoopPipelineFrame);
+        }
     }
 
     // --------------------------------------------------------------------------
-// SCREEN 6: DEDICATED PLAYER OUT SUMMARY SCOREBOARD FRAME PANEL
-// --------------------------------------------------------------------------
-function triggerIsolatedGameOverOverlayView() {
-    window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
+    // SCREEN 6: DEDICATED PLAYER OUT SUMMARY SCOREBOARD FRAME PANEL
+    // --------------------------------------------------------------------------
+    function triggerIsolatedGameOverOverlayView() {
+        window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
 
-    // Aggregate analytics records
-    totalRunsCount++;
-    if (sessionScore > highBestScore) highBestScore = sessionScore;
-    computedAvgScore = ((computedAvgScore * (totalRunsCount - 1)) + sessionScore) / totalRunsCount;
+        // Aggregate analytics records
+        totalRunsCount++;
+        if (sessionScore > highBestScore) highBestScore = sessionScore;
+        computedAvgScore = ((computedAvgScore * (totalRunsCount - 1)) + sessionScore) / totalRunsCount;
 
-    // Populate statistical data fields inside the dedicated scoreboard modal frame wrapper
-    const scoreValEl = document.getElementById('final-score-val');
-    if (scoreValEl) scoreValEl.textContent = String(sessionScore).padStart(4, '0');
-    
-    const coinsValEl = document.getElementById('final-coins-val');
-    if (coinsValEl) coinsValEl.textContent = sessionCoinsEarned;
+        // Populate statistical data fields inside the dedicated scoreboard modal frame wrapper
+        const scoreValEl = document.getElementById('final-score-val');
+        if (scoreValEl) scoreValEl.textContent = String(sessionScore).padStart(4, '0');
+        
+        const coinsValEl = document.getElementById('final-coins-val');
+        if (coinsValEl) coinsValEl.textContent = sessionCoinsEarned;
 
-    // Fire database coin wallet persistence calls to the Flask application layer
-    fetch('/api/game/over', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ score: sessionScore, avatar_id: activeSelectionId, coins_earned: sessionCoinsEarned })
-    }).catch(err => console.error("Database connection exception: ", err));
+        // Fire database coin wallet persistence calls to the Flask application layer
+        fetch('/api/game/over', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ score: sessionScore, avatar_id: activeSelectionId, coins_earned: sessionCoinsEarned })
+        }).catch(err => console.error("Database connection exception: ", err));
 
-    if (gameOverOverlay) {
-        gameOverOverlay.classList.remove('hidden-view');
-        gameOverOverlay.classList.add('active-view');
+        if (gameOverOverlay) {
+            gameOverOverlay.classList.remove('hidden-view');
+            gameOverOverlay.classList.add('active-view');
+        }
     }
-}
 
-// Configuration listeners row for Game Over frame action button maps
-const btnPlayAgain = document.getElementById('go-btn-play-again');
-if (btnPlayAgain) {
-    btnPlayAgain.addEventListener('click', () => { 
-        if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
-        initializeGameTracksSequence(); 
-    });
-}
+    // Configuration listeners row for Game Over frame action button maps
+    const btnPlayAgain = document.getElementById('go-btn-play-again');
+    if (btnPlayAgain) {
+        btnPlayAgain.addEventListener('click', () => { 
+            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+            initializeEndlessSubwayEngineLoop(); 
+        });
+    }
 
-const btnHome = document.getElementById('go-btn-home');
-if (btnHome) {
-    btnHome.addEventListener('click', () => { 
-        if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
-        terminateActiveTrackSessionAndWipeCounters(); 
-        routeToHomeCommandHub(); 
-    });
-}
+    const btnHome = document.getElementById('go-btn-home');
+    if (btnHome) {
+        btnHome.addEventListener('click', () => { 
+            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+            terminateActiveTrackSessionAndWipeCounters(); 
+            routeToHomeCommandHub(); 
+        });
+    }
 
-const btnAvatar = document.getElementById('go-btn-avatar');
-if (btnAvatar) {
-    btnAvatar.addEventListener('click', () => { 
-        if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
-        terminateActiveTrackSessionAndWipeCounters(); 
-        if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
-    });
-}
+    const btnAvatar = document.getElementById('go-btn-avatar');
+    if (btnAvatar) {
+        btnAvatar.addEventListener('click', () => { 
+            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+            terminateActiveTrackSessionAndWipeCounters(); 
+            if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
+        });
+    }
 
-const btnProfile = document.getElementById('go-btn-profile');
-if (btnProfile) {
-    btnProfile.addEventListener('click', () => { 
-        if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
-        terminateActiveTrackSessionAndWipeCounters(); 
-        if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
-    });
-}
+    const btnProfile = document.getElementById('go-btn-profile');
+    if (btnProfile) {
+        btnProfile.addEventListener('click', () => { 
+            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+            terminateActiveTrackSessionAndWipeCounters(); 
+            if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
+        });
+    }
 
-// Link the newly introduced Pause Menu navigation buttons safely
-const pauseProfileBtn = document.getElementById('pause-profile-btn');
-if (pauseProfileBtn) {
-    pauseProfileBtn.addEventListener('click', () => {
-        terminateActiveTrackSessionAndWipeCounters();
-        if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
-    });
-}
+    // Link the newly introduced Pause Menu navigation buttons safely
+    const pauseProfileBtn = document.getElementById('pause-profile-btn');
+    if (pauseProfileBtn) {
+        pauseProfileBtn.addEventListener('click', () => {
+            terminateActiveTrackSessionAndWipeCounters();
+            if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
+        });
+    }
 
-const pauseHomeBtn = document.getElementById('pause-home-btn');
-if (pauseHomeBtn) {
-    pauseHomeBtn.addEventListener('click', () => {
-        terminateActiveTrackSessionAndWipeCounters();
-        if (homeScreen) { homeScreen.classList.remove('hidden-view'); homeScreen.classList.add('active-view'); }
-    });
-}
+    const pauseHomeBtn = document.getElementById('pause-home-btn');
+    if (pauseHomeBtn) {
+        pauseHomeBtn.addEventListener('click', () => {
+            terminateActiveTrackSessionAndWipeCounters();
+            if (homeScreen) { homeScreen.classList.remove('hidden-view'); homeScreen.classList.add('active-view'); }
+        });
+    }
 
-// Link the primary user profile popup trigger action safely
-const profileTriggerBtn = document.getElementById('go-btn-profile') || document.getElementById('home-profile-btn');
-if (profileTriggerBtn) {
-    profileTriggerBtn.addEventListener('click', () => {
-        if (typeof selected3DPortraitFile !== 'undefined' && document.getElementById('statsImg')) {
-            document.getElementById('statsImg').src = selected3DPortraitFile;
-        }
-        if (typeof globalUsername !== 'undefined' && document.getElementById('statsUserEditor')) {
-            document.getElementById('statsUserEditor').value = globalUsername;
-        }
-        if (typeof globalUserID !== 'undefined' && document.getElementById('statsUid')) {
-            document.getElementById('statsUid').textContent = globalUserID;
-        }
-        if (userProfileModal) {
-            userProfileModal.classList.remove('hidden-view');
-            userProfileModal.classList.add('active-view');
-        }
-    });
-}
+    // Link the primary user profile popup trigger action safely
+    const homeProfileTriggerBtn = document.getElementById('home-profile-btn');
+    if (homeProfileTriggerBtn) {
+        homeProfileTriggerBtn.addEventListener('click', () => {
+            if (typeof selected3DPortraitFile !== 'undefined' && document.getElementById('statsImg')) {
+                document.getElementById('statsImg').src = selected3DPortraitFile;
+            }
+            if (typeof globalUsername !== 'undefined' && document.getElementById('statsUserEditor')) {
+                document.getElementById('statsUserEditor').value = globalUsername;
+            }
+            if (typeof globalUserID !== 'undefined' && document.getElementById('statsUid')) {
+                document.getElementById('statsUid').textContent = globalUserID;
+            }
+            if (userProfileModal) {
+                userProfileModal.classList.remove('hidden-view');
+                userProfileModal.classList.add('active-view');
+            }
+        });
+    }
 
-// Link the CRASH OVERLAY "CHANGE AVATAR" action button property
-const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
-if (crashChangeAvatarBtn) {
-    crashChangeAvatarBtn.addEventListener('click', () => {
-        if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
-        if (gameStage) gameStage.classList.add('hidden-view');
-        if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
-    });
-}
+    // Link the CRASH OVERLAY "CHANGE AVATAR" action button property
+    const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
+    if (crashChangeAvatarBtn) {
+        crashChangeAvatarBtn.addEventListener('click', () => {
+            if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
+            if (gameStage) gameStage.classList.add('hidden-view');
+            if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
+        });
+    }
 
-// Execute application load triggers immediately on file entry mount
-fireInitialBootloaderPipeline();
+    // Execute application load triggers immediately on file entry mount
+    fireInitialBootLoaderPipeline();
 
 });
