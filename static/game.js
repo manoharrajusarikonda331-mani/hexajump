@@ -597,15 +597,26 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOverOverlay.classList.remove('hidden-view'); gameOverOverlay.classList.add('active-view');
     }
 
-   // Configuration listeners row for Game Over frame action button maps
-    document.getElementById('go-btn-play-again').addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); initializeGameTracksSequence(); });
-    document.getElementById('go-btn-home').addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); routeToHomeCommandHub(); });
-    document.getElementById('go-btn-avatar').addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); });
-    document.getElementById('go-btn-profile').addEventListener('click', () => {
-        gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view');
-        terminateActiveTrackSessionAndWipeCounters();
-        userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view');
-    });
+  // Configuration listeners row for Game Over frame action button maps
+    const btnPlayAgain = document.getElementById('go-btn-play-again');
+    if (btnPlayAgain) {
+        btnPlayAgain.addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); initializeGameTracksSequence(); });
+    }
+
+    const btnHome = document.getElementById('go-btn-home');
+    if (btnHome) {
+        btnHome.addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); routeToHomeCommandHub(); });
+    }
+
+    const btnAvatar = document.getElementById('go-btn-avatar');
+    if (btnAvatar) {
+        btnAvatar.addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); });
+    }
+
+    const btnProfile = document.getElementById('go-btn-profile');
+    if (btnProfile) {
+        btnProfile.addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); });
+    }
 
     // ==========================================================================
     // 🔗 BLOCK C: NEW OVERLAYS & NAVIGATION HOOKS (PAUSE MENU LINK MATRIX)
@@ -614,10 +625,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pauseProfileBtn) {
         pauseProfileBtn.addEventListener('click', () => {
             terminateActiveTrackSessionAndWipeCounters();
-            if (userProfileModal) {
-                userProfileModal.classList.remove('hidden-view');
-                userProfileModal.classList.add('active-view');
-            }
+            if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
         });
     }
 
@@ -625,27 +633,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pauseHomeBtn) {
         pauseHomeBtn.addEventListener('click', () => {
             terminateActiveTrackSessionAndWipeCounters();
-            if (homeScreen) {
-                homeScreen.classList.remove('hidden-view');
-                homeScreen.classList.add('active-view');
-            }
+            if (homeScreen) { homeScreen.classList.remove('hidden-view'); homeScreen.classList.add('active-view'); }
         });
     }
 
     // Link the CRASH OVERLAY "CHANGE AVATAR" action button property
-    const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
+    const crashChangeAvatarBtn = document.getElementById('go-btn-avatar') || document.getElementById('crash-change-avatar-btn');
     if (crashChangeAvatarBtn) {
         crashChangeAvatarBtn.addEventListener('click', () => {
             if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
             if (gameStage) gameStage.classList.add('hidden-view');
-            if (storeScreen) {
-                storeScreen.classList.remove('hidden-view');
-                storeScreen.classList.add('active-view');
-            }
+            if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
         });
     }
 
     // Execute application load triggers immediately on file entry mount
     fireInitialBootloaderPipeline();
-
-}); // 👈 This closing bracket finishes the entire DOMContentLoaded file listener wrapper
