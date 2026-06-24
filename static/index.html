@@ -127,14 +127,17 @@
             <canvas id="gameCanvas" width="400" height="650"></canvas>
             
             <!-- Mid-Run Loop Suspended Frame Menu Overlay -->
-            <div id="pause-overlay" class="hidden-view runtime-modal-mask">
-                <div class="stasis-card">
-                    <h3>LOOP SUSPENDED</h3>
-                    <p>Neural link idling safely</p>
-                    <button id="resume-engine-btn" class="modal-btn confirm-btn">RESUME CORE RUN</button>
-                    <button id="pause-exit-home-btn" class="modal-btn abort-btn">LOGOUT GAME</button>
-                </div>
+           <div id="pause-overlay" class="hidden-view screen-layout overlay-blur-bg">
+            <div class="cyber-popup-box">
+                <h3 class="popup-headline">LOOP SUSPENDED</h3>
+                <p class="popup-subtext">Neural link idling safely...</p>
+                
+                <button id="resume-core-run-btn" class="action-trigger-btn primary-accent-btn">RESUME GAME</button>
+                <button id="pause-profile-btn" class="action-trigger-btn secondary-hub-btn">PROFILE PAGE</button>
+                <button id="pause-home-btn" class="action-trigger-btn secondary-hub-btn">HOME PAGE</button>
+                <button id="abort-run-btn" class="action-trigger-btn danger-zone-btn">LOGOUT GAME</button>
             </div>
+        </div>
 
             <!-- SCREEN 6: DEDICATED PLAYER OUT SCOREBOARD OVERLAY VIEW -->
             <div id="game-over-overlay" class="hidden-view runtime-modal-mask">
