@@ -9,17 +9,14 @@
 </head>
 <body>
 
-    <!-- PRODUCTION BACKGROUND: GAME AMBIENT SCI-FI DECORATION MONITOR LAYER -->
     <div class="ambient-universe-backdrop">
         <div class="space-nebula-glow"></div>
         <div class="infinite-horizon-matrix"></div>
     </div>
 
-    <!-- Centralized 9:16 Smartphone Emulation Chassis -->
     <div id="mobile-device-frame">
 
-       <!-- SCREEN 1: CLASSIC SYSTEM COGNITIVE LOADER SEQUENCE -->
-      <div id="loading-screen" class="active-view screen-layout landing-bg">
+        <div id="loading-screen" class="active-view screen-layout landing-bg">
             <div class="cyber-grid-overlay"></div>
             
             <div class="welcome-center-panel">
@@ -58,7 +55,6 @@
             </div>
         </div>
 
-        <!-- SCREEN 2: 2D VECTOR CODE MINI-HUMAN SELECTION STORE VIEW -->
         <div id="store-screen" class="hidden-view screen-layout">
             <h2 class="section-title">CHOOSE AVATAR</h2>
             <p class="panel-subtitle">Select 2D Mini-Human Character Model Template</p>
@@ -69,11 +65,9 @@
             </div>
         </div>
 
-        <!-- SCREEN 3: COMMAND INTERFACE MAIN CENTER HUB (HOME) -->
         <div id="home-screen" class="hidden-view screen-layout">
             <div class="hub-profile-showcase">
                 <div class="avatar-perspective-ring">
-                    <!-- Dynamic Live 2D Pure-Code Avatar Canvas Container -->
                     <canvas id="hubCharacterCanvas" width="160" height="200"></canvas>
                 </div>
                 <h3 id="hub-avatar-name">ALPHA</h3>
@@ -84,7 +78,6 @@
             </div>
         </div>
 
-        <!-- SCREEN 4: 5 SPECIFIC RAILWAY & HIGHWAY ENVIRONMENT WORLD SELECTOR -->
         <div id="modes-screen" class="hidden-view screen-layout">
             <h2 class="section-title">ROAD SECTOR</h2>
             <p class="panel-subtitle">Select Real-Time Destination Runner Path View</p>
@@ -116,7 +109,6 @@
             </div>
         </div>
 
-        <!-- SCREEN 5: RUNTIME CANVAS ENDLESS GRAPHICS ENVIRONMENT RUN -->
         <div id="game-stage" class="hidden-view screen-layout">
             <div class="gameplay-hud-overlay">
                 <button id="pause-engine-btn" class="hud-circle-btn">⏸️</button>
@@ -126,20 +118,18 @@
 
             <canvas id="gameCanvas" width="400" height="650"></canvas>
             
-            <!-- Mid-Run Loop Suspended Frame Menu Overlay -->
-           <div id="pause-overlay" class="hidden-view screen-layout overlay-blur-bg">
-            <div class="cyber-popup-box">
-                <h3 class="popup-headline">LOOP SUSPENDED</h3>
-                <p class="popup-subtext">Neural link idling safely...</p>
-                
-                <button id="resume-core-run-btn" class="action-trigger-btn primary-accent-btn">RESUME GAME</button>
-                <button id="pause-profile-btn" class="action-trigger-btn secondary-hub-btn">PROFILE PAGE</button>
-                <button id="pause-home-btn" class="action-trigger-btn secondary-hub-btn">HOME PAGE</button>
-                <button id="abort-run-btn" class="action-trigger-btn danger-zone-btn">LOGOUT GAME</button>
+            <div id="pause-overlay" class="hidden-view screen-layout overlay-blur-bg">
+                <div class="cyber-popup-box">
+                    <h3 class="popup-headline">LOOP SUSPENDED</h3>
+                    <p class="popup-subtext">Neural link idling safely...</p>
+                    
+                    <button id="resume-core-run-btn" class="action-trigger-btn primary-accent-btn">RESUME GAME</button>
+                    <button id="pause-profile-btn" class="action-trigger-btn secondary-hub-btn">PROFILE PAGE</button>
+                    <button id="pause-home-btn" class="action-trigger-btn secondary-hub-btn">HOME PAGE</button>
+                    <button id="abort-run-btn" class="action-trigger-btn danger-zone-btn">LOGOUT GAME</button>
+                </div>
             </div>
-        </div>
 
-            <!-- SCREEN 6: DEDICATED PLAYER OUT SCOREBOARD OVERLAY VIEW -->
             <div id="game-over-overlay" class="hidden-view runtime-modal-mask">
                 <div class="game-over-card">
                     <h2 class="game-over-title">CRASH LOG TERMINATION</h2>
@@ -160,13 +150,11 @@
             </div>
         </div>
 
-        <!-- SCREEN 7: PREMIUM ACCOUNT PROFILE SHEETS CARD OVERLAY VIEW -->
         <div id="user-profile-modal" class="hidden-view runtime-modal-mask">
             <div class="profile-stats-card">
                 <div class="close-profile-row"><button id="close-profile-modal-btn">❌</button></div>
                 
                 <div class="user-meta-header">
-                    <!-- Circle 3D Portrait Frame with Change Pencil Button Indicator -->
                     <div class="meta-pic-container">
                         <div class="meta-pic-circle">
                             <img id="profile-stats-img" src="assets/alpha.png" alt="Profile Portrait">
@@ -183,7 +171,6 @@
                     </div>
                 </div>
 
-                <!-- Live Sub-Grid Holding Dynamic Selection Core Images (Hidden by default) -->
                 <div id="pfp-images-dropdown-subgrid" class="pfp-dropdown-drawer hidden">
                     <p class="drawer-instruction-lbl">SELECT 3D PORTRAIT CHARACTER PFP:</p>
                     <div id="pfp-portrait-images-row" class="drawer-images-row"></div>
