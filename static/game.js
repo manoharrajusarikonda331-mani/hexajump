@@ -574,105 +574,102 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --------------------------------------------------------------------------
-    // SCREEN 6: DEDICATED PLAYER OUT SUMMARY SCOREBOARD FRAME PANEL
-    // --------------------------------------------------------------------------
-    function triggerIsolatedGameOverOverlayView() {
-        window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
-        
-        // Aggregate analytics records
-        totalRunsCount++;
-        if (sessionScore > highBestScore) highBestScore = sessionScore;
-        computedAvgScore = ((computedAvgScore * (totalRunsCount - 1)) + sessionScore) / totalRunsCount;
+// SCREEN 6: DEDICATED PLAYER OUT SUMMARY SCOREBOARD FRAME PANEL
+// --------------------------------------------------------------------------
+function triggerIsolatedGameOverOverlayView() {
+    window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
 
-       // Populate statistical data fields inside the dedicated scoreboard modal frame wrapper
-            const scoreValEl = document.getElementById('final-score-val');
-            if (scoreValEl) scoreValEl.textContent = String(sessionScore).padStart(4, '0');
-            
-            const coinsValEl = document.getElementById('final-coins-val');
-            if (coinsValEl) coinsValEl.textContent = sessionCoinsEarned;
+    // Aggregate analytics records
+    totalRunsCount++;
+    if (sessionScore > highBestScore) highBestScore = sessionScore;
+    computedAvgScore = ((computedAvgScore * (totalRunsCount - 1)) + sessionScore) / totalRunsCount;
 
-            // Fire database coin wallet persistence calls to the Flask application layer
-            fetch('/api/game/over', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ score: sessionScore, avatar_id: activeSelectionId, coins_earned: sessionCoinsEarned })
-            });
+    // Populate statistical data fields inside the dedicated scoreboard modal frame wrapper
+    const scoreValEl = document.getElementById('final-score-val');
+    if (scoreValEl) scoreValEl.textContent = String(sessionScore).padStart(4, '0');
+    
+    const coinsValEl = document.getElementById('final-coins-val');
+    if (coinsValEl) coinsValEl.textContent = sessionCoinsEarned;
 
-            if (gameOverOverlay) {
-                gameOverOverlay.classList.remove('hidden-view');
-                gameOverOverlay.classList.add('active-view');
-            }
-        } catch (err) {
-            console.error("Database connection exception: ", err);
-        }
+    // Fire database coin wallet persistence calls to the Flask application layer
+    fetch('/api/game/over', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ score: sessionScore, avatar_id: activeSelectionId, coins_earned: sessionCoinsEarned })
+    }).catch(err => console.error("Database connection exception: ", err));
+
+    if (gameOverOverlay) {
+        gameOverOverlay.classList.remove('hidden-view');
+        gameOverOverlay.classList.add('active-view');
     }
+}
 
-    // Configuration listeners row for Game Over frame action button maps
-    const btnPlayAgain = document.getElementById('go-btn-play-again');
-    if (btnPlayAgain) {
-        btnPlayAgain.addEventListener('click', () => { 
-            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
-            initializeGameTracksSequence(); 
-        });
-    }
+// Configuration listeners row for Game Over frame action button maps
+const btnPlayAgain = document.getElementById('go-btn-play-again');
+if (btnPlayAgain) {
+    btnPlayAgain.addEventListener('click', () => { 
+        if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+        initializeGameTracksSequence(); 
+    });
+}
 
-    const btnHome = document.getElementById('go-btn-home');
-    if (btnHome) {
-        btnHome.addEventListener('click', () => { 
-            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
-            terminateActiveTrackSessionAndWipeCounters(); 
-            routeToHomeCommandHub(); 
-        });
-    }
+const btnHome = document.getElementById('go-btn-home');
+if (btnHome) {
+    btnHome.addEventListener('click', () => { 
+        if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+        terminateActiveTrackSessionAndWipeCounters(); 
+        routeToHomeCommandHub(); 
+    });
+}
 
-    const btnAvatar = document.getElementById('go-btn-avatar');
-    if (btnAvatar) {
-        btnAvatar.addEventListener('click', () => { 
-            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
-            terminateActiveTrackSessionAndWipeCounters(); 
-            if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
-        });
-    }
+const btnAvatar = document.getElementById('go-btn-avatar');
+if (btnAvatar) {
+    btnAvatar.addEventListener('click', () => { 
+        if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+        terminateActiveTrackSessionAndWipeCounters(); 
+        if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
+    });
+}
 
-    const btnProfile = document.getElementById('go-btn-profile');
-    if (btnProfile) {
-        btnProfile.addEventListener('click', () => { 
-            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
-            terminateActiveTrackSessionAndWipeCounters(); 
-            if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
-        });
-    }
+const btnProfile = document.getElementById('go-btn-profile');
+if (btnProfile) {
+    btnProfile.addEventListener('click', () => { 
+        if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+        terminateActiveTrackSessionAndWipeCounters(); 
+        if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
+    });
+}
 
-    // ==========================================================================
-    // 🔗 BLOCK C: NEW OVERLAYS & NAVIGATION HOOKS (PAUSE MENU LINK MATRIX)
-    // ==========================================================================
-    const pauseProfileBtn = document.getElementById('pause-profile-btn');
-    if (pauseProfileBtn) {
-        pauseProfileBtn.addEventListener('click', () => {
-            terminateActiveTrackSessionAndWipeCounters();
-            if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
-        });
-    }
+// ==========================================================================
+// 🔗 BLOCK C: NEW OVERLAYS & NAVIGATION HOOKS (PAUSE MENU LINK MATRIX)
+// ==========================================================================
+const pauseProfileBtn = document.getElementById('pause-profile-btn');
+if (pauseProfileBtn) {
+    pauseProfileBtn.addEventListener('click', () => {
+        terminateActiveTrackSessionAndWipeCounters();
+        if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
+    });
+}
 
-    const pauseHomeBtn = document.getElementById('pause-home-btn');
-    if (pauseHomeBtn) {
-        pauseHomeBtn.addEventListener('click', () => {
-            terminateActiveTrackSessionAndWipeCounters();
-            if (homeScreen) { homeScreen.classList.remove('hidden-view'); homeScreen.classList.add('active-view'); }
-        });
-    }
+const pauseHomeBtn = document.getElementById('pause-home-btn');
+if (pauseHomeBtn) {
+    pauseHomeBtn.addEventListener('click', () => {
+        terminateActiveTrackSessionAndWipeCounters();
+        if (homeScreen) { homeScreen.classList.remove('hidden-view'); homeScreen.classList.add('active-view'); }
+    });
+}
 
-    // Link the CRASH OVERLAY "CHANGE AVATAR" action button property
-    const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
-    if (crashChangeAvatarBtn) {
-        crashChangeAvatarBtn.addEventListener('click', () => {
-            if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
-            if (gameStage) gameStage.classList.add('hidden-view');
-            if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
-        });
-    }
+// Link the CRASH OVERLAY "CHANGE AVATAR" action button property
+const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
+if (crashChangeAvatarBtn) {
+    crashChangeAvatarBtn.addEventListener('click', () => {
+        if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
+        if (gameStage) gameStage.classList.add('hidden-view');
+        if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
+    });
+}
 
-    // Execute application load triggers immediately on file entry mount
-    fireInitialBootloaderPipeline();
+// Execute application load triggers immediately on file entry mount
+fireInitialBootloaderPipeline();
 
 });
