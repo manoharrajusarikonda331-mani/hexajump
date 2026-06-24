@@ -647,5 +647,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Execute application load triggers immediately on file entry mount
+  // Execute application load triggers immediately on file entry mount
     fireInitialBootloaderPipeline();
+
+}); // 👈 THIS IS THE MISSING CLOSING BLOCK THAT FIXES THE SYNTAX ERROR!
