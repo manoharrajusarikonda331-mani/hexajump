@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeSelectionId = 'm1'; let focusedCardId = null;
     let designatedWorldMode = null;
 
-    // RUNTIME ENVIRONMENT ENGINE PROPERTIES
+   // RUNTIME ENVIRONMENT ENGINE PROPERTIES
     const canvas = document.getElementById('gameCanvas');
     let ctx = null; let renderFrameId = null;
     let isGameRunning = false; let isPaused = false;
@@ -43,10 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeLaneKey = "center";
     let playerX = 200; let playerY = 520; let velocityY = 0;
     
-    let runningTimeline = 0; let gameSpeed = 5; 
+    // Gradual progression parameters for friendly gameplay loop mechanics
+    let runningTimeline = 0; 
+    let gameSpeed = 2.2;        // Lowered from 5.0 to 2.2 for a gentle learning curve
+    let speedIncrement = 0.0005; // Slowly speeds up the tracks as time passes
     let sessionScore = 0; let sessionCoinsEarned = 0;
     let obstacleQueue = [];
-
+   
     // DOM NODE CAPTURES DIRECTORY
     const loadingScreen = document.getElementById('loading-screen');
     const bootBar = document.getElementById('boot-progress');
@@ -347,58 +350,71 @@ document.addEventListener('DOMContentLoaded', () => {
     // PROCEDURAL ART GRAPHICS NODE: PURE VECTOR 2D MINI-HUMAN DRAW INTERFACE
     // --------------------------------------------------------------------------
     function draw2DMiniHumanVector(context, x, y, characterId, timelineFrames = 0, animateIdle = false) {
-        const data = AVATAR_REGISTRY.find(c => c.id === characterId);
-        context.save();
-        context.translate(x, y);
+    const data = AVATAR_REGISTRY.find(c => c.id === characterId);
+    if (!data) return; // Safeguard if data profile is missing
+    context.save();
+    context.translate(x, y);
 
-        let bodyBounce = (animateIdle) ? Math.sin(Date.now() * 0.004) * 2 : 0;
-        let runningCycle = Math.sin(timelineFrames * 0.25);
+    let bodyBounce = (animateIdle) ? Math.sin(Date.now() * 0.004) * 2 : 0;
+    let runningCycle = Math.sin(timelineFrames * 0.25);
 
-        context.strokeStyle = '#000000'; context.lineWidth = 2.5;
+    context.strokeStyle = '#000000'; context.lineWidth = 2.5;
 
-        // 1. Render Legs & Shoes Procedural Vectors
-        context.fillStyle = data.pants;
-        if (timelineFrames > 0) {
-            // Running limb animation sequence shifts
-            context.fillRect(-12, 0 + (runningCycle > 0 ? -5 : 0), 6, 12);
-            context.fillRect(6, 0 + (runningCycle < 0 ? -5 : 0), 6, 12);
-        } else {
-            // Idle stance limb mappings
-            context.fillRect(-10, 0, 6, 12); context.fillRect(4, 0, 6, 12);
-        }
-
-        // 2. Torso Body Block Layout Frame Layers
-        context.fillStyle = data.clothing;
-        context.fillRect(-14, -34 + bodyBounce, 28, 34);
-        context.strokeRect(-14, -34 + bodyBounce, 28, 34);
-
-        // 3. Hands Detailing Extensions
-        context.fillStyle = data.headSkin;
-        if (timelineFrames > 0) {
-            context.fillRect(-19, -28 + bodyBounce + (runningCycle * 4), 5, 12);
-            context.fillRect(14, -28 + bodyBounce - (runningCycle * 4), 5, 12);
-        } else {
-            context.fillRect(-18, -26 + bodyBounce, 4, 12);
-            context.fillRect(14, -26 + bodyBounce, 4, 12);
-        }
-
-        // 4. Hair Gender-Specific Accessories Layer Mask
-        context.fillStyle = data.headSkin;
-        context.beginPath(); context.arc(0, -47 + bodyBounce, 11, 0, Math.PI * 2); context.fill(); context.stroke();
-
-        context.fillStyle = '#2c1a04'; // Default dark hair color code mapping
-        if (data.gender === 'female') {
-            // Draw flowing extended hair nodes for the 3 female vector sheets
-            context.fillRect(-14, -56 + bodyBounce, 28, 10);
-            context.fillRect(-14, -46 + bodyBounce, 4, 20);
-            context.fillRect(10, -46 + bodyBounce, 4, 20);
-        } else {
-            // Draw crisp short spiked hair lines for the 3 male profiles
-            context.fillRect(-12, -58 + bodyBounce, 24, 11);
-        }
-
-        context.restore();
+    // 1. Render Legs & Shoes Procedural Vectors
+    context.fillStyle = data.pants;
+    if (timelineFrames > 0) {
+        // Running limb animation sequence shifts
+        context.fillRect(-12, 0 + (runningCycle > 0 ? -5 : 0), 6, 12);
+        context.fillRect(6, 0 + (runningCycle < 0 ? -5 : 0), 6, 12);
+    } else {
+        // Idle stance limb mappings
+        context.fillRect(-10, 0, 6, 12); context.fillRect(4, 0, 6, 12);
     }
+
+    // 2. Torso Body Block Layout Frame Layers
+    context.fillStyle = data.clothing;
+    context.fillRect(-14, -34 + bodyBounce, 28, 34);
+    context.strokeRect(-14, -34 + bodyBounce, 28, 34);
+
+    // 3. Hands Detailing Extensions
+    context.fillStyle = data.headSkin;
+    if (timelineFrames > 0) {
+        context.fillRect(-19, -28 + bodyBounce + (runningCycle * 4), 5, 12);
+        context.fillRect(14, -28 + bodyBounce - (runningCycle * 4), 5, 12);
+    } else {
+        context.fillRect(-18, -26 + bodyBounce, 4, 12);
+        context.fillRect(14, -26 + bodyBounce, 4, 12);
+    }
+
+    // 4. Head Skin Matrix Frame
+    context.fillStyle = data.headSkin;
+    context.beginPath(); context.arc(0, -47 + bodyBounce, 11, 0, Math.PI * 2); context.fill(); context.stroke();
+
+    // 👀 NEW ADDITION: UNIVERSAL FACIAL EXPRESSIONS (EYES & MOUTH)
+    context.fillStyle = "#ffffff"; // Eye bases (Whites)
+    context.fillRect(-5, -50 + bodyBounce, 3, 3);
+    context.fillRect(2, -50 + bodyBounce, 3, 3);
+    context.fillStyle = "#000000"; // Pupils
+    context.fillRect(-4, -49 + bodyBounce, 1.5, 1.5);
+    context.fillRect(3, -49 + bodyBounce, 1.5, 1.5);
+    context.fillStyle = "#ff4d4d"; // Expressive Smile Line
+    context.fillRect(-2, -41 + bodyBounce, 4, 1.5);
+
+    // 🎀 UPGRADED ADDITION: COMPREHENSIVE HAIR ENGINE
+    context.fillStyle = "#2c1a04"; // Rich Dark Brunette/Black Hair Color Mapping
+    if (data.gender === 'female') {
+        // Full skull cap overlay to cover the bald top completely
+        context.fillRect(-13, -59 + bodyBounce, 26, 11);
+        // Extended long hair blocks flowing smoothly on sides down to shoulders
+        context.fillRect(-13, -48 + bodyBounce, 4, 22);
+        context.fillRect(9, -48 + bodyBounce, 4, 22);
+    } else {
+        // Clean professional crop cut for male profiles
+        context.fillRect(-12, -58 + bodyBounce, 24, 10);
+    }
+
+    context.restore();
+}
 
     // --------------------------------------------------------------------------
     // SCREEN 5: RUNTIME CANVAS ENDLESS TRACK PIPELINE ENGINE LOOP
@@ -594,17 +610,55 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOverOverlay.classList.remove('hidden-view'); gameOverOverlay.classList.add('active-view');
     }
 
-    // Configuration listeners row for Game Over frame action button maps
-    document.getElementById('go-btn-play-again').addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); initializeEndlessSubwayEngineLoop(); });
-    document.getElementById('go-btn-home').addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); });
-    document.getElementById('go-btn-avatar').addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); routeToAvatarSelectorStore(); });
+   // Configuration listeners row for Game Over frame action button maps
+    document.getElementById('go-btn-play-again').addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); initializeGameTracksSequence(); });
+    document.getElementById('go-btn-home').addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); routeToHomeCommandHub(); });
+    document.getElementById('go-btn-avatar').addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); });
     document.getElementById('go-btn-profile').addEventListener('click', () => {
         gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view');
         terminateActiveTrackSessionAndWipeCounters();
-        // Trigger profile click routine dynamically on mount
-        profileTriggerBtn.click();
+        userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view');
     });
 
+    // ==========================================================================
+    // 🔗 BLOCK C: NEW OVERLAYS & NAVIGATION HOOKS (PAUSE MENU LINK MATRIX)
+    // ==========================================================================
+    const pauseProfileBtn = document.getElementById('pause-profile-btn');
+    if (pauseProfileBtn) {
+        pauseProfileBtn.addEventListener('click', () => {
+            terminateActiveTrackSessionAndWipeCounters();
+            if (userProfileModal) {
+                userProfileModal.classList.remove('hidden-view');
+                userProfileModal.classList.add('active-view');
+            }
+        });
+    }
+
+    const pauseHomeBtn = document.getElementById('pause-home-btn');
+    if (pauseHomeBtn) {
+        pauseHomeBtn.addEventListener('click', () => {
+            terminateActiveTrackSessionAndWipeCounters();
+            if (homeScreen) {
+                homeScreen.classList.remove('hidden-view');
+                homeScreen.classList.add('active-view');
+            }
+        });
+    }
+
+    // Link the CRASH OVERLAY "CHANGE AVATAR" action button property
+    const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
+    if (crashChangeAvatarBtn) {
+        crashChangeAvatarBtn.addEventListener('click', () => {
+            if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
+            if (gameStage) gameStage.classList.add('hidden-view');
+            if (storeScreen) {
+                storeScreen.classList.remove('hidden-view');
+                storeScreen.classList.add('active-view');
+            }
+        });
+    }
+
     // Execute application load triggers immediately on file entry mount
-    fireInitialBootLoaderPipeline();
-});
+    fireInitialBootloaderPipeline();
+
+}); // 👈 This closing bracket finishes the entire DOMContentLoaded file listener wrapper
