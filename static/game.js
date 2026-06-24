@@ -641,33 +641,53 @@ if (btnProfile) {
 }
 
 // Link the newly introduced Pause Menu navigation buttons safely
-    const pauseProfileBtn = document.getElementById('pause-profile-btn');
-    if (pauseProfileBtn) {
-        pauseProfileBtn.addEventListener('click', () => {
-            terminateActiveTrackSessionAndWipeCounters();
-            if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
-        });
-    }
+const pauseProfileBtn = document.getElementById('pause-profile-btn');
+if (pauseProfileBtn) {
+    pauseProfileBtn.addEventListener('click', () => {
+        terminateActiveTrackSessionAndWipeCounters();
+        if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
+    });
+}
 
-    const pauseHomeBtn = document.getElementById('pause-home-btn');
-    if (pauseHomeBtn) {
-        pauseHomeBtn.addEventListener('click', () => {
-            terminateActiveTrackSessionAndWipeCounters();
-            if (homeScreen) { homeScreen.classList.remove('hidden-view'); homeScreen.classList.add('active-view'); }
-        });
-    }
+const pauseHomeBtn = document.getElementById('pause-home-btn');
+if (pauseHomeBtn) {
+    pauseHomeBtn.addEventListener('click', () => {
+        terminateActiveTrackSessionAndWipeCounters();
+        if (homeScreen) { homeScreen.classList.remove('hidden-view'); homeScreen.classList.add('active-view'); }
+    });
+}
 
-    // Link the CRASH OVERLAY "CHANGE AVATAR" action button property
-    const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
-    if (crashChangeAvatarBtn) {
-        crashChangeAvatarBtn.addEventListener('click', () => {
-            if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
-            if (gameStage) gameStage.classList.add('hidden-view');
-            if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
-        });
-    }
+// Link the primary user profile popup trigger action safely
+const profileTriggerBtn = document.getElementById('go-btn-profile') || document.getElementById('home-profile-btn');
+if (profileTriggerBtn) {
+    profileTriggerBtn.addEventListener('click', () => {
+        if (typeof selected3DPortraitFile !== 'undefined' && document.getElementById('statsImg')) {
+            document.getElementById('statsImg').src = selected3DPortraitFile;
+        }
+        if (typeof globalUsername !== 'undefined' && document.getElementById('statsUserEditor')) {
+            document.getElementById('statsUserEditor').value = globalUsername;
+        }
+        if (typeof globalUserID !== 'undefined' && document.getElementById('statsUid')) {
+            document.getElementById('statsUid').textContent = globalUserID;
+        }
+        if (userProfileModal) {
+            userProfileModal.classList.remove('hidden-view');
+            userProfileModal.classList.add('active-view');
+        }
+    });
+}
 
-    // Execute application load triggers immediately on file entry mount
-    fireInitialBootloaderPipeline();
+// Link the CRASH OVERLAY "CHANGE AVATAR" action button property
+const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
+if (crashChangeAvatarBtn) {
+    crashChangeAvatarBtn.addEventListener('click', () => {
+        if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
+        if (gameStage) gameStage.classList.add('hidden-view');
+        if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
+    });
+}
+
+// Execute application load triggers immediately on file entry mount
+fireInitialBootloaderPipeline();
 
 });
