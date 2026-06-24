@@ -640,9 +640,6 @@ if (btnProfile) {
     });
 }
 
-// ==========================================================================
-// 🔗 BLOCK C: NEW OVERLAYS & NAVIGATION HOOKS (PAUSE MENU LINK MATRIX)
-// ==========================================================================
 // Link the newly introduced Pause Menu navigation buttons safely
     const pauseProfileBtn = document.getElementById('pause-profile-btn');
     if (pauseProfileBtn) {
@@ -672,3 +669,5 @@ if (btnProfile) {
 
     // Execute application load triggers immediately on file entry mount
     fireInitialBootloaderPipeline();
+
+});
