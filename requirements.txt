@@ -1,5 +1,18 @@
+# ==========================================================================
+# HEXAJUMP - FLASK APPLICATION PIP DEPENDENCY MANIFEST (REQUIREMENTS.TXT)
+# ==========================================================================
+
+# Core Application Server Engine Framework
 Flask==3.0.3
+
+# WSGI Web Server Gateway Interface Utilities
 Werkzeug==3.0.3
+
+# Cryptographic Token and Secure Session Serializers
 itsdangerous==2.2.0
+
+# Terminal Management System Command-Line Toolkits
 click==8.1.7
+
+# Object-to-Object Framework Signal/Event Dispatching Layers
 blinker==1.8.2
