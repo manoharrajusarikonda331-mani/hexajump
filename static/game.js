@@ -152,8 +152,15 @@ document.addEventListener('DOMContentLoaded', () => {
             unlockedList = data.unlocked_avatars;
             activeSelectionId = data.selected_avatar;
 
-            document.getElementById('coin-count').textContent = coinWallet;
-            navPfpIconImg.src = selected3DPortraitFile;
+            // Safe Null-Guard Check for the coin display text block element
+            const coinCountEl = document.getElementById('coin-count');
+            if (coinCountEl) {
+                coinCountEl.textContent = coinWallet;
+            }
+            
+            if (navPfpIconImg) navPfpIconImg.src = selected3DPortraitFile;
+            
+            // Fires your layout system to show your dashboard details and character preview
             routeToHomeCommandHub();
         } catch (err) { console.error("Database connection exception: ", err); }
     }
