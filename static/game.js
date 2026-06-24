@@ -432,37 +432,47 @@ document.addEventListener('DOMContentLoaded', () => {
     pauseButton.addEventListener('click', () => { isPaused = true; pauseOverlay.classList.remove('hidden-view'); pauseOverlay.classList.add('active-view'); });
     resumeButton.addEventListener('click', () => { isPaused = false; pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view'); renderFrameId = requestAnimationFrame(updateEndlessTrackLoopPipelineFrame); });
     
-    function terminateActiveTrackSessionAndWipeCounters() {
+   function terminateActiveTrackSessionAndWipeCounters() {
         isGameRunning = false; isPaused = false;
         cancelAnimationFrame(renderFrameId);
         window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
-        pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view');
-        gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view');
-        gameStage.classList.remove('active-view'); gameStage.classList.add('hidden-view');
-        telemetryBar.classList.remove('hidden-view'); telemetryBar.classList.add('active-view');
+        if (pauseOverlay) { pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view'); }
+        if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+        if (gameStage) { gameStage.classList.remove('active-view'); gameStage.classList.add('hidden-view'); }
+        if (telemetryBar) { telemetryBar.classList.remove('hidden-view'); telemetryBar.classList.add('active-view'); }
         synchronizeServerDatabaseState();
     }
-    abortButton.addEventListener('click', terminateActiveTrackSessionAndWipeCounters);
+    
+    // Error Safeguard: Only mount listener if abort button context exists
+    if (typeof abortButton !== 'undefined' && abortButton) {
+        abortButton.addEventListener('click', terminateActiveTrackSessionAndWipeCounters);
+    }
 
     // LOGOUT GAME Pathway routing action links to initial loading page reset
-    overlayLogoutGameBtn.addEventListener('click', () => {
-        isGameRunning = false; isPaused = false;
-        cancelAnimationFrame(renderFrameId);
-        window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
-        
-        // Log basic historical averages before clearing caches
-        totalRunsCount++;
-        if (sessionScore > highBestScore) highBestScore = sessionScore;
-        computedAvgScore = ((computedAvgScore * (totalRunsCount - 1)) + sessionScore) / totalRunsCount;
+    if (typeof overlayLogoutGameBtn !== 'undefined' && overlayLogoutGameBtn) {
+        overlayLogoutGameBtn.addEventListener('click', () => {
+            isGameRunning = false; isPaused = false;
+            cancelAnimationFrame(renderFrameId);
+            window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
+            
+            // Log basic historical averages before clearing caches
+            totalRunsCount++;
+            if (sessionScore > highBestScore) highBestScore = sessionScore;
+            computedAvgScore = ((computedAvgScore * (totalRunsCount - 1)) + sessionScore) / totalRunsCount;
 
-        pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view');
-        gameStage.classList.remove('active-view'); gameStage.classList.add('hidden-view');
-        
-        // Route directly back to the classic startup loaders unmounted sequence
-        loadingScreen.classList.remove('hidden-view'); loadingScreen.classList.add('active-view');
-        document.getElementById('welcome-enter-btn').classList.remove('hidden');
-        document.querySelector('.loader-chassis').classList.add('hidden');
-    });
+            if (pauseOverlay) { pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view'); }
+            if (gameStage) { gameStage.classList.remove('active-view'); gameStage.classList.add('hidden-view'); }
+            
+            // Route directly back to the classic startup loaders unmounted sequence
+            if (loadingScreen) { loadingScreen.classList.remove('hidden-view'); loadingScreen.classList.add('active-view'); }
+            
+            const welcomeBtn = document.getElementById('welcome-enter-btn');
+            if (welcomeBtn) welcomeBtn.classList.remove('hidden');
+            
+            const loaderChassis = document.querySelector('.loader-chassis');
+            if (loaderChassis) loaderChassis.classList.add('hidden');
+        });
+    }
 
     function updateEndlessTrackLoopPipelineFrame() {
         if (!isGameRunning || isPaused) return;
