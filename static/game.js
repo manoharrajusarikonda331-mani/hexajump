@@ -448,23 +448,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modal HUD click assignments row
     const pauseButton = document.getElementById('pause-engine-btn');
-    const resumeButton = document.getElementById('resume-engine-btn');
-    const abortButton = document.getElementById('abort-to-home-btn');
-    const overlayLogoutGameBtn = document.getElementById('pause-exit-home-btn');
+    const resumeButton = document.getElementById('resume-core-run-btn');
+    const abortButton = document.getElementById('abort-run-btn');
 
-    pauseButton.addEventListener('click', () => { isPaused = true; pauseOverlay.classList.remove('hidden-view'); pauseOverlay.classList.add('active-view'); });
-    resumeButton.addEventListener('click', () => { isPaused = false; pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view'); renderFrameId = requestAnimationFrame(updateEndlessTrackLoopPipelineFrame); });
-    
-   function terminateActiveTrackSessionAndWipeCounters() {
+    if (pauseButton) {
+        pauseButton.addEventListener('click', () => { isPaused = true; if (pauseOverlay) { pauseOverlay.classList.remove('hidden-view'); pauseOverlay.classList.add('active-view'); } });
+    }
+    if (resumeButton) {
+        resumeButton.addEventListener('click', () => { isPaused = false; if (pauseOverlay) { pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view'); } renderFrameId = requestAnimationFrame(updateEndlessTrackLoopPipelineFrame); });
+    }
+
+    function terminateActiveTrackSessionAndWipeCounters() {
         isGameRunning = false; isPaused = false;
         cancelAnimationFrame(renderFrameId);
         window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
         if (pauseOverlay) { pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view'); }
-        if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
-        if (gameStage) { gameStage.classList.remove('active-view'); gameStage.classList.add('hidden-view'); }
-        if (telemetryBar) { telemetryBar.classList.remove('hidden-view'); telemetryBar.classList.add('active-view'); }
-        synchronizeServerDatabaseState();
-    }
 
     // LOGOUT GAME Pathway routing action links to initial loading page reset
     if (typeof overlayLogoutGameBtn !== 'undefined' && overlayLogoutGameBtn) {
