@@ -584,38 +584,63 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sessionScore > highBestScore) highBestScore = sessionScore;
         computedAvgScore = ((computedAvgScore * (totalRunsCount - 1)) + sessionScore) / totalRunsCount;
 
-        // Populate statistical data fields inside the dedicated scoreboard modal frame wrapper
-        document.getElementById('final-score-val').textContent = String(sessionScore).padStart(4, '0');
-        document.getElementById('final-coins-val').textContent = sessionCoinsEarned;
+       // Populate statistical data fields inside the dedicated scoreboard modal frame wrapper
+            const scoreValEl = document.getElementById('final-score-val');
+            if (scoreValEl) scoreValEl.textContent = String(sessionScore).padStart(4, '0');
+            
+            const coinsValEl = document.getElementById('final-coins-val');
+            if (coinsValEl) coinsValEl.textContent = sessionCoinsEarned;
 
-        // Fire database coin wallet persistence calls to the Flask application layer
-        fetch('/api/game/over', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ score: sessionScore, avatar_id: activeSelectionId, coins_earned: sessionCoinsEarned })
-        });
+            // Fire database coin wallet persistence calls to the Flask application layer
+            fetch('/api/game/over', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ score: sessionScore, avatar_id: activeSelectionId, coins_earned: sessionCoinsEarned })
+            });
 
-        gameOverOverlay.classList.remove('hidden-view'); gameOverOverlay.classList.add('active-view');
+            if (gameOverOverlay) {
+                gameOverOverlay.classList.remove('hidden-view');
+                gameOverOverlay.classList.add('active-view');
+            }
+        } catch (err) {
+            console.error("Database connection exception: ", err);
+        }
     }
 
-  // Configuration listeners row for Game Over frame action button maps
+    // Configuration listeners row for Game Over frame action button maps
     const btnPlayAgain = document.getElementById('go-btn-play-again');
     if (btnPlayAgain) {
-        btnPlayAgain.addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); initializeGameTracksSequence(); });
+        btnPlayAgain.addEventListener('click', () => { 
+            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+            initializeGameTracksSequence(); 
+        });
     }
 
     const btnHome = document.getElementById('go-btn-home');
     if (btnHome) {
-        btnHome.addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); routeToHomeCommandHub(); });
+        btnHome.addEventListener('click', () => { 
+            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+            terminateActiveTrackSessionAndWipeCounters(); 
+            routeToHomeCommandHub(); 
+        });
     }
 
     const btnAvatar = document.getElementById('go-btn-avatar');
     if (btnAvatar) {
-        btnAvatar.addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); });
+        btnAvatar.addEventListener('click', () => { 
+            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+            terminateActiveTrackSessionAndWipeCounters(); 
+            if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
+        });
     }
 
     const btnProfile = document.getElementById('go-btn-profile');
     if (btnProfile) {
-        btnProfile.addEventListener('click', () => { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); terminateActiveTrackSessionAndWipeCounters(); userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); });
+        btnProfile.addEventListener('click', () => { 
+            if (gameOverOverlay) { gameOverOverlay.classList.remove('active-view'); gameOverOverlay.classList.add('hidden-view'); }
+            terminateActiveTrackSessionAndWipeCounters(); 
+            if (userProfileModal) { userProfileModal.classList.remove('hidden-view'); userProfileModal.classList.add('active-view'); }
+        });
     }
 
     // ==========================================================================
@@ -638,7 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Link the CRASH OVERLAY "CHANGE AVATAR" action button property
-    const crashChangeAvatarBtn = document.getElementById('go-btn-avatar') || document.getElementById('crash-change-avatar-btn');
+    const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
     if (crashChangeAvatarBtn) {
         crashChangeAvatarBtn.addEventListener('click', () => {
             if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
