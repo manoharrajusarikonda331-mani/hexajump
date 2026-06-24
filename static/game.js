@@ -465,11 +465,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (telemetryBar) { telemetryBar.classList.remove('hidden-view'); telemetryBar.classList.add('active-view'); }
         synchronizeServerDatabaseState();
     }
-    
-    // Error Safeguard: Only mount listener if abort button context exists
-    if (typeof abortButton !== 'undefined' && abortButton) {
-        abortButton.addEventListener('click', terminateActiveTrackSessionAndWipeCounters);
-    }
 
     // LOGOUT GAME Pathway routing action links to initial loading page reset
     if (typeof overlayLogoutGameBtn !== 'undefined' && overlayLogoutGameBtn) {
@@ -478,7 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cancelAnimationFrame(renderFrameId);
             window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
             
-            // Log basic historical averages before clearing caches
+            // Log basic historical averages before clearing caches safely
             totalRunsCount++;
             if (sessionScore > highBestScore) highBestScore = sessionScore;
             computedAvgScore = ((computedAvgScore * (totalRunsCount - 1)) + sessionScore) / totalRunsCount;
@@ -486,14 +481,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pauseOverlay) { pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view'); }
             if (gameStage) { gameStage.classList.remove('active-view'); gameStage.classList.add('hidden-view'); }
             
-            // Route directly back to the classic startup loaders unmounted sequence
+            // Route directly back to the classic startup loaders view phase
             if (loadingScreen) { loadingScreen.classList.remove('hidden-view'); loadingScreen.classList.add('active-view'); }
-            
-            const welcomeBtn = document.getElementById('welcome-enter-btn');
-            if (welcomeBtn) welcomeBtn.classList.remove('hidden');
-            
-            const loaderChassis = document.querySelector('.loader-chassis');
-            if (loaderChassis) loaderChassis.classList.add('hidden');
         });
     }
 
