@@ -916,3 +916,35 @@ body {
 }
 
 .hidden { display: none !important; }
+
+/* ==========================================================================
+   PRODUCTION VIEWPORT FIX: WIDESCREEN ORIENTATION ALIGNMENT
+   ========================================================================== */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #050508;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#mobile-device-frame {
+    transform: none !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+canvas {
+    max-height: 100vh !important;
+    aspect-ratio: 16/9;
+}
