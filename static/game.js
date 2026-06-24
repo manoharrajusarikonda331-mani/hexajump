@@ -660,16 +660,16 @@ if (pauseHomeBtn) {
 }
 
 // Link the CRASH OVERLAY "CHANGE AVATAR" action button property
-const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
-if (crashChangeAvatarBtn) {
-    crashChangeAvatarBtn.addEventListener('click', () => {
-        if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
-        if (gameStage) gameStage.classList.add('hidden-view');
-        if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
-    });
-}
+    const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
+    if (crashChangeAvatarBtn) {
+        crashChangeAvatarBtn.addEventListener('click', () => {
+            if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
+            if (gameStage) gameStage.classList.add('hidden-view');
+            if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
+        });
+    }
 
-// Execute application load triggers immediately on file entry mount
-fireInitialBootloaderPipeline();
+    // Execute application load triggers immediately on file entry mount
+    fireInitialBootloaderPipeline();
 
 });
