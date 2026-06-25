@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HexaJump - Premium Subway Endless Runner Engine</title>
     <link rel="icon" href="data:;base64,iVBORw0kGgo=">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
 
@@ -18,39 +18,32 @@
 
         <div id="loading-screen" class="active-view screen-layout landing-bg">
             <div class="cyber-grid-overlay"></div>
-            
             <div class="welcome-center-panel">
                 <div class="brand-title-group">
                     <h1 class="runner-logo">HEXA</h1>
                     <h1 class="runner-logo color-alt">JUMP</h1>
                 </div>
-                
                 <div class="bar-container">
                     <div id="boot-progress" class="bar-fill"></div>
                 </div>
-                
                 <p class="telemetry-status">BOOSTING TURBOCHARGERS & LOADING SUBWAY TRACKS...</p>
             </div>
         </div>
 
         <div id="account-creation-screen" class="hidden-view screen-layout">
             <h2 class="section-title">ACCOUNT CONFIG</h2>
-            
             <div class="registration-form-box">
                 <label class="form-label" for="username-input">ENTER RUNNER IDENTITY USERNAME:</label>
                 <input type="text" id="username-input" class="form-input-field" placeholder="Operator_Mani" maxlength="12">
             </div>
-            
             <button id="confirm-account-btn" class="action-trigger-btn" disabled>INITIALIZE DRIVE LINK</button>
         </div>
 
         <div id="top-nav-telemetry" class="hidden-view">
             <div class="sys-tag"><span class="live-blink"></span> ONLINE</div>
-            
             <div class="wallet-tag"><span id="coin-count">0</span> 🪙</div>
-            
             <div id="nav-profile-trigger" class="circle-nav-pfp-btn">
-                <img id="nav-pfp-icon-img" src="assets/alpha.png" alt="Pfp">
+                <img id="nav-pfp-icon-img" src="static/assets/alpha.png" alt="Pfp">
                 <span id="nav-display-username">USER</span>
             </div>
         </div>
@@ -157,7 +150,7 @@
                 <div class="user-meta-header">
                     <div class="meta-pic-container">
                         <div class="meta-pic-circle">
-                            <img id="profile-stats-img" src="assets/alpha.png" alt="Profile Portrait">
+                            <img id="profile-stats-img" src="static/assets/alpha.png" alt="Profile Portrait">
                         </div>
                         <button id="edit-pfp-trigger-btn" class="pfp-pencil-badge">✏️</button>
                     </div>
@@ -191,6 +184,6 @@
 
     </div>
 
-    <script src="game.js"></script>
+    <script src="static/game.js"></script>
 </body>
 </html>
