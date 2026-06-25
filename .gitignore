@@ -118,7 +118,6 @@ venv.bak/
 
 # IDE Project Settings & Cache Subdirectories
 .spyderproject
-.spyproject
 .ropeproject
 /site
 .mypy_cache/
