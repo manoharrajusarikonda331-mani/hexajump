@@ -2,10 +2,198 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=templates/index.html">
-    <title>Redirecting...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HexaJump - Premium Subway Endless Runner Engine</title>
+    <link rel="icon" href="data:;base64,iVBORw0kGgo=">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <p>Redirecting to game engine workspace... If not redirected, <a href="templates/index.html">click here</a>.</p>
+
+    <div class="ambient-universe-backdrop">
+        <div class="space-nebula-glow"></div>
+        <div class="infinite-horizon-matrix"></div>
+    </div>
+
+    <div id="mobile-device-frame">
+
+        <!-- SCREEN 1: LOADING SCREEN -->
+        <div id="loading-screen" class="active-view screen-layout landing-bg">
+            <div class="cyber-grid-overlay"></div>
+            <div class="welcome-center-panel">
+                <div class="brand-title-group">
+                    <h1 class="runner-logo">HEXA</h1>
+                    <h1 class="runner-logo color-alt">JUMP</h1>
+                </div>
+                <div class="bar-container">
+                    <div id="boot-progress" class="bar-fill"></div>
+                </div>
+                <p class="telemetry-status">BOOSTING TURBOCHARGERS & LOADING SUBWAY TRACKS...</p>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: ACCOUNT CONFIGURATION -->
+        <div id="account-creation-screen" class="hidden-view screen-layout">
+            <h2 class="section-title">ACCOUNT CONFIG</h2>
+            <div class="registration-form-box">
+                <label class="form-label" for="username-input">ENTER RUNNER IDENTITY USERNAME:</label>
+                <input type="text" id="username-input" class="form-input-field" placeholder="Operator_Mani" maxlength="12">
+            </div>
+            <button id="confirm-account-btn" class="action-trigger-btn" disabled>INITIALIZE DRIVE LINK</button>
+        </div>
+
+        <!-- GLOBAL TOP NAVIGATION BAR -->
+        <div id="top-nav-telemetry" class="hidden-view">
+            <div class="sys-tag"><span class="live-blink"></span> ONLINE</div>
+            <div class="wallet-tag"><span id="coin-count">0</span> 🪙</div>
+            <div id="nav-profile-trigger" class="circle-nav-pfp-btn">
+                <img id="nav-pfp-icon-img" src="static/assets/alpha.png" alt="Pfp">
+                <span id="nav-display-username">USER</span>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: AVATAR SELECTION SHOP -->
+        <div id="store-screen" class="hidden-view screen-layout">
+            <h2 class="section-title">CHOOSE AVATAR</h2>
+            <p class="panel-subtitle">Select 2D Mini-Human Character Model Template</p>
+            <div id="dynamic-avatar-grid" class="chibi-store-grid"></div>
+            <div class="store-footer-controls">
+                <button id="store-action-btn" class="action-trigger-btn" disabled>CONFIRM SELECTION</button>
+                <button id="store-to-hub-btn" class="secondary-nav-btn">GO BACK TO HOME HUB</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: CENTRAL HUB DASHBOARD -->
+        <div id="home-screen" class="hidden-view screen-layout">
+            <div class="hub-profile-showcase">
+                <div class="avatar-perspective-ring">
+                    <canvas id="hubCharacterCanvas" width="160" height="200"></canvas>
+                </div>
+                <h3 id="hub-avatar-name">ALPHA</h3>
+            </div>
+            <div class="hub-control-stack">
+                <button id="nav-to-modes-btn" class="stack-btn pulse-launch">TAP TO START GAME 🎮</button>
+                <button id="nav-to-store-btn" class="stack-btn cosmetic-btn">CHANGE AVATAR</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 5: ROAD PATH ENVIRONMENTAL STAGES -->
+        <div id="modes-screen" class="hidden-view screen-layout">
+            <h2 class="section-title">ROAD SECTOR</h2>
+            <p class="panel-subtitle">Select Real-Time Destination Runner Path View</p>
+            <div class="sectors-vertical-stack">
+                <div class="sector-strip" data-mode="railway">
+                    <div class="sector-strip-bg bg-cyber"></div>
+                    <span>Railway Track Path 🛤️</span>
+                </div>
+                <div class="sector-strip" data-mode="desert">
+                    <div class="sector-strip-bg bg-jungle"></div>
+                    <span>Desert Road Path 🏜️</span>
+                </div>
+                <div class="sector-strip" data-mode="city">
+                    <div class="sector-strip-bg bg-volcano"></div>
+                    <span>City Road Path 🛣️</span>
+                </div>
+                <div class="sector-strip" data-mode="bridge">
+                    <div class="sector-strip-bg bg-space"></div>
+                    <span>Bridge Road Path 🌉</span>
+                </div>
+                <div class="sector-strip" data-mode="mountain">
+                    <div class="sector-strip-bg bg-grid"></div>
+                    <span>Mountain Road Path 🏞️</span>
+                </div>
+            </div>
+            <div class="carousel-footer-controls">
+                <button id="launch-game-engine-btn" class="action-trigger-btn" disabled>ENGAGE LINK RUN</button>
+                <button id="modes-to-hub-btn" class="secondary-nav-btn">RETURN TO HOME HUB</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 6: GAME STAGE & HUD SYSTEM -->
+        <div id="game-stage" class="hidden-view screen-layout">
+            <div class="gameplay-hud-overlay">
+                <button id="pause-engine-btn" class="hud-circle-btn">⏸️</button>
+                <div id="live-score-tracker">SCORE: 0000</div>
+                <div class="hud-coins-display"><span id="live-coins-count">0</span> 🪙</div>
+            </div>
+
+            <canvas id="gameCanvas" width="400" height="650"></canvas>
+            
+            <!-- PAUSE OVERLAY -->
+            <div id="pause-overlay" class="hidden-view screen-layout overlay-blur-bg">
+                <div class="cyber-popup-box">
+                    <h3 class="popup-headline">LOOP SUSPENDED</h3>
+                    <p class="popup-subtext">Neural link idling safely...</p>
+                    
+                    <button id="resume-core-run-btn" class="action-trigger-btn primary-accent-btn">RESUME GAME</button>
+                    <button id="pause-profile-btn" class="action-trigger-btn secondary-hub-btn">PROFILE PAGE</button>
+                    <button id="pause-home-btn" class="action-trigger-btn secondary-hub-btn">HOME PAGE</button>
+                    <button id="abort-run-btn" class="action-trigger-btn danger-zone-btn">LOGOUT GAME</button>
+                </div>
+            </div>
+
+            <!-- GAME OVER OVERLAY -->
+            <div id="game-over-overlay" class="hidden-view runtime-modal-mask">
+                <div class="game-over-card">
+                    <h2 class="game-over-title">CRASH LOG TERMINATION</h2>
+                    <p class="game-over-subtitle">Subway Impact Exception Code Detected</p>
+                    
+                    <div class="session-summary-box">
+                        <div class="summary-row"><span>RUNNER SCORE:</span><span id="final-score-val">0000</span></div>
+                        <div class="summary-row"><span>COINS ACQUIRED:</span><span id="final-coins-val">0</span> 🪙</div>
+                    </div>
+
+                    <div class="game-over-btn-stack">
+                        <button id="go-btn-play-again" class="go-stack-btn primary-go-btn">PLAY AGAIN</button>
+                        <button id="go-btn-home" class="go-stack-btn">HOME PAGE</button>
+                        <button id="go-btn-profile" class="go-stack-btn">PROFILE PAGE</button>
+                        <button id="go-btn-avatar" class="go-stack-btn">CHANGE AVATAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- USER PROFILE MODAL -->
+        <div id="user-profile-modal" class="hidden-view runtime-modal-mask">
+            <div class="profile-stats-card">
+                <div class="close-profile-row"><button id="close-profile-modal-btn">❌</button></div>
+                
+                <div class="user-meta-header">
+                    <div class="meta-pic-container">
+                        <div class="meta-pic-circle">
+                            <img id="profile-stats-img" src="static/assets/alpha.png" alt="Profile Portrait">
+                        </div>
+                        <button id="edit-pfp-trigger-btn" class="pfp-pencil-badge">✏️</button>
+                    </div>
+                    
+                    <div class="meta-text-block">
+                        <div class="editable-name-row">
+                            <input type="text" id="profile-username-editor" class="inline-name-input" value="OPERATOR" disabled>
+                            <button id="edit-username-toggle-btn" class="input-pencil-inline-btn">✏️</button>
+                        </div>
+                        <p id="profile-stats-uid">ID: #000000</p>
+                    </div>
+                </div>
+
+                <div id="pfp-images-dropdown-subgrid" class="pfp-dropdown-drawer hidden">
+                    <p class="drawer-instruction-lbl">SELECT 3D PORTRAIT CHARACTER PFP:</p>
+                    <div id="pfp-portrait-images-row" class="drawer-images-row"></div>
+                </div>
+
+                <div class="stats-data-grid">
+                    <div class="stat-node"><span class="stat-val" id="stat-best-score">0000</span><span class="stat-lbl">BEST RUN</span></div>
+                    <div class="stat-node"><span class="stat-val" id="stat-avg-score">0000</span><span class="stat-lbl">AVG RUN</span></div>
+                    <div class="stat-node"><span class="stat-val" id="stat-total-runs">0</span><span class="stat-lbl">TOTAL LOGS</span></div>
+                </div>
+                
+                <div class="recommended-panel-box">
+                    <span class="rec-title-tag">SYSTEM RECOMMENDATION:</span>
+                    <p class="rec-desc-txt">Upgrade active stride multipliers or unlock higher-tier female operator templates to maximize performance data collection maps.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="static/game.js"></script>
 </body>
 </html>
