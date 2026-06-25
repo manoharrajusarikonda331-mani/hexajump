@@ -6,18 +6,18 @@ A premium full-stack endless arcade game engine engineered with a high-performan
 
 ## 🚀 Core Technical Features
 
-*   **Dynamic Graphics Renderer:** Custom 2D vector code-human rendering matrix and simulated 3D horizon road-perspective translation built entirely on pure HTML5 Canvas context endpoints.
-*   **Secure State Persistence:** Robust client-session state lifecycle mapping using encrypted Flask secure cookies to track user wallets, unlocked templates, and specialized historical statistics.
-*   **Restful API Architecture:** Clean decoupled JSON exchange routes for handling database synchronization hooks, storefront validation pipelines, and crash-log score submissions.
-*   **Adaptive Gameplay Engine:** Built-in dynamic progression handler loops that gradually scale track velocity variables, procedural obstacle frequencies, and currency multipliers based on live game execution metrics.
+* **Dynamic Graphics Renderer:** Custom 2D vector code-human rendering matrix and simulated 3D horizon road-perspective translation built entirely on pure HTML5 Canvas context endpoints.
+* **Secure State Persistence:** Robust client-session state lifecycle mapping using encrypted Flask secure cookies to track user wallets, unlocked templates, and specialized historical statistics.
+* **Restful API Architecture:** Clean decoupled JSON exchange routes for handling database synchronization hooks, storefront validation pipelines, and crash-log score submissions.
+* **Adaptive Gameplay Engine:** Built-in dynamic progression handler loops that gradually scale track velocity variables, procedural obstacle frequencies, and currency multipliers based on live game execution metrics.
 
 ---
 
 ## 🛠️ Technology Stack Matrix
 
-*   **Frontend UI Layer:** HTML5, CSS3 Arcade Design System, JavaScript (ES6+ Native Canvas API)
-*   **Backend WSGI Engine:** Python 3.x, Flask, Werkzeug Architecture
-*   **Version Control & Flow:** Git / GitHub Git-Bash Workflows
+* **Frontend UI Layer:** HTML5, CSS3 Arcade Design System, JavaScript (ES6+ Native Canvas API)
+* **Backend WSGI Engine:** Python 3.x, Flask, Werkzeug Architecture
+* **Version Control & Flow:** Git / GitHub Git-Bash Workflows
 
 ---
 
@@ -62,7 +62,7 @@ hexajump/
 ├── .gitignore                 # Strict environment exclusion filters
 │
 ├── templates/
-│   └── index.html             # UI layout structure & smartphone emulation frame
+│   └── index.html             # UI layout structure & core responsive layout matrix
 │
 └── static/
     ├── game.js                # Core canvas physics engine & game loop lifecycle logic
