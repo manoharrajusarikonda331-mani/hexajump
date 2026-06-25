@@ -6,12 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // DEFINITION MATRIX: Central Character Data Profiles (3 Male, 3 Female 2D Code Vectors)
     const AVATAR_REGISTRY = [
-        { id: 'm1', name: 'Alpha', gender: 'male', headSkin: '#ffcc99', clothing: '#00a8ff', pants: '#333333', price: 0, portrait3d: 'assets/alpha.png' },
-        { id: 'm2', name: 'Striker', gender: 'male', headSkin: '#e0ac69', clothing: '#ffb700', pants: '#111111', price: 100, portrait3d: 'assets/striker.png' },
-        { id: 'm3', name: 'Maverick', gender: 'male', headSkin: '#ffdbac', clothing: '#00ff88', pants: '#222222', price: 250, portrait3d: 'assets/maverick.png' },
-        { id: 'f1', name: 'Nova', gender: 'female', headSkin: '#ffcccc', clothing: '#ff007f', pants: '#444444', price: 0, portrait3d: 'assets/nova.png' },
-        { id: 'f2', name: 'Valkyrie', gender: 'female', headSkin: '#f1c27d', clothing: '#b500ff', pants: '#1e1e1e', price: 150, portrait3d: 'assets/valkyrie.png' },
-        { id: 'f3', name: 'Athena', gender: 'female', headSkin: '#ffd1dc', clothing: '#00f0ff', pants: '#2c3e50', price: 300, portrait3d: 'assets/athena.png' }
+        { id: 'm1', name: 'Alpha', gender: 'male', headSkin: '#ffcc99', clothing: '#00a8ff', pants: '#333333', price: 0, portrait3d: 'static/assets/alpha.png' },
+        { id: 'm2', name: 'Striker', gender: 'male', headSkin: '#e0ac69', clothing: '#ffb700', pants: '#111111', price: 100, portrait3d: 'static/assets/striker.png' },
+        { id: 'm3', name: 'Maverick', gender: 'male', headSkin: '#ffdbac', clothing: '#00ff88', pants: '#222222', price: 250, portrait3d: 'static/assets/maverick.png' },
+        { id: 'f1', name: 'Nova', gender: 'female', headSkin: '#ffcccc', clothing: '#ff007f', pants: '#444444', price: 0, portrait3d: 'static/assets/nova.png' },
+        { id: 'f2', name: 'Valkyrie', gender: 'female', headSkin: '#f1c27d', clothing: '#b500ff', pants: '#1e1e1e', price: 150, portrait3d: 'static/assets/valkyrie.png' },
+        { id: 'f3', name: 'Athena', gender: 'female', headSkin: '#ffd1dc', clothing: '#00f0ff', pants: '#2c3e50', price: 300, portrait3d: 'static/assets/athena.png' }
     ];
 
     // DEFINITION MATRIX: 5 Real-Time Styled Road Paths Viewport Environments
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // SYSTEM USER ACCOUNT TELEMETRY REGISTER CACHE
     let globalUsername = ""; let globalUserID = "";
     let highBestScore = 0; let computedAvgScore = 0; let totalRunsCount = 0;
-    let selected3DPortraitFile = "assets/alpha.png";
+    let selected3DPortraitFile = "static/assets/alpha.png";
 
     // STATE CONTROL VARIABLES
     let coinWallet = 0; let unlockedList = [];
@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Gradual progression parameters for friendly gameplay loop mechanics
     let runningTimeline = 0; 
-    let gameSpeed = 2.2;        // Lowered from 5.0 to 2.2 for a gentle learning curve
-    let speedIncrement = 0.0005; // Slowly speeds up the tracks as time passes
+    let gameSpeed = 2.2;        
+    let speedIncrement = 0.0005; 
     let sessionScore = 0; let sessionCoinsEarned = 0;
     let obstacleQueue = [];
    
@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const homeScreen = document.getElementById('home-screen');
     const hubAvatarName = document.getElementById('hub-avatar-name');
     const hubCharacterCanvas = document.getElementById('hubCharacterCanvas');
-    // Error Safeguard: Only initialize 2D context if the canvas element exists on screen
     const hCtx = hubCharacterCanvas ? hubCharacterCanvas.getContext('2d') : null;
 
     const modesScreen = document.getElementById('modes-screen');
@@ -84,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const liveCoinsText = document.getElementById('live-coins-count');
     const gameOverOverlay = document.getElementById('game-over-overlay');
 
-    // Advanced Profile Overlay Stats Sheet Elements
     const userProfileModal = document.getElementById('user-profile-modal');
     const closeProfileModalBtn = document.getElementById('close-profile-modal-btn');
     const statsImg = document.getElementById('profile-stats-img');
@@ -98,12 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const pfpDropdownDrawerGrid = document.getElementById('pfp-images-dropdown-subgrid');
     const pfpPortraitImagesRow = document.getElementById('pfp-portrait-images-row');
 
-    // --------------------------------------------------------------------------
-    // SCREEN 1: DYNAMIC WELCOME LOADING SEQUENCE (HARD-LOCKED TO 7 SECONDS)
-    // --------------------------------------------------------------------------
+    // SCREEN 1: DYNAMIC LOADING PIPELINE (HARD-LOCKED TO 7 SECONDS)
     function fireInitialBootLoaderPipeline() {
-        const totalDuration = 7000; // Hard-locked 7-second time period
-        const tickInterval = 50;    // Smooth incremental updates
+        const totalDuration = 7000; 
+        const tickInterval = 50;    
         let timeElapsed = 0;
 
         const loader = setInterval(() => {
@@ -113,8 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (loadingProgress >= 100) {
                 loadingProgress = 100;
                 clearInterval(loader);
-                
-                // Automatically forwards you to the Account Config screen
                 if (loadingScreen) {
                     loadingScreen.classList.remove('active-view'); 
                     loadingScreen.classList.add('hidden-view');
@@ -159,37 +153,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --------------------------------------------------------------------------
-    // API SYNCHRONIZATION POINT CALLS
-    // --------------------------------------------------------------------------
+    // SERVER OR STANDALONE LOCAL FALLBACK MANAGEMENT
     async function synchronizeServerDatabaseState() {
         try {
             const response = await fetch('/api/player/data');
-            const data = await response.json();
-            coinWallet = data.coins;
-            unlockedList = data.unlocked_avatars;
-            activeSelectionId = data.selected_avatar;
-
-            // Safe Null-Guard Check for the coin display text block element
-            const coinCountEl = document.getElementById('coin-count');
-            if (coinCountEl) {
-                coinCountEl.textContent = coinWallet;
+            if (response.ok) {
+                const data = await response.json();
+                coinWallet = data.coins || 1000;
+                unlockedList = data.unlocked_avatars || ['m1', 'f1'];
+                activeSelectionId = data.selected_avatar || 'm1';
+            } else {
+                coinWallet = 1000; unlockedList = ['m1', 'f1']; activeSelectionId = 'm1';
             }
+        } catch (err) { 
+            console.warn("Server connection idling. Accessing secure offline profiles wrapper matrix: ", err); 
+            coinWallet = 1000; unlockedList = ['m1', 'f1']; activeSelectionId = 'm1';
+        } finally {
+            const coinCountEl = document.getElementById('coin-count');
+            if (coinCountEl) coinCountEl.textContent = coinWallet;
             
+            const selectedChar = AVATAR_REGISTRY.find(c => c.id === activeSelectionId);
+            if (selectedChar) selected3DPortraitFile = selectedChar.portrait3d;
             if (navPfpIconImg) navPfpIconImg.src = selected3DPortraitFile;
             
-            // Fires your layout system to show your dashboard details and character preview
-            routeToHomeCommandHub();
-        } catch (err) { 
-            console.error("Database connection exception: ", err); 
-            // Graceful frontend fallback mapping if database is booting
             routeToHomeCommandHub();
         }
     }
 
-    // --------------------------------------------------------------------------
-    // USER ACCOUNT MODAL CONFIGURE SYSTEMS AND DRAWERS
-    // --------------------------------------------------------------------------
+    // USER PROFILE MODAL BINDINGS
     if (profileTriggerBtn) {
         profileTriggerBtn.addEventListener('click', () => {
             if (statsImg) statsImg.src = selected3DPortraitFile;
@@ -199,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (statsAvg) statsAvg.textContent = String(Math.floor(computedAvgScore)).padStart(4, '0');
             if (statsCount) statsCount.textContent = totalRunsCount;
 
-            if (pfpDropdownDrawerGrid) pfpDropdownDrawerGrid.classList.add('hidden'); // Ensure picker starts minimized
+            if (pfpDropdownDrawerGrid) pfpDropdownDrawerGrid.classList.add('hidden'); 
             if (userProfileModal) {
                 userProfileModal.classList.remove('hidden-view'); 
                 userProfileModal.classList.add('active-view');
@@ -216,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Dynamic 3D Portraits Selector Dropdown Row Injection Node
     if (editPfpTriggerBtn) {
         editPfpTriggerBtn.addEventListener('click', () => {
             if (pfpDropdownDrawerGrid && !pfpDropdownDrawerGrid.classList.contains('hidden')) {
@@ -225,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (pfpPortraitImagesRow) pfpPortraitImagesRow.innerHTML = '';
             
-            // Render all 6 3D portrait image files inside the account selector matrix frame row
             AVATAR_REGISTRY.forEach(char => {
                 const wrap = document.createElement('div');
                 wrap.className = `drawer-pfp-node ${selected3DPortraitFile === char.portrait3d ? 'active-pfp' : ''}`;
@@ -247,7 +236,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Username inline configuration button mapping
     if (editUsernameToggleBtn) {
         editUsernameToggleBtn.addEventListener('click', () => {
             if (statsUserEditor) {
@@ -264,9 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
    
-    // --------------------------------------------------------------------------
-    // SCREEN 2: 2D PURE VECTOR MINI-HUMAN CHARACTER SELECTOR STORE
-    // --------------------------------------------------------------------------
+    // SHOP VIEW LAYOUT SYSTEMS
     function routeToAvatarSelectorStore() {
         if (homeScreen) { homeScreen.classList.remove('active-view'); homeScreen.classList.add('hidden-view'); }
         if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
@@ -289,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
             badge.textContent = isUnlocked ? 'OWNED' : `${char.price} 🪙`;
             card.appendChild(badge);
 
-            // Dynamically Draw 2D Vector Characters Inside Store Viewports
             const previewCanvas = document.createElement('canvas');
             previewCanvas.width = 70; previewCanvas.height = 90;
             const pCtx = previewCanvas.getContext('2d');
@@ -342,9 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --------------------------------------------------------------------------
-    // SCREEN 3: HOME VIEWS & PURE VECTOR CANVAS GRAPHICS DRAWS
-    // --------------------------------------------------------------------------
+    // HOME PANEL ENGINE TERMINAL
     function routeToHomeCommandHub() {
         if (storeScreen) { storeScreen.classList.remove('active-view'); storeScreen.classList.add('hidden-view'); }
         if (modesScreen) { modesScreen.classList.remove('active-view'); modesScreen.classList.add('hidden-view'); }
@@ -353,7 +336,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeCharacter = AVATAR_REGISTRY.find(c => c.id === activeSelectionId);
         if (hubAvatarName && activeCharacter) hubAvatarName.textContent = activeCharacter.name;
         
-        // Draw character standing inside the home dashboard canvas container bounds
         if (hCtx && hubCharacterCanvas) {
             hCtx.clearRect(0, 0, hubCharacterCanvas.width, hubCharacterCanvas.height);
             draw2DMiniHumanVector(hCtx, 80, 160, activeSelectionId, 0, true);
@@ -373,9 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --------------------------------------------------------------------------
-    // SCREEN 4: ENVIRONMENTAL ROAD GRIDS CAROUSEL SELECTOR
-    // --------------------------------------------------------------------------
+    // ROAD MODES TUNNEL CAROUSEL
     modeCards.forEach(card => {
         card.addEventListener('click', () => {
             modeCards.forEach(c => c.classList.remove('selected'));
@@ -399,13 +379,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --------------------------------------------------------------------------
-    // PROCEDURAL ART GRAPHICS NODE: PURE VECTOR 2D MINI-HUMAN DRAW INTERFACE
-    // --------------------------------------------------------------------------
+    // 2D CANVAS GRAPHICS PROCEDURAL RENDER SYSTEM
     function draw2DMiniHumanVector(context, x, y, characterId, timelineFrames = 0, animateIdle = false) {
         if (!context) return;
         const data = AVATAR_REGISTRY.find(c => c.id === characterId);
-        if (!data) return; // Safeguard if data profile is missing
+        if (!data) return; 
         context.save();
         context.translate(x, y);
 
@@ -414,23 +392,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         context.strokeStyle = '#000000'; context.lineWidth = 2.5;
 
-        // 1. Render Legs & Shoes Procedural Vectors
+        // Legs
         context.fillStyle = data.pants;
         if (timelineFrames > 0) {
-            // Running limb animation sequence shifts
             context.fillRect(-12, 0 + (runningCycle > 0 ? -5 : 0), 6, 12);
             context.fillRect(6, 0 + (runningCycle < 0 ? -5 : 0), 6, 12);
         } else {
-            // Idle stance limb mappings
             context.fillRect(-10, 0, 6, 12); context.fillRect(4, 0, 6, 12);
         }
 
-        // 2. Torso Body Block Layout Frame Layers
+        // Torso
         context.fillStyle = data.clothing;
         context.fillRect(-14, -34 + bodyBounce, 28, 34);
         context.strokeRect(-14, -34 + bodyBounce, 28, 34);
 
-        // 3. Hands Detailing Extensions
+        // Hands
         context.fillStyle = data.headSkin;
         if (timelineFrames > 0) {
             context.fillRect(-19, -28 + bodyBounce + (runningCycle * 4), 5, 12);
@@ -440,39 +416,29 @@ document.addEventListener('DOMContentLoaded', () => {
             context.fillRect(14, -26 + bodyBounce, 4, 12);
         }
 
-        // 4. Head Skin Matrix Frame
+        // Skull Cap Arc
         context.fillStyle = data.headSkin;
         context.beginPath(); context.arc(0, -47 + bodyBounce, 11, 0, Math.PI * 2); context.fill(); context.stroke();
 
-        // FACIAL EXPRESSIONS (EYES & MOUTH)
-        context.fillStyle = "#ffffff"; // Eye bases (Whites)
-        context.fillRect(-5, -50 + bodyBounce, 3, 3);
-        context.fillRect(2, -50 + bodyBounce, 3, 3);
-        context.fillStyle = "#000000"; // Pupils
-        context.fillRect(-4, -49 + bodyBounce, 1.5, 1.5);
-        context.fillRect(3, -49 + bodyBounce, 1.5, 1.5);
-        context.fillStyle = "#ff4d4d"; // Expressive Smile Line
-        context.fillRect(-2, -41 + bodyBounce, 4, 1.5);
+        // Facials
+        context.fillStyle = "#ffffff"; context.fillRect(-5, -50 + bodyBounce, 3, 3); context.fillRect(2, -50 + bodyBounce, 3, 3);
+        context.fillStyle = "#000000"; context.fillRect(-4, -49 + bodyBounce, 1.5, 1.5); context.fillRect(3, -49 + bodyBounce, 1.5, 1.5);
+        context.fillStyle = "#ff4d4d"; context.fillRect(-2, -41 + bodyBounce, 4, 1.5);
 
-        // COMPREHENSIVE HAIR ENGINE
-        context.fillStyle = "#2c1a04"; // Rich Dark Brunette/Black Hair Color Mapping
+        // Hair Layer
+        context.fillStyle = "#2c1a04"; 
         if (data.gender === 'female') {
-            // Full skull cap overlay to cover the bald top completely
             context.fillRect(-13, -59 + bodyBounce, 26, 11);
-            // Extended long hair blocks flowing smoothly on sides down to shoulders
             context.fillRect(-13, -48 + bodyBounce, 4, 22);
             context.fillRect(9, -48 + bodyBounce, 4, 22);
         } else {
-            // Clean professional crop cut for male profiles
             context.fillRect(-12, -58 + bodyBounce, 24, 10);
         }
 
         context.restore();
     }
 
-    // --------------------------------------------------------------------------
-    // SCREEN 5: RUNTIME CANVAS ENDLESS TRACK PIPELINE ENGINE LOOP
-    // --------------------------------------------------------------------------
+    // GAMEPLAY LOOPS RUNTIME PIPELINE
     function initializeEndlessSubwayEngineLoop() {
         if (!canvas) return;
         ctx = canvas.getContext('2d');
@@ -490,7 +456,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isGameRunning || isPaused) return;
         if (e.code === 'Space' && playerY === 520) { velocityY = -12; }
         
-        // Fast 3-Lane Sliders Navigation Locks (Left, Center, Right)
         if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
             if (activeLaneKey === "center") activeLaneKey = "left";
             else if (activeLaneKey === "right") activeLaneKey = "center";
@@ -501,10 +466,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Modal HUD click assignments row
     const pauseButton = document.getElementById('pause-engine-btn');
     const resumeButton = document.getElementById('resume-core-run-btn');
-    const abortButton = document.getElementById('abort-run-btn');
 
     if (pauseButton) {
         pauseButton.addEventListener('click', () => { isPaused = true; if (pauseOverlay) { pauseOverlay.classList.remove('hidden-view'); pauseOverlay.classList.add('active-view'); } });
@@ -520,23 +483,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pauseOverlay) { pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view'); }
     }
 
-    // LOGOUT GAME Pathway routing action links to initial loading page reset
-    const overlayLogoutGameBtn = document.getElementById('abort-run-btn') || document.getElementById('pause-exit-home-btn');
+    const overlayLogoutGameBtn = document.getElementById('abort-run-btn');
     if (overlayLogoutGameBtn) {
         overlayLogoutGameBtn.addEventListener('click', () => {
             isGameRunning = false; isPaused = false;
             cancelAnimationFrame(renderFrameId);
             window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
             
-            // Log basic historical averages before clearing caches safely
             totalRunsCount++;
             if (sessionScore > highBestScore) highBestScore = sessionScore;
             computedAvgScore = ((computedAvgScore * (totalRunsCount - 1)) + sessionScore) / totalRunsCount;
 
             if (pauseOverlay) { pauseOverlay.classList.remove('active-view'); pauseOverlay.classList.add('hidden-view'); }
             if (gameStage) { gameStage.classList.remove('active-view'); gameStage.classList.add('hidden-view'); }
-            
-            // Route directly back to the classic startup loaders view phase
             if (loadingScreen) { loadingScreen.classList.remove('hidden-view'); loadingScreen.classList.add('active-view'); }
         });
     }
@@ -547,7 +506,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const theme = WORLD_MODES[designatedWorldMode];
         runningTimeline++; sessionScore++;
         
-        // Award points currency multiplier logs periodically
         if (runningTimeline % 80 === 0) sessionCoinsEarned += 1;
 
         if (liveScoreText) liveScoreText.textContent = `SCORE: ${String(sessionScore).padStart(4, '0')}`;
@@ -555,11 +513,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (runningTimeline % 1200 === 0) gameSpeed += 0.6;
 
-        // Draw sky layers matching environmental properties
         if (ctx && theme) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = theme.sky; ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Render 3D lane depth profiles focusing toward converging horizon point nodes
             ctx.strokeStyle = theme.laneLines; ctx.lineWidth = 3;
             const horizonX = 200; const horizonY = 220;
 
@@ -568,7 +525,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.lineTo(horizonX + offset * 2.5, canvas.height); ctx.stroke();
             });
 
-            // Procedural road cross tie maps
             ctx.fillStyle = theme.tiesColor;
             for (let i = 0; i < 5; i++) {
                 let zVal = ((runningTimeline * (gameSpeed * 0.5)) + (i * 85)) % 430;
@@ -578,17 +534,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Smooth horizontal sliding interpolation logic lines
             const targetCoordX = TRACK_LANES[activeLaneKey];
             playerX += (targetCoordX - playerX) * 0.25;
 
             velocityY += 0.55; playerY += velocityY;
             if (playerY >= 520) { playerY = 520; velocityY = 0; }
 
-            // Trigger vector human graphics frame draw arrays using code engine properties
             draw2DMiniHumanVector(ctx, playerX, playerY, activeSelectionId, runningTimeline);
 
-            // PERSPECTIVE GENERATION FOR SHADED JAGGED 3D STONE BARRIERS
             if (Math.random() < 0.018) {
                 const spaces = [100, 200, 300];
                 const lane = spaces[Math.floor(Math.random() * spaces.length)];
@@ -597,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            obstacleQueue.forEach((rock, index) => {
+            obstacleQueue.forEach((rock) => {
                 rock.z += (gameSpeed * 0.75);
 
                 let depthScalar = rock.z / 430;
@@ -605,7 +558,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 let stoneX = horizonX + (rock.lane - horizonX) * depthScalar;
                 let w = 34 * depthScalar; let h = 26 * depthScalar;
 
-                // DRAW SHADED 3D GEOMETRIC ROCKS (🪨)
                 ctx.save(); ctx.translate(stoneX, stoneY);
                 let rockGradient = ctx.createLinearGradient(-w/2, -h, w/2, 0);
                 rockGradient.addColorStop(0, '#95a5a6'); rockGradient.addColorStop(1, '#2c3e50');
@@ -618,11 +570,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.fill(); ctx.stroke();
                 ctx.restore();
 
-                // Subway Crash Matrix Evaluation Locks
                 if (stoneY > 490 && stoneY < 540) {
                     if (Math.abs(playerX - stoneX) < 28 && playerY > stoneY - h - 15) {
                         isGameRunning = false; cancelAnimationFrame(renderFrameId);
-                        triggerIsolatedGameOverOverlayView(); // Open custom frame layout instead of system alert boxes!
+                        triggerIsolatedGameOverOverlayView(); 
                     }
                 }
             });
@@ -634,30 +585,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --------------------------------------------------------------------------
-    // SCREEN 6: DEDICATED PLAYER OUT SUMMARY SCOREBOARD FRAME PANEL
-    // --------------------------------------------------------------------------
     function triggerIsolatedGameOverOverlayView() {
         window.removeEventListener('keydown', handleEndlessTrackControllerInputs);
 
-        // Aggregate analytics records
         totalRunsCount++;
         if (sessionScore > highBestScore) highBestScore = sessionScore;
         computedAvgScore = ((computedAvgScore * (totalRunsCount - 1)) + sessionScore) / totalRunsCount;
 
-        // Populate statistical data fields inside the dedicated scoreboard modal frame wrapper
         const scoreValEl = document.getElementById('final-score-val');
         if (scoreValEl) scoreValEl.textContent = String(sessionScore).padStart(4, '0');
         
         const coinsValEl = document.getElementById('final-coins-val');
         if (coinsValEl) coinsValEl.textContent = sessionCoinsEarned;
 
-        // Fire database coin wallet persistence calls to the Flask application layer
         fetch('/api/game/over', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ score: sessionScore, avatar_id: activeSelectionId, coins_earned: sessionCoinsEarned })
-        }).catch(err => console.error("Database connection exception: ", err));
+        }).catch(err => console.error("Database persistence call failure: ", err));
 
         if (gameOverOverlay) {
             gameOverOverlay.classList.remove('hidden-view');
@@ -665,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Configuration listeners row for Game Over frame action button maps
+    // GAME OVER CORE SCREEN BUTTON ACTIONS ROUTERS
     const btnPlayAgain = document.getElementById('go-btn-play-again');
     if (btnPlayAgain) {
         btnPlayAgain.addEventListener('click', () => { 
@@ -701,7 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Link the newly introduced Pause Menu navigation buttons safely
+    // PAUSE MODAL OVERLAY LINK HOOK ACTIONS BUTTON MAPS
     const pauseProfileBtn = document.getElementById('pause-profile-btn');
     if (pauseProfileBtn) {
         pauseProfileBtn.addEventListener('click', () => {
@@ -718,37 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Link the primary user profile popup trigger action safely
-    const homeProfileTriggerBtn = document.getElementById('home-profile-btn');
-    if (homeProfileTriggerBtn) {
-        homeProfileTriggerBtn.addEventListener('click', () => {
-            if (typeof selected3DPortraitFile !== 'undefined' && document.getElementById('statsImg')) {
-                document.getElementById('statsImg').src = selected3DPortraitFile;
-            }
-            if (typeof globalUsername !== 'undefined' && document.getElementById('statsUserEditor')) {
-                document.getElementById('statsUserEditor').value = globalUsername;
-            }
-            if (typeof globalUserID !== 'undefined' && document.getElementById('statsUid')) {
-                document.getElementById('statsUid').textContent = globalUserID;
-            }
-            if (userProfileModal) {
-                userProfileModal.classList.remove('hidden-view');
-                userProfileModal.classList.add('active-view');
-            }
-        });
-    }
-
-    // Link the CRASH OVERLAY "CHANGE AVATAR" action button property
-    const crashChangeAvatarBtn = document.getElementById('crash-change-avatar-btn');
-    if (crashChangeAvatarBtn) {
-        crashChangeAvatarBtn.addEventListener('click', () => {
-            if (gameOverOverlay) gameOverOverlay.classList.add('hidden-view');
-            if (gameStage) gameStage.classList.add('hidden-view');
-            if (storeScreen) { storeScreen.classList.remove('hidden-view'); storeScreen.classList.add('active-view'); }
-        });
-    }
-
-    // Execute application load triggers immediately on file entry mount
+    // BOOTSTRAP INITIAL LOADING TRIGGER SEQUENCE
     fireInitialBootLoaderPipeline();
 
 });
